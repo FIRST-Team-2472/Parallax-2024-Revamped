@@ -7,14 +7,14 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 public class RobotContainer {
-  Intake intake = new Intake();
-  //Shooter shooter = new Shooter();
-  //Arm arm = new Arm();
+  Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
   XboxController xbox = new XboxController(OperatorConstants.kDriverControllerPort);
   public RobotContainer() {
-    intake.setDefaultCommand(new IntakeMotorsCmd(intake, () -> xbox.getAButtonPressed()));
-    //shooter.setDefaultCommand(new ShooterMotorsCmd(shooter, () -> xbox.getLeftY(), () -> xbox.getRightY()));
-    //arm.setDefaultCommand(new ArmMotorsCmd());
+    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
+      () -> xbox.getLeftTriggerAxis() > 0.5, // Shooter Motors
+        () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
+          () -> xbox.getRightBumper())); // Intake Motors
+
     configureBindings();
   }
 
