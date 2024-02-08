@@ -18,7 +18,7 @@ public class Arm_Motors_Subsystem extends SubsystemBase{
     }
 
     public void runShooterMotors(Double motorSpeed){
-        shooterTopMotor.set(motorSpeed);
+        shooterTopMotor.set(-motorSpeed);
         shooterBottomMotor.set(motorSpeed);
     }
 
