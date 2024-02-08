@@ -8,12 +8,13 @@ import frc.robot.subsystems.Arm_Motors_Subsystem;
 public class ArmMotorsCmd extends Command{
     private Supplier<Double> pitchMotor;
     private Double intakeMotorsSpeed, shooterMotorsSpeed, pushMotorSpeed, pitchMotorSpeed;
-    private Supplier<Boolean> intakeMotorsRunning, shooterMotorsRunning, pushMotorRunning;
+    private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, pushMotorRunning;
     private Arm_Motors_Subsystem armSubsystem;
-    public ArmMotorsCmd(Arm_Motors_Subsystem armSubsystem, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsRunning, 
+    public ArmMotorsCmd(Arm_Motors_Subsystem armSubsystem, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
         Supplier<Boolean> pushMotorRunning, Supplier<Boolean> intakeMotorsRunning){
         this.pitchMotor = pitchMotor;
-        this.shooterMotorsRunning = shooterMotorsRunning;
+        this.shooterMotorsSpeaker = shooterMotorsSpeaker;
+        this.shooterMotorsAmp = shooterMotorsAmp;
         this.pushMotorRunning = pushMotorRunning;
         this.intakeMotorsRunning = intakeMotorsRunning;
         this.armSubsystem = armSubsystem;
@@ -29,7 +30,8 @@ public class ArmMotorsCmd extends Command{
         pitchMotorSpeed = pitchMotor.get();
         pitchMotorSpeed = pitchMotorSpeed > 0.1 ? 0.1 : pitchMotorSpeed;
         pitchMotorSpeed = pitchMotorSpeed < -0.1 ? -0.1 : pitchMotorSpeed;
-        shooterMotorsSpeed = shooterMotorsRunning.get() ? 0.5 : 0;
+        shooterMotorsSpeed = shooterMotorsSpeaker.get() ? 0.5 : 0;
+        shooterMotorsSpeed = shooterMotorsAmp.get() ? 0.25 : 0;
         pushMotorSpeed = pushMotorRunning.get() ? 0.5 : 0;
         intakeMotorsSpeed = intakeMotorsRunning.get() ? 0.5 : 0;
         // if (pitchMotorSpeed > 0.5) pitchMotorSpeed = 0.5;
