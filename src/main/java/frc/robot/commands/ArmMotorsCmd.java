@@ -27,8 +27,8 @@ public class ArmMotorsCmd extends Command{
     @Override
     public void execute() {
         pitchMotorSpeed = pitchMotor.get();
-        pitchMotorSpeed = pitchMotorSpeed > 0.5 ? 0.5 : pitchMotorSpeed;
-        pitchMotorSpeed = pitchMotorSpeed < -0.5 ? -0.5 : pitchMotorSpeed;
+        pitchMotorSpeed = pitchMotorSpeed > 0.1 ? 0.1 : pitchMotorSpeed;
+        pitchMotorSpeed = pitchMotorSpeed < -0.1 ? -0.1 : pitchMotorSpeed;
         shooterMotorsSpeed = shooterMotorsRunning.get() ? 0.5 : 0;
         pushMotorSpeed = pushMotorRunning.get() ? 0.5 : 0;
         intakeMotorsSpeed = intakeMotorsRunning.get() ? 0.5 : 0;
