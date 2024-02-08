@@ -7,7 +7,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 public class RobotContainer {
-  ArmMotorsSubsystem armSubsystem = new ArmMotorsSubsystem();
+  Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
   XboxController xbox = new XboxController(OperatorConstants.kDriverControllerPort);
   public RobotContainer() {
     armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
