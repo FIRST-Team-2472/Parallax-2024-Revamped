@@ -7,7 +7,7 @@ import edu.wpi.first.math.util.Units;
 
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kDriverControllerPort = 0; //conflicts with other constants
     public static final int kRightJoystickControllerPort = 1;
     public static final int kXboxControllerPort = 3;
   }
@@ -29,9 +29,9 @@ public final class Constants {
 
   public static final class OIConstants{
     public static final double kDeadband = 0.2;
-    public static final int kLeftDriverYAxis = 1;
-    public static final int kLeftDriverXAxis = 0;
-    public static final int kRightDriverRotAxis = 0;
+    public static final int kLeftDriverYAxis = 1; //conflicts with other constants
+    public static final int kLeftDriverXAxis = 0; //conflicts with other constants
+    public static final int kRightDriverRotAxis = 0; //conflicts with other constants
   }
 
   public static final class DriveConstants{
@@ -63,7 +63,7 @@ public final class Constants {
     public static final int kFrontRightTurningMotorPort = 51;
     public static final boolean kFrontRightDriveEncoderReversed = true;
     public static final boolean kFrontRightTurningEncoderReversed = true;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 62; // conflicts
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 62; //conflicts with other constants
     public static final double kFrontRightDriveAbsoluteEncoderOffsetAng = 0.45;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
  
@@ -72,7 +72,7 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 50;
     public static final boolean kBackLeftDriveEncoderReversed = false;
     public static final boolean kBackLeftTurningEncoderReversed = true;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 60; // conflicts
+    public static final int kBackLeftDriveAbsoluteEncoderPort = 60; //conflicts with other constants
     public static final double kBackLeftDriveAbsoluteEncoderOffsetAng = 0.53;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
 
@@ -116,7 +116,7 @@ public final class Constants {
       public static final int kPitchMotorId = 0101010;
     }
     public static class ShooterMotors{
-      public static final int kTopShooterMotorId = 62;
+      public static final int kTopShooterMotorId = 62; //conflicts with other constants
       public static final int kBottomShooterMotorId = 44;
     }
     public static class PushMotor {
@@ -124,7 +124,7 @@ public final class Constants {
     }
     public static class IntakeMotors {
       public static final int kTopIntakeMotorId = 41;
-      public static final int kBottomIntakeMotorId = 60;
+      public static final int kBottomIntakeMotorId = 60; //conflicts with other constants
     }
 
     
