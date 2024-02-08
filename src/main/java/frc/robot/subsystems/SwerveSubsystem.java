@@ -112,6 +112,10 @@ public class SwerveSubsystem extends SubsystemBase{
         return temp;
     }
 
+    public static boolean isOnRed(){
+        return true;
+    }
+
     // send over shuffleboard values
     public double getFLAbsEncoder(){
         return frontLeft.getUnfilteredPosition();
