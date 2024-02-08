@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
@@ -128,5 +130,54 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     public double getBRAbsEncoder(){
         return backRight.getUnfilteredPosition();
+    }
+
+    /* -- LOGGING -- */
+    /*
+     * Logging inputs and other random values with Advantage Kit
+     * is extremely simple. Literally just run:
+     * 
+     * Logger.recordOutput(<name>, <value>);
+     * 
+     * <name> is a string containing the location were the value will be
+     * saved (and thus appear in Advantage Scope). Such as, "Odometry/Location" will
+     * save the value as "Location" under the "Odometry" Folder.
+     * 
+     * <value> can be of any rudimentary variable, Translation2d, Pose3d,
+     * SwerveModuleState, and Mechanism2d. These are the values that will be logged.
+     * All supported variable types are listed here:
+     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/DATA-FLOW.md#data-types
+     * 
+     * Logging can also be done using the @AutoLogOutput annotation.
+     * More info here: 
+     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/RECORDING-OUTPUTS.md#autologoutput-annotation
+     * 
+     * 
+     */
+
+    // Send the swerve modules' encoder positions to Advantage Kit
+    public void logSwerveStates() {
+
+        Logger.recordOutput("SwerveState", new SwerveModuleState[] {
+                frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(),
+                backRight.getState()
+        });
+    }
+
+    // Send Swerve Desired Rotation and speed to Advantage Kit
+    public void logSwerveDesiredStates(SwerveModuleState[] desiredStates) {
+        Logger.recordOutput("DesiredSwerveState", desiredStates);
+    }
+
+    // Send Pigeon Rotation to Advantage Kit (useful for seeing robot rotation)
+    public void logPigeonState() {
+        Logger.recordOutput("PigeonGyro", gyro.getRotation2d());
+    }
+
+    // Send Odometry Position on field to Advantage Kit
+    public void logOdometry() {
+        Logger.recordOutput("Odometry/Location", odometer.getPoseMeters());
     }
 }
