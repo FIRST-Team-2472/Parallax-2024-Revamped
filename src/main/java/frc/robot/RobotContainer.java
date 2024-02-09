@@ -27,7 +27,6 @@ public class RobotContainer {
   private void configureBindings() {
     if (xbox.getAButton())
       resetEncoder();
-    //new CommandXboxController(OperatorConstants.kDriverControllerPort).a().onTrue(resetEncoder());
   }
   public void resetEncoder(){
     encoder.reset();
