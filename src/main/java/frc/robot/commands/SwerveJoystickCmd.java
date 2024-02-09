@@ -68,6 +68,11 @@ public class SwerveJoystickCmd extends Command{
 
         // sends them over
         swerveSubsystem.setModuleStates(moduleStates);
+
+        // Log Swerve Info
+        swerveSubsystem.logSwerveStates();
+        swerveSubsystem.logPigeonState();
+        swerveSubsystem.logOdometry();
     }
 
     @Override
