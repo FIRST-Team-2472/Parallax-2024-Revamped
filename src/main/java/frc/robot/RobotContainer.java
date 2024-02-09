@@ -22,15 +22,12 @@ public class RobotContainer {
 
   private final CommandSequences commandSequences = new CommandSequences();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  public static Joystick joystickL = new Joystick(OperatorConstants.kLeftJoystickControllerPort);
-  public static Joystick joystickR = new Joystick(OperatorConstants.kRightJoystickControllerPort);
   private final ShuffleboardInfo shuffleboardinfo = new ShuffleboardInfo(swerveSubsystem);
 
 
   Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
 
-  private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  XboxController xbox = new XboxController(OperatorConstants.kDriverControllerPort);
+  XboxController xbox = new XboxController(OperatorConstants.kXboxControllerPort);
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
   public static Joystick rightJoystick = new Joystick(OperatorConstants.kRightJoyPort);
   
@@ -46,13 +43,6 @@ public class RobotContainer {
       ()-> -rightJoystick.getX(),
        ()-> rightJoystick.getRawButton(2)));
     configureBindings();
-    
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-      swerveSubsystem,
-      () -> joystickL.getRawAxis(OIConstants.kLeftDriverYAxis),
-      () -> -joystickL.getRawAxis(OIConstants.kLeftDriverXAxis),
-      () -> -joystickR.getRawAxis(OIConstants.kRightDriverRotAxis),
-      () -> xbox.getRightBumper()));
 
     m_chooser.addOption(placementone, placementone);
     m_chooser.addOption(placementtwo, placementtwo);
