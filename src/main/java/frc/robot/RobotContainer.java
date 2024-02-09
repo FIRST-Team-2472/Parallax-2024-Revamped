@@ -6,6 +6,9 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
@@ -21,6 +24,7 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   public static Joystick joystickL = new Joystick(OperatorConstants.kLeftJoystickControllerPort);
   public static Joystick joystickR = new Joystick(OperatorConstants.kRightJoystickControllerPort);
+  private final ShuffleboardInfo shuffleboardinfo = new ShuffleboardInfo(swerveSubsystem);
 
 
   Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
@@ -43,6 +47,9 @@ public class RobotContainer {
     m_chooser.addOption(placementone, placementone);
     m_chooser.addOption(placementtwo, placementtwo);
     m_chooser.addOption(placementthree, placementthree);
+
+    ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
+    driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
   }
 
   private void configureBindings() {
