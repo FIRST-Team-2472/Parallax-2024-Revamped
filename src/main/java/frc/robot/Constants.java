@@ -7,11 +7,11 @@ import edu.wpi.first.math.util.Units;
 
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0; //conflicts with other constants
     public static final int kLeftJoyPort = 1;
     public static final int kRightJoyPort = 2;
     public static final int kXboxControllerPort = 3;
   }
+
 
   public static final class ModuleConstants {
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
@@ -26,6 +26,7 @@ public final class Constants {
 
   public static final class SensorConstants{
     public static final int kPigeonID = 13;
+    public static final double sizeOfFieldMeters = 16;
   }
 
   public static final class OIConstants{
@@ -99,7 +100,7 @@ public final class Constants {
 
   public static final class AutoConstants{
     public static final double kMaxSpeedMetersPerSecond = 1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.4;
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
     public static final double kPThetaController = 1.5;

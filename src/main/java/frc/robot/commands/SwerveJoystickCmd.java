@@ -19,7 +19,7 @@ public class SwerveJoystickCmd extends Command{
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
-            Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction, Supplier<Boolean> fieldOrientedFunction){
+    Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction, Supplier<Boolean> fieldOrientedFunction){
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
@@ -68,6 +68,11 @@ public class SwerveJoystickCmd extends Command{
 
         // sends them over
         swerveSubsystem.setModuleStates(moduleStates);
+
+        // Log Swerve Info
+        swerveSubsystem.logSwerveStates();
+        swerveSubsystem.logPigeonState();
+        swerveSubsystem.logOdometry();
     }
 
     @Override
