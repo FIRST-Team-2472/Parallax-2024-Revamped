@@ -27,7 +27,7 @@ public class CommandSequences {
 
     public CommandSequences() {
         exampleNodes[0] = simplePose(1, 0, 0);
-        exampleNodes[1] = simplePose(0, 1, 0);
+        exampleNodes[1] = simplePose(1, 1, 0);
         exampleNodes[2] = simplePose(0, 1, 0);
         exampleNodes[3] = simplePose(1, 1, 0);
     }
