@@ -7,8 +7,8 @@ import edu.wpi.first.math.util.Units;
 
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kLeftJoystickControllerPort = 0; //conflicts with other constants
-    public static final int kRightJoystickControllerPort = 1;
+    public static final int kLeftJoyPort = 1;
+    public static final int kRightJoyPort = 2;
     public static final int kXboxControllerPort = 3;
   }
 
