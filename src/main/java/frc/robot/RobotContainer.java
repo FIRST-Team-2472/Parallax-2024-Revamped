@@ -17,14 +17,13 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 public class RobotContainer {
-  private final String placementone = "Robot 1", placementtwo = "Robot 2", placementthree = "Robot 3";
+  private final String placementone = "Robot 1", placementtwo = "Robot 2", placementthree = "Robot 3", path4 =  "2 in Speaker from Position 2";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private final CommandSequences commandSequences = new CommandSequences();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final ShuffleboardInfo shuffleboardinfo = new ShuffleboardInfo(swerveSubsystem);
 
 
   Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
@@ -42,13 +41,14 @@ public class RobotContainer {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
     ()-> -leftJoystick.getY(),
      ()-> leftJoystick.getX(),
-      ()-> rightJoystick.getX(),
-       ()-> rightJoystick.getRawButton(2)));
+      ()-> rightJoystick.getX()
+    ));
     configureBindings();
 
     m_chooser.addOption(placementone, placementone);
     m_chooser.addOption(placementtwo, placementtwo);
     m_chooser.addOption(placementthree, placementthree);
+    m_chooser.addOption(path4, path4);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -71,6 +71,9 @@ public class RobotContainer {
 
       if (m_autoSelected == placementthree)
       return new ParallelCommandGroup(commandSequences.robot3Command(swerveSubsystem));
+
+      if (m_autoSelected == path4)
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerPosTwo(swerveSubsystem));
 
     return null;
   }

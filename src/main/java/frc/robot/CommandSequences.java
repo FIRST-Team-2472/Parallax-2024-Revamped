@@ -77,6 +77,14 @@ public class CommandSequences {
                 genratePath(swerveSubsystem, exampleNodes[2], List.of(), exampleNodes[3]));
     }
 
+    public Command twoInSpeakerPosTwo(SwerveSubsystem swerveSubsystem){
+        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+
+        return new SequentialCommandGroup(
+                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[2]),
+                genratePath(swerveSubsystem, exampleNodes[2], List.of(), exampleNodes[3]));
+    }
+
     // generates a path via points
     private static Command genratePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint,
             List<PositivePoint> midPoints,
