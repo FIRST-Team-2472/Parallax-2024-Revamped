@@ -50,7 +50,8 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 genratePath(swerveSubsystem, importantNodes[0], List.of(), importantNodes[1]),
-                genratePath(swerveSubsystem, importantNodes[1], List.of(importantNodes[2].getPositivePoint()), importantNodes[3])
+                genratePath(swerveSubsystem, importantNodes[1], List.of(importantNodes[2].getPositivePoint()), importantNodes[3]),
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(270))
                 
             );
     }
