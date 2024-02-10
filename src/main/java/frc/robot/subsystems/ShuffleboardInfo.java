@@ -16,7 +16,6 @@ public class ShuffleboardInfo {
         SmartDashboard.putNumber("frontRight Encoder", swerveSubsystem.getFRAbsEncoder());
         SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
-    
     }
 
 }

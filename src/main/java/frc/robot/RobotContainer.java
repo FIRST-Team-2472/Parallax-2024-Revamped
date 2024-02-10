@@ -38,9 +38,9 @@ public class RobotContainer {
           () -> xbox.getRightBumper())); // Intake Motors
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
-    ()-> leftJoystick.getY(),
-     ()-> -leftJoystick.getX(),
-      ()-> -rightJoystick.getX(),
+    ()-> -leftJoystick.getY(),
+     ()-> leftJoystick.getX(),
+      ()-> rightJoystick.getX(),
        ()-> rightJoystick.getRawButton(2)));
     configureBindings();
 

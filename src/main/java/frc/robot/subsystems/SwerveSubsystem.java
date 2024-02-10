@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
@@ -72,12 +73,10 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public double getHeading(){
-        return gyro.getYaw().getValue();
+        return -gyro.getYaw().getValue();
     }
 
-    public Rotation2d getTeleRotation2d(){
-        return Rotation2d.fromDegrees(-gyro.getYaw().getValue());
-    }
+
     public Rotation2d getRotation2d(){
         return Rotation2d.fromDegrees(getHeading());
     }
@@ -93,6 +92,12 @@ public class SwerveSubsystem extends SubsystemBase{
     @Override
     public void periodic(){
         odometer.update(getRotation2d(), getModulePositions());
+        SmartDashboard.putNumber("Heading", getHeading());
+        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putNumber("frontLeft Encoder", getFLAbsEncoder());
+        SmartDashboard.putNumber("frontRight Encoder", getFRAbsEncoder());
+        SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
+        SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
     }
 
     public void stopModules(){
