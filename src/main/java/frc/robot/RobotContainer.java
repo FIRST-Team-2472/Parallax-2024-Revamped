@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,7 +18,7 @@ import frc.robot.commands.*;
 
 public class RobotContainer {
   private final String placementone = "Robot 1", placementtwo = "Robot 2", placementthree = "Robot 3";
-  
+
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -24,24 +26,24 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final ShuffleboardInfo shuffleboardinfo = new ShuffleboardInfo(swerveSubsystem);
 
-
   Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
 
   XboxController xbox = new XboxController(OperatorConstants.kXboxControllerPort);
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
   public static Joystick rightJoystick = new Joystick(OperatorConstants.kRightJoyPort);
-  
+
   public RobotContainer() {
     armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
-      () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
+        () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
         () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
-          () -> xbox.getRightBumper())); // Intake Motors
+        () -> xbox.getRightBumper())); // Intake Motors
 
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
-    ()-> leftJoystick.getY(),
-     ()-> -leftJoystick.getX(),
-      ()-> -rightJoystick.getX(),
-       ()-> rightJoystick.getRawButton(2)));
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem,
+        () -> leftJoystick.getY(),
+        () -> -leftJoystick.getX(),
+        () -> -rightJoystick.getX(),
+        () -> rightJoystick.getRawButton(2)));
+
     configureBindings();
 
     m_chooser.addOption(placementone, placementone);
@@ -53,27 +55,28 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(armSubsystem, 45));
   }
 
   public Command getAutonomousCommand() {
     System.out.println("Autos Begun");
-       
-      m_autoSelected = m_chooser.getSelected();
 
-      if (m_autoSelected == placementone)
+    m_autoSelected = m_chooser.getSelected();
+
+    if (m_autoSelected == placementone)
       return new ParallelCommandGroup(commandSequences.robot1Command(swerveSubsystem));
 
-      if (m_autoSelected == placementtwo)
+    if (m_autoSelected == placementtwo)
       return new ParallelCommandGroup(commandSequences.robot2Command(swerveSubsystem));
 
-      if (m_autoSelected == placementthree)
+    if (m_autoSelected == placementthree)
       return new ParallelCommandGroup(commandSequences.robot3Command(swerveSubsystem));
 
     return null;
   }
 
-  public void logSwerve(){
- 
+  public void logSwerve() {
+
     SmartDashboard.putNumber("Heading", swerveSubsystem.getHeading());
     SmartDashboard.putString("Robot Location", swerveSubsystem.getPose().getTranslation().toString());
     SmartDashboard.putNumber("frontLeft Encoder", swerveSubsystem.getFLAbsEncoder());

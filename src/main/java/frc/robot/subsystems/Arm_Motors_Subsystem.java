@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -20,11 +21,13 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
 
     public Arm_Motors_Subsystem() {
         resetPitchEncoder();
-
+        //pitchMotor.getEncoder().setPosition(getPitchEncoderDeg() * "Conversion Factor");
+        pitchMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) PitchMotor.kPitchEncoderReverseLimit);
+        pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
     }
 
     public void resetPitchEncoder() {
-        pitchAnalogEncoder.reset();
+        // pitchAnalogEncoder.reset();
         pitchAnalogEncoder.setDistancePerRotation(360);
     }
 
@@ -32,21 +35,28 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
         return pitchAnalogEncoder.getDistance();
     }
 
-    public void runPitchMotor(Double motorSpeed) {
+    public void runPitchMotor(double motorSpeed) {
         pitchMotor.set(motorSpeed);
     }
 
-    public void runShooterMotors(Double motorSpeed) {
+    public void runShooterMotors(double motorSpeed) {
         shooterTopMotor.set(-motorSpeed);
         shooterBottomMotor.set(motorSpeed);
     }
 
-    public void runPushMotor(Double motorSpeed) {
+    public void runPushMotor(double motorSpeed) {
         pushMotor.set(motorSpeed);
     }
 
-    public void runIntakeMotors(Double motorSpeed) {
+    public void runIntakeMotors(double motorSpeed) {
         intakeTopMotor.set(motorSpeed);
         intakeBottomMotor.set(-motorSpeed);
+    }
+
+    public void runPitchMotorWithKP(double angleDeg) {
+
+        double speed = pitchPIDController.calculate(getPitchEncoderDeg(), angleDeg);
+        
+        runPitchMotor(speed);
     }
 }

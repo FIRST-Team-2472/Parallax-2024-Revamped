@@ -11,15 +11,16 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class SwerveJoystickCmd extends Command{
-    
+public class SwerveJoystickCmd extends Command {
+
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Supplier<Boolean> fieldOrientedFunction;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
-    
+
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
-    Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction, Supplier<Boolean> fieldOrientedFunction){
+            Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+            Supplier<Boolean> fieldOrientedFunction) {
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
@@ -31,14 +32,13 @@ public class SwerveJoystickCmd extends Command{
         addRequirements(swerveSubsystem);
     }
 
-
     @Override
-    public void initialize(){
+    public void initialize() {
 
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         // get joystick values
         double xSpeed = xSpdFunction.get();
         double ySpeed = ySpdFunction.get();
@@ -51,19 +51,21 @@ public class SwerveJoystickCmd extends Command{
 
         // apply acceleration limiter
         xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond; 
-        turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        turningSpeed = turningLimiter.calculate(turningSpeed)
+                * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
         ChassisSpeeds chassisSpeeds;
-        if(fieldOrientedFunction.get()){
-            //relative to the field
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, swerveSubsystem.getTeleRotation2d());
-        } else{
-            //relative to robot
+        if (fieldOrientedFunction.get()) {
+            // relative to the field
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed,
+                    swerveSubsystem.getTeleRotation2d());
+        } else {
+            // relative to robot
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         }
 
-        //convert chassis speeds to individual module states
+        // convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
         // sends them over
@@ -76,12 +78,12 @@ public class SwerveJoystickCmd extends Command{
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         swerveSubsystem.stopModules();
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 }
