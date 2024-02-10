@@ -62,7 +62,7 @@ public class RobotContainer {
     System.out.println("Autos Begun");
        
       m_autoSelected = m_chooser.getSelected();
-
+    /* Replace with actual autos
       if (m_autoSelected == placementone)
       return new ParallelCommandGroup(commandSequences.robot1Command(swerveSubsystem));
 
@@ -73,7 +73,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.robot3Command(swerveSubsystem));
 
       if (m_autoSelected == path4)
-      return new ParallelCommandGroup(commandSequences.twoInSpeakerPosTwo(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerPosTwo(swerveSubsystem));*/
 
     return null;
   }
