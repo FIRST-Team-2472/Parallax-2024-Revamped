@@ -133,7 +133,6 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state){
-    System.out.println("angle: " + absoluteEncoder.getAbsolutePosition());
         if(Math.abs(state.speedMetersPerSecond) < 0.001){
             stop(); // keeps it from flipping back forward when not moving
             return;

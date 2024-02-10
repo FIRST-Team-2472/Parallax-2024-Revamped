@@ -31,43 +31,42 @@ public class CommandSequences {
         exampleNodes[2] = simplePose(0, 1, 0);
         exampleNodes[3] = simplePose(1, 1, 0);
     }
-    
+
     public Command robot1Command(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
-        swerveSubsystem.resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
+        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
 
         return new SequentialCommandGroup(
-            genratePath(swerveSubsystem, new PosPose2d(), List.of(),  exampleNodes[0])
+                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[0]));
+    }
+
+    public Command robot2Command(SwerveSubsystem swerveSubsystem) {
+
+        System.out.println("Autos Happening");
+        System.out.println(exampleNodes[0].toString());
+        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+
+        return new SequentialCommandGroup(
+                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[0]),
+                genratePath(swerveSubsystem, exampleNodes[0], List.of(), exampleNodes[1])
+
         );
     }
 
-        public Command robot2Command(SwerveSubsystem swerveSubsystem) {
+    public Command robot3Command(SwerveSubsystem swerveSubsystem) {
+        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
 
-            System.out.println("Autos Happening");
-            System.out.println(exampleNodes[0].toString());
-            swerveSubsystem.resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
-
-            return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, new PosPose2d(), List.of(),  exampleNodes[0]),
-                genratePath(swerveSubsystem, new PosPose2d(), List.of(),  exampleNodes[1])
-
-            );
-        }
-
-        public Command robot3Command(SwerveSubsystem swerveSubsystem){
-            swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
-
-            return new SequentialCommandGroup(
+        return new SequentialCommandGroup(
                 genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[2]),
-                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[3])
-             );     
-        }
+                genratePath(swerveSubsystem, exampleNodes[2], List.of(), exampleNodes[3]));
+    }
 
     // generates a path via points
-    private static Command genratePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint, List<PositivePoint> midPoints,
-        PosPose2d endPoint) {
+    private static Command genratePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint,
+            List<PositivePoint> midPoints,
+            PosPose2d endPoint) {
         // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
@@ -84,10 +83,10 @@ public class CommandSequences {
         // Genrates trajectory need to feed start point, a series of inbetween points,
         // and end point
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-            driveStartPoint,
-            driveMidPoints,
-            driveEndPoint,
-            trajectoryConfig);
+                driveStartPoint,
+                driveMidPoints,
+                driveEndPoint,
+                trajectoryConfig);
 
         // 3. Define PID controllers for tracking trajectory
         PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);

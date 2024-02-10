@@ -72,9 +72,12 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public double getHeading(){
-        return -gyro.getYaw().getValue();
+        return gyro.getYaw().getValue();
     }
 
+    public Rotation2d getTeleRotation2d(){
+        return Rotation2d.fromDegrees(-gyro.getYaw().getValue());
+    }
     public Rotation2d getRotation2d(){
         return Rotation2d.fromDegrees(getHeading());
     }
