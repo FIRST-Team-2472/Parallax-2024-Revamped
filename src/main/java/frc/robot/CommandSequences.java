@@ -25,6 +25,10 @@ public class CommandSequences {
 
     PosPose2d[] exampleNodes = new PosPose2d[4];
     PosPose2d[] importantNodes = new PosPose2d[4];
+    PosPose2d[] startingNodes = new PosPose2d[4];
+    PosPose2d[] collectingNearNodes = new PosPose2d[3];
+    PosPose2d[] shootingNearNodes = new PosPose2d[3];
+    PosPose2d ampNode = simplePose(1.84, 7.32, -90);
 
     public CommandSequences() {
         exampleNodes[0] = simplePose(1, 0, 0);
@@ -40,6 +44,25 @@ public class CommandSequences {
         importantNodes[2] = simplePose(2.13, 5.63, 0);
         // In from of amp
         importantNodes[3] = simplePose(1.84, 7.32, -90);
+
+        // amp start
+        startingNodes[0] = simplePose(1.41, 7.26, 0);
+        //speaker start 1
+        startingNodes[1] = simplePose(0.71, 6.7, 60);
+        //speaker start 2
+        startingNodes[2] = simplePose(1.4, 5.52, 0);
+        // speakr start 3
+        startingNodes[3] = simplePose(0.71, 4.38, -60);
+
+        // Collecting the near nodes
+        collectingNearNodes[0] = simplePose(2.15, 7, 0);
+        collectingNearNodes[1] = simplePose(2.15, 5.5,	0);
+        collectingNearNodes[2] = simplePose(2.15, 4.08, 0);
+
+        // Shooting to the speaker from the near nodes
+        shootingNearNodes[0] = simplePose(2.9, 7, 30);
+        shootingNearNodes[1] = simplePose(2.9, 5.5,	0);
+        shootingNearNodes[2] = simplePose(2.9, 4.08, -30);
     }
 
     public Command robot1Command(SwerveSubsystem swerveSubsystem) {
@@ -78,11 +101,13 @@ public class CommandSequences {
     }
 
     public Command twoInSpeakerPosTwo(SwerveSubsystem swerveSubsystem){
-        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+        swerveSubsystem.resetOdometry(startingNodes[0]);
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[2]),
-                genratePath(swerveSubsystem, exampleNodes[2], List.of(), exampleNodes[3]));
+                genratePath(swerveSubsystem, startingNodes[0], List.of(), ampNode),
+                genratePath(swerveSubsystem, ampNode, List.of(), collectingNearNodes[0]),
+                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), ampNode)
+            );
     }
 
     // generates a path via points

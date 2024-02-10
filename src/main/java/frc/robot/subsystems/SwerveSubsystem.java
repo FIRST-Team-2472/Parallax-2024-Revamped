@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.MathUtil;
@@ -61,7 +60,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     private final AccelerationLimiter xLimiter, yLimiter, turningLimiter;
     private PIDController xController, yController, thetaController;
-    
+
     private final Pigeon2 gyro = new Pigeon2(SensorConstants.kPigeonID);
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0), getModulePositions());
