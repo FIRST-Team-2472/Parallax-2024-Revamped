@@ -131,5 +131,24 @@ public final class Constants {
 
     
   }
+  public static final class TargetPosConstants {
+    // Motion constants for target position drive mode
+    public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+    public static final double kMaxAngularSpeed = //
+            DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 16;
+
+    public static final double kForwardMaxAcceleration = 2;
+    public static final double kBackwardMaxAcceleration = -12;
+    public static final double kMaxAngularAcceleration = Math.PI / 3;
+    public static final double kBackwardAngularAcceleration = -Math.PI * 9;
+
+    public static final double kMinAngluarSpeedRadians = Math.PI / 16;
+    public static final double kMinSpeedMetersPerSec = .2;
+
+    public static final double kPDriveController = 1.9;
+    public static final double kPAngleController = 1.9;
+    public static final double kAcceptableDistanceError = 0.04;
+    public static final double kAcceptableAngleError = 1.5;
+}
 
 }

@@ -24,22 +24,35 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class CommandSequences {
 
     PosPose2d[] exampleNodes = new PosPose2d[4];
+    PosPose2d[] importantNodes = new PosPose2d[4];
 
     public CommandSequences() {
         exampleNodes[0] = simplePose(1, 0, 0);
         exampleNodes[1] = simplePose(1, 1, 0);
         exampleNodes[2] = simplePose(0, 1, 0);
         exampleNodes[3] = simplePose(1, 1, 0);
+
+        // Source side of Speaker
+        importantNodes[0] = simplePose(.55, 4.11, 0);
+        // In front of Note
+        importantNodes[1] = simplePose(2.15, 4.08, 0);
+        // Near front of Speaker
+        importantNodes[2] = simplePose(2.13, 5.63, 0);
+        // In from of amp
+        importantNodes[3] = simplePose(1.84, 7.32, -90);
     }
 
     public Command robot1Command(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
-        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+        swerveSubsystem.resetOdometry(importantNodes[0]);
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[0]));
+                genratePath(swerveSubsystem, importantNodes[0], List.of(), importantNodes[1]),
+                genratePath(swerveSubsystem, importantNodes[1], List.of(importantNodes[2].getPositivePoint()), importantNodes[3])
+                
+            );
     }
 
     public Command robot2Command(SwerveSubsystem swerveSubsystem) {

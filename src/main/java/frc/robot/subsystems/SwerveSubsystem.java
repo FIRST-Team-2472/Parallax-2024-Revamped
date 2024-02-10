@@ -5,8 +5,12 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -15,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
+import frc.robot.Constants.TargetPosConstants;
+import frc.robot.subsystems.swerveExtras.AccelerationLimiter;
 
 public class SwerveSubsystem extends SubsystemBase{
     private final SwerveModule frontLeft = new SwerveModule(//
@@ -53,11 +59,23 @@ public class SwerveSubsystem extends SubsystemBase{
         DriveConstants.kBackRightDriveAbsoluteEncoderOffsetAng,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed );
 
+    private final AccelerationLimiter xLimiter, yLimiter, turningLimiter;
+    private PIDController xController, yController, thetaController;
+
     private final Pigeon2 gyro = new Pigeon2(SensorConstants.kPigeonID);
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0), getModulePositions());
 
     public SwerveSubsystem(){
+
+        xLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+        yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+        turningLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
+
+        xController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
+        yController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
+        thetaController = new PIDController(TargetPosConstants.kPAngleController, 0, 0);
+
         new Thread(() -> {
             try{
                 Thread.sleep(1000);
@@ -75,8 +93,64 @@ public class SwerveSubsystem extends SubsystemBase{
     public double getHeading(){
         return -gyro.getYaw().getValue();
     }
+    
+    public boolean isAtPoint(Translation2d targetDrivePos) {
+        return getPose().getTranslation().getDistance(targetDrivePos) //
+                <= TargetPosConstants.kAcceptableDistanceError; //
+    }
+    
+    public boolean isAtAngle(Rotation2d angle) {
+        return Math.abs(getRotation2d().minus(angle).getDegrees()) //
+                <= TargetPosConstants.kAcceptableAngleError;
+    }
 
+    // gets our current velocity relative to the y of the field
+    public double getYSpeedFieldRel() {
+        ChassisSpeeds temp = DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(), backRight.getState());
+        temp = ChassisSpeeds.fromFieldRelativeSpeeds(temp, getRotation2d());
 
+        return temp.vyMetersPerSecond;
+    }
+
+    public double getXSpeedFieldRel() {
+        ChassisSpeeds temp = DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(), backRight.getState());
+        temp = ChassisSpeeds.fromFieldRelativeSpeeds(temp, getRotation2d());
+
+        return temp.vxMetersPerSecond;
+    }
+
+    // gets our current velocity relative to the x of the robot (front/back)
+    public double getXSpeedRobotRel() {
+        ChassisSpeeds temp = DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(), backRight.getState());
+
+        return temp.vxMetersPerSecond;
+    }
+
+    // gets our current velocity relative to the y of the robot (left/right)
+    public double getYSpeedRobotRel() {
+        ChassisSpeeds temp = DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(), backRight.getState());
+
+        return temp.vyMetersPerSecond;
+    }
+
+    // gets our current angular velocity
+    public double getRotationalSpeed() {
+        ChassisSpeeds temp = DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(), backRight.getState());
+        temp = ChassisSpeeds.fromFieldRelativeSpeeds(temp, getRotation2d());
+
+        return temp.omegaRadiansPerSecond;
+    }
+    
     public Rotation2d getRotation2d(){
         return Rotation2d.fromDegrees(getHeading());
     }
@@ -87,6 +161,87 @@ public class SwerveSubsystem extends SubsystemBase{
     
     public void resetOdometry(Pose2d pose){
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
+    }
+    public void intializeJoystickRunFromField() {
+        xLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+        yLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+        turningLimiter.setLimit(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+
+        xLimiter.reset(getXSpeedFieldRel());
+        yLimiter.reset(getYSpeedFieldRel());
+        turningLimiter.reset(getRotationalSpeed());
+    }
+
+    public void excuteJoystickRunFromField(double xSpeedPercent, double ySpeedPercent, double thetaSpeedPercent) {
+        // 3. Make the driving smoother (limits acceleration)
+        xSpeedPercent = xLimiter.calculate(xSpeedPercent * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
+        ySpeedPercent = yLimiter.calculate(ySpeedPercent * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
+        thetaSpeedPercent = turningLimiter
+                .calculate(thetaSpeedPercent * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
+
+        runModulesFieldRelative(xSpeedPercent, ySpeedPercent, thetaSpeedPercent);
+    }
+
+    public void initializeDriveToPointAndRotate() {
+        xLimiter.setLimit(TargetPosConstants.kForwardMaxAcceleration,
+        TargetPosConstants.kBackwardMaxAcceleration);
+        yLimiter.setLimit(TargetPosConstants.kForwardMaxAcceleration,
+        TargetPosConstants.kBackwardMaxAcceleration);
+        xLimiter.reset(getXSpeedFieldRel());
+        yLimiter.reset(getYSpeedFieldRel());
+
+        xController.setPID(TargetPosConstants.kPDriveController, 0, 0);
+        xController.reset();
+        yController.setPID(TargetPosConstants.kPDriveController, 0, 0);
+        yController.reset();
+        thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
+        thetaController.reset();
+    }
+    public void excuteDriveToPointAndRotate(Pose2d targetPosition) {
+        double xSpeed = MathUtil.clamp(
+                xController.calculate(getPose().getX(), targetPosition.getX()), -1, 1);
+        double ySpeed = MathUtil.clamp(
+                yController.calculate(getPose().getY(), targetPosition.getY()), -1, 1);
+
+        Rotation2d angleDifference = getRotation2d().minus(targetPosition.getRotation());
+        double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
+                0), -1, 1);
+        turningSpeed *= TargetPosConstants.kMaxAngularSpeed;
+        turningSpeed += Math.copySign(TargetPosConstants.kMinAngluarSpeedRadians, turningSpeed);
+
+        xSpeed = xLimiter.calculate(xSpeed * TargetPosConstants.kMaxSpeedMetersPerSecond);
+        ySpeed = yLimiter.calculate(ySpeed * TargetPosConstants.kMaxSpeedMetersPerSecond);
+
+        double unitCircleAngle = Math.atan2(ySpeed, xSpeed);
+        xSpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, xSpeed) * Math.abs(Math.cos(unitCircleAngle));
+        ySpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, ySpeed) * Math.abs(Math.sin(unitCircleAngle));
+
+        runModulesFieldRelative(xSpeed, ySpeed, turningSpeed);
+    }
+    public void initializeRotateToAngle() {
+        thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
+        thetaController.reset();
+    }
+
+    public void excuteRotateToAngle(Rotation2d targetPosition) {
+        Rotation2d angleDifference = getRotation2d().minus(targetPosition);
+        double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
+                0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
+
+        turningSpeed += Math.copySign(TargetPosConstants.kMinAngluarSpeedRadians, turningSpeed);
+
+        runModulesFieldRelative(0, 0, turningSpeed);
+    }
+    private void runModulesFieldRelative(double xSpeed, double ySpeed, double turningSpeed) {
+        // Converts robot speeds to speeds relative to field
+        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                xSpeed, ySpeed, turningSpeed, getRotation2d());
+
+        // Convert chassis speeds to individual module states
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+
+        // Output each module states to wheels
+        setModuleStates(moduleStates);
     }
 
     @Override
