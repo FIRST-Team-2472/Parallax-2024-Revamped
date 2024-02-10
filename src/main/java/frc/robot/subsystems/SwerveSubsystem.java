@@ -14,6 +14,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.BooleanSubscriber;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -65,7 +72,25 @@ public class SwerveSubsystem extends SubsystemBase{
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0), getModulePositions());
 
+    private static BooleanSubscriber isOnRed;
+    private static final SendableChooser<String> colorChooser = new SendableChooser<>();
+    private final String red = "Red", blue = "Blue";
+
     public SwerveSubsystem(){
+
+        // Gets tabs from Shuffleboard
+        ShuffleboardTab programmerBoard = Shuffleboard.getTab("Programmer Board");
+        ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
+
+        // Gets the field infomation
+        NetworkTable firstInfo = NetworkTableInstance.getDefault().getTable("FMSInfo");
+        // Gets the team color from the field information
+        isOnRed = firstInfo.getBooleanTopic("IsRedAlliance").subscribe(false);
+
+        // makes a team color choser
+        colorChooser.addOption(red, red);
+        colorChooser.addOption(blue, blue);
+        driverBoard.add("Team Chooser", colorChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
 
         xLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -278,8 +303,17 @@ public class SwerveSubsystem extends SubsystemBase{
         return temp;
     }
 
-    public static boolean isOnRed(){
-        return true;
+    // used for anything that requires team color.
+    // this is housed in swerve subsystem since it uses it the most
+    public static boolean isOnRed() {
+        // gets the selected team color from the suffleboard
+        String choices = colorChooser.getSelected();
+        if (choices == "Red")
+            return true;
+        if (choices == "Blue")
+            return false;
+        // if no team selected on suffleboard, it will default to the field info
+        return isOnRed.get();
     }
 
     // send over shuffleboard values
