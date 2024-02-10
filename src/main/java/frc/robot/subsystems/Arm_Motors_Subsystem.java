@@ -15,7 +15,7 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
     private CANSparkMax pushMotor = new CANSparkMax(PushMotor.kPushMotorId, MotorType.kBrushless);
     private CANSparkMax intakeTopMotor = new CANSparkMax(IntakeMotors.kTopIntakeMotorId, MotorType.kBrushless);
     private CANSparkMax intakeBottomMotor = new CANSparkMax(IntakeMotors.kBottomIntakeMotorId, MotorType.kBrushless);
-    private PIDController pidController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
+    private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
     private AnalogEncoder pitchAnalogEncoder = new AnalogEncoder(PitchMotor.kPitchEncoderId);
 
     public Arm_Motors_Subsystem() {
