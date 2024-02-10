@@ -116,6 +116,10 @@ public final class Constants {
 
     public static class PitchMotor {
       public static final int kPitchMotorId = 58;
+      public static final double kPitchMotorKP = 0.1;
+      public static final int kPitchEncoderId = 0;
+      public static final double kPitchEncoderPositiveLimit = 10000.1;
+      public static final double kPitchEncoderNegativeLimit = -2152.3;
     }
     public static class ShooterMotors{
       public static final int kTopShooterMotorId = 62; //conflicts with other constants
