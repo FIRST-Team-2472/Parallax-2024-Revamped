@@ -33,10 +33,10 @@ public class RobotContainer {
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
   public static Joystick rightJoystick = new Joystick(OperatorConstants.kRightJoyPort);
   ArmMotorsSubsystem armSubsystem = new ArmMotorsSubsystem();
-  private AnalogEncoder encoder = new AnalogEncoder(Encoder.kEncoderPort);
+  private AnalogEncoder pitchMotorEncoder = new AnalogEncoder(Encoder.kEncoderPort);
 
   public RobotContainer() {
-    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, encoder, () -> xbox.getLeftY(), // Pitch Motor
+    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, pitchMotorEncoder, () -> xbox.getLeftY(), // Pitch Motor
       () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
         () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
           () -> xbox.getRightBumper())); // Intake Motors
@@ -65,8 +65,8 @@ public class RobotContainer {
       resetEncoder();
   }
   public void resetEncoder(){
-    encoder.reset();
-    encoder.setDistancePerRotation(360);
+    pitchMotorEncoder.reset();
+    pitchMotorEncoder.setDistancePerRotation(360);
   }
   public Command getAutonomousCommand() {
     System.out.println("Autos Begun");
