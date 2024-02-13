@@ -123,15 +123,15 @@ public final class Constants {
       public static final double kPitchEncoderNegativeLimit = -2152.3;
     }
     public static class ShooterMotors{
-      public static final int kTopShooterMotorId = 62; //conflicts with other constants
-      public static final int kBottomShooterMotorId = 44;
+      public static final int kTopShooterMotorId = 44; //conflicts with other constants
+      public static final int kBottomShooterMotorId = 62;
     }
     public static class PushMotor {
       public static final int kPushMotorId = 52;
     }
     public static class IntakeMotors {
-      public static final int kTopIntakeMotorId = 41;
-      public static final int kBottomIntakeMotorId = 60; //conflicts with other constants
+      public static final int kTopIntakeMotorId = 60;
+      public static final int kBottomIntakeMotorId = 41; //conflicts with other constants
     }
 
     
