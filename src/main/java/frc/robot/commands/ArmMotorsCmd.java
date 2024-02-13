@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmMotorsSubsystem;
-import frc.robot.Constants.ArmMotorsConstants.PitchMotor;;
 
 public class ArmMotorsCmd extends Command{
     private Supplier<Double> pitchMotor;
