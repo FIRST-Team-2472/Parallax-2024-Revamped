@@ -16,20 +16,10 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
     private CANSparkMax intakeTopMotor = new CANSparkMax(IntakeMotors.kTopIntakeMotorId, MotorType.kBrushless);
     private CANSparkMax intakeBottomMotor = new CANSparkMax(IntakeMotors.kBottomIntakeMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
-    private AnalogEncoder pitchAnalogEncoder = new AnalogEncoder(PitchMotor.kPitchEncoderId);
 
     public Arm_Motors_Subsystem() {
         resetPitchEncoder();
 
-    }
-
-    public void resetPitchEncoder() {
-        pitchAnalogEncoder.reset();
-        pitchAnalogEncoder.setDistancePerRotation(360);
-    }
-
-    public double getPitchEncoderDeg() {
-        return pitchAnalogEncoder.getDistance();
     }
 
     public void runPitchMotor(Double motorSpeed) {
