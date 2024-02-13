@@ -16,12 +16,10 @@ public class ArmMotorsCmd extends Command{
     public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, AnalogEncoder pitchMotorEncoder, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
         Supplier<Boolean> pushMotorRunning, Supplier<Boolean> intakeMotorsRunning){
         this.pitchMotor = pitchMotor;
-        /**
         this.shooterMotorsSpeaker = shooterMotorsSpeaker;
         this.shooterMotorsAmp = shooterMotorsAmp;
         this.pushMotorRunning = pushMotorRunning;
         this.intakeMotorsRunning = intakeMotorsRunning;
-        */
         this.armSubsystem = armSubsystem;
         this.pitchMotorEncoder = pitchMotorEncoder;
         addRequirements(armSubsystem);
@@ -35,17 +33,15 @@ public class ArmMotorsCmd extends Command{
     public void execute() {
         pitchMotorSpeed = pitchMotor.get();
         if (pitchMotorSpeed < 0.1 && pitchMotorSpeed > -0.1) pitchMotorSpeed = 0.0;
-        pitchMotorSpeed = pitchMotorSpeed > 0.5 ? 0.5 : pitchMotorSpeed;
-        pitchMotorSpeed = pitchMotorSpeed < -0.5 ? -0.5 : pitchMotorSpeed;
-        if (pitchMotorEncoder.getDistance() >= PitchMotor.kPitchEncoderPositiveLimit || pitchMotorEncoder.getDistance() <= PitchMotor.kPitchEncoderNegativeLimit)
-            pitchMotorSpeed = 0.0;
-        shooterMotorsSpeed = shooterMotorsSpeaker.get() ? 0.5 : 0;
-        shooterMotorsSpeed = shooterMotorsAmp.get() ? 0.25 : 0;
+        pitchMotorSpeed = pitchMotorSpeed * 0.5;
+        shooterMotorsSpeed = shooterMotorsSpeaker.get() ? 0.5 : shooterMotorsAmp.get() ? 0.25 : 0;
         pushMotorSpeed = pushMotorRunning.get() ? 0.5 : 0;
         intakeMotorsSpeed = intakeMotorsRunning.get() ? 0.5 : 0;
         // if (pitchMotorSpeed > 0.5) pitchMotorSpeed = 0.5;
         // if (pitchMotorSpeed < -0.5) pitchMotorSpeed = -0.5;
-        // if (shooterMotorsRunning.get()) shooterMotorsSpeed = 0.5;
+        // if (shooterMotorsSpeaker.get()) shooterMotorsSpeed = 0.5;
+        // else if (shooterMotorsAmp.get()) shooterMotorsSpeed = 0.25;
+        // else shooterMotorsSpeed = 0.0;
         // if (pushMotorRunning.get()) pushMotorSpeed = 0.5;
         // if (intakeMotorsRunning.get()) intakeMotorsSpeed = 0.5;
         armSubsystem.runPitchMotor(pitchMotorSpeed);

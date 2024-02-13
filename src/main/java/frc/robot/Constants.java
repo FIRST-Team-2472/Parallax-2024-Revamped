@@ -119,7 +119,6 @@ public final class Constants {
       public static final int kPitchMotorId = 58;
       public static final double kPitchMotorKP = 0.1;
       public static final int kPitchEncoderId = 0;
-      public static final double kPitchEncoderOffset = 0.0;
       public static final double kPitchEncoderForwardLimit = 10000.1;
       public static final double kPitchEncoderReverseLimit = -2152.3;
     }

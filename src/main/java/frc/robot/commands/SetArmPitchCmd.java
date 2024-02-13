@@ -1,19 +1,22 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Arm_Motors_Subsystem;
+import frc.robot.Constants.ArmMotorsConstants.PitchMotor;
+import frc.robot.subsystems.ArmMotorsSubsystem;
 
 public class SetArmPitchCmd extends Command {
-    private Arm_Motors_Subsystem armMotorsSubsystem;
+    private ArmMotorsSubsystem armMotorsSubsystem;
     private final double angleDeg;
     private final Timer timer;
+    private AnalogEncoder pitchMotorEncoder;
     
-    
-    public SetArmPitchCmd(Arm_Motors_Subsystem armMotorsSubsystem, double angleDeg) {
+    public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, AnalogEncoder pitchMotorEncoder, double angleDeg) {
         this.angleDeg = angleDeg;
         this.timer = new Timer();
         this.armMotorsSubsystem = armMotorsSubsystem;
+        this.pitchMotorEncoder = pitchMotorEncoder;
         addRequirements(armMotorsSubsystem);
     }
 
@@ -34,7 +37,7 @@ public class SetArmPitchCmd extends Command {
 
     @Override
     public boolean isFinished() {
-        return (Math.abs(armMotorsSubsystem.getPitchEncoderDeg() - angleDeg) < 1) || (timer.hasElapsed(5));
+        return (Math.abs(pitchMotorEncoder.getDistance() - angleDeg) < 1) || (timer.hasElapsed(5));
     }
 
 }
