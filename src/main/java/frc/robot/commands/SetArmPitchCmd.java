@@ -1,0 +1,40 @@
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Arm_Motors_Subsystem;
+
+public class SetArmPitchCmd extends Command {
+    private Arm_Motors_Subsystem armMotorsSubsystem;
+    private final double angleDeg;
+    private final Timer timer;
+    
+    
+    public SetArmPitchCmd(Arm_Motors_Subsystem armMotorsSubsystem, double angleDeg) {
+        this.angleDeg = angleDeg;
+        this.timer = new Timer();
+        this.armMotorsSubsystem = armMotorsSubsystem;
+        addRequirements(armMotorsSubsystem);
+    }
+
+    @Override
+    public void initialize() {
+        timer.restart();
+    }
+
+    @Override
+    public void execute() {
+        armMotorsSubsystem.runPitchMotorWithKP(angleDeg);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        armMotorsSubsystem.runPitchMotor(0.0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return (Math.abs(armMotorsSubsystem.getPitchEncoderDeg() - angleDeg) < 1) || (timer.hasElapsed(5));
+    }
+
+}

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -16,24 +17,54 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     private CANSparkMax intakeTopMotor = new CANSparkMax(IntakeMotors.kTopIntakeMotorId, MotorType.kBrushless);
     private CANSparkMax intakeBottomMotor = new CANSparkMax(IntakeMotors.kBottomIntakeMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
+<<<<<<< HEAD:src/main/java/frc/robot/subsystems/ArmMotorsSubsystem.java
+=======
+    private AnalogEncoder pitchAnalogEncoder = new AnalogEncoder(PitchMotor.kPitchEncoderId);
 
-    public void runPitchMotor(Double motorSpeed) {
+    public Arm_Motors_Subsystem() {
+        resetPitchEncoder();
+        //pitchMotor.getEncoder().setPosition(getPitchEncoderDeg() * "Conversion Factor");
+        pitchMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) PitchMotor.kPitchEncoderReverseLimit);
+        pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
+    }
+
+    public void resetPitchEncoder() {
+        // pitchAnalogEncoder.reset();
+        pitchAnalogEncoder.setDistancePerRotation(360);
+    }
+
+    public double getPitchEncoderDeg() {
+        return pitchAnalogEncoder.getDistance();
+    }
+>>>>>>> Encoder-and-KP:src/main/java/frc/robot/subsystems/Arm_Motors_Subsystem.java
+
+    public void runPitchMotor(double motorSpeed) {
         pitchMotor.set(motorSpeed);
     }
 
-    public void runShooterMotors(Double motorSpeed) {
+    public void runShooterMotors(double motorSpeed) {
         shooterTopMotor.set(-motorSpeed);
         shooterBottomMotor.set(motorSpeed);
     }
 
-    public void runPushMotor(Double motorSpeed) {
+    public void runPushMotor(double motorSpeed) {
         pushMotor.set(motorSpeed);
     }
 
-    public void runIntakeMotors(Double motorSpeed) {
+    public void runIntakeMotors(double motorSpeed) {
         intakeTopMotor.set(motorSpeed);
         intakeBottomMotor.set(-motorSpeed);
     }
 
+<<<<<<< HEAD:src/main/java/frc/robot/subsystems/ArmMotorsSubsystem.java
 } 
     
+=======
+    public void runPitchMotorWithKP(double angleDeg) {
+
+        double speed = pitchPIDController.calculate(getPitchEncoderDeg(), angleDeg);
+        
+        runPitchMotor(speed);
+    }
+}
+>>>>>>> Encoder-and-KP:src/main/java/frc/robot/subsystems/Arm_Motors_Subsystem.java

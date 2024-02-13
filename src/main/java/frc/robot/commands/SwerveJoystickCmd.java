@@ -7,8 +7,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class SwerveJoystickCmd extends Command{
-    
+public class SwerveJoystickCmd extends Command {
+
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Supplier<Boolean> slowed;
@@ -22,14 +22,13 @@ public class SwerveJoystickCmd extends Command{
         addRequirements(swerveSubsystem);
     }
 
-
     @Override
     public void initialize(){
         swerveSubsystem.intializeJoystickRunFromField();
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         // get joystick values
         double xSpeed = xSpdFunction.get();
         double ySpeed = ySpdFunction.get();
@@ -40,21 +39,16 @@ public class SwerveJoystickCmd extends Command{
         ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? (!slowed.get() ? ySpeed : ySpeed * OperatorConstants.kSlowedSpeed) : 0.0;
         turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
 
-        swerveSubsystem.excuteJoystickRunFromField(xSpeed, ySpeed, turningSpeed);
 
-        // Log Swerve Info
-        swerveSubsystem.logSwerveStates();
-        swerveSubsystem.logPigeonState();
-        swerveSubsystem.logOdometry();
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         swerveSubsystem.stopModules();
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 }
