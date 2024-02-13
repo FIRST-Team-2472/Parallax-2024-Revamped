@@ -41,8 +41,10 @@ public class RobotContainer {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
     ()-> -leftJoystick.getY(),
      ()-> leftJoystick.getX(),
-      ()-> rightJoystick.getX()
+      ()-> rightJoystick.getX(),
+       ()-> rightJoystick.getRawButton(1)
     ));
+    
     configureBindings();
 
     m_chooser.addOption(placementone, placementone);
