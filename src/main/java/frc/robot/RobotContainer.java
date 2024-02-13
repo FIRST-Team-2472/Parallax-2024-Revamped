@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ArmMotorsConstants.Encoder;
+import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -26,14 +29,14 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
 
-  Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
-
   XboxController xbox = new XboxController(OperatorConstants.kXboxControllerPort);
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
   public static Joystick rightJoystick = new Joystick(OperatorConstants.kRightJoyPort);
-  
+  ArmMotorsSubsystem armSubsystem = new ArmMotorsSubsystem();
+  private AnalogEncoder encoder = new AnalogEncoder(Encoder.kEncoderPort);
+
   public RobotContainer() {
-    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
+    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, encoder, () -> xbox.getLeftY(), // Pitch Motor
       () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
         () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
           () -> xbox.getRightBumper())); // Intake Motors
@@ -58,8 +61,13 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(rightJoystick, 4).onTrue(new InstantCommand(swerveSubsystem :: zeroHeading));
+    if (xbox.getAButton())
+      resetEncoder();
   }
-
+  public void resetEncoder(){
+    encoder.reset();
+    encoder.setDistancePerRotation(360);
+  }
   public Command getAutonomousCommand() {
     System.out.println("Autos Begun");
        

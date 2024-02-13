@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmMotorsConstants.*;
 
-public class Arm_Motors_Subsystem extends SubsystemBase {
+public class ArmMotorsSubsystem extends SubsystemBase {
     private CANSparkMax pitchMotor = new CANSparkMax(PitchMotor.kPitchMotorId, MotorType.kBrushless);
     private CANSparkMax shooterTopMotor = new CANSparkMax(ShooterMotors.kTopShooterMotorId, MotorType.kBrushless);
     private CANSparkMax shooterBottomMotor = new CANSparkMax(ShooterMotors.kBottomShooterMotorId, MotorType.kBrushless);
@@ -16,11 +16,6 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
     private CANSparkMax intakeTopMotor = new CANSparkMax(IntakeMotors.kTopIntakeMotorId, MotorType.kBrushless);
     private CANSparkMax intakeBottomMotor = new CANSparkMax(IntakeMotors.kBottomIntakeMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
-
-    public Arm_Motors_Subsystem() {
-        resetPitchEncoder();
-
-    }
 
     public void runPitchMotor(Double motorSpeed) {
         pitchMotor.set(motorSpeed);
@@ -39,4 +34,6 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
         intakeTopMotor.set(motorSpeed);
         intakeBottomMotor.set(-motorSpeed);
     }
-}
+
+} 
+    

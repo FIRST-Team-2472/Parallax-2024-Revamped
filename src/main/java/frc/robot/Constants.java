@@ -122,6 +122,12 @@ public final class Constants {
       public static final double kPitchEncoderPositiveLimit = 10000.1;
       public static final double kPitchEncoderNegativeLimit = -2152.3;
     }
+    public static class Encoder{
+      public static final int kEncoderPort = 0;
+      public static final double kEncoderPositiveLimit = 1000000.0;//set limit
+      public static final double kEncoderNegativeLimit = -10000000.0;//set limit
+    }
+    /**
     public static class ShooterMotors{
       public static final int kTopShooterMotorId = 62; //conflicts with other constants
       public static final int kBottomShooterMotorId = 44;
@@ -133,6 +139,7 @@ public final class Constants {
       public static final int kTopIntakeMotorId = 41;
       public static final int kBottomIntakeMotorId = 60; //conflicts with other constants
     }
+    */
 
     
   }
