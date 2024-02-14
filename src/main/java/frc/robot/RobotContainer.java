@@ -39,7 +39,8 @@ public class RobotContainer {
       () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
       () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
       () -> xbox.getRightBumper())); // Intake Motors
-
+    pitchMotorEncoder.reset();
+    pitchMotorEncoder.setDistancePerRotation(360);
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
       ()-> -leftJoystick.getY(),
       ()-> leftJoystick.getX(),
@@ -61,16 +62,10 @@ public class RobotContainer {
   private void configureBindings() {
     new JoystickButton(rightJoystick, 4).onTrue(new InstantCommand(swerveSubsystem :: zeroHeading));
     
-    //new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
-    if (xbox.getAButton())
-      resetEncoder();
-  }
-  public void resetEncoder(){
-    pitchMotorEncoder.reset();
-    pitchMotorEncoder.setDistancePerRotation(360);
   }
   public Command getAutonomousCommand() {
     System.out.println("Autos Begun");
