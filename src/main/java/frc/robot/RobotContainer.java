@@ -17,7 +17,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 public class RobotContainer {
-  private final String placementone = "Robot 1", placementtwo = "Robot 2", placementthree = "Robot 3", path4 =  "2 in Speaker from Position 2", testingPath =  "Test Path";
+  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", testingPath =  "Test Path";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
