@@ -36,12 +36,12 @@ public class CommandSequences {
         exampleNodes[2] = simplePose(0, 1, 0);
         exampleNodes[3] = simplePose(1, 1, 0);
 
-        // Source side of Speaker
-        importantNodes[0] = simplePose(.55, 4.11, 0);
+        // non-amp side of Speaker
+        importantNodes[0] = simplePose(.55, 4.10, 0);
         // In front of Note
-        importantNodes[1] = simplePose(2.15, 4.08, 0);
+        importantNodes[1] = simplePose(2.2, 4.10, 0);
         // Near front of Speaker
-        importantNodes[2] = simplePose(2.13, 5.63, 0);
+        importantNodes[2] = simplePose(2.2, 5.57, 0);
         // In from of amp
         importantNodes[3] = simplePose(1.84, 7.32, -90);
 
@@ -56,8 +56,8 @@ public class CommandSequences {
 
         // Collecting the near nodes
         collectingNearNodes[0] = simplePose(2.15, 7, 0);
-        collectingNearNodes[1] = simplePose(2.15, 5.5,	0);
-        collectingNearNodes[2] = simplePose(2.15, 4.08, 0);
+        collectingNearNodes[1] = simplePose(2.15, 5.5,	0); //same as imp. n. [2];
+        collectingNearNodes[2] = simplePose(2.15, 4.08, 0); //same as imp. n. [3];
 
         // Shooting to the speaker from the near nodes
         shootingNearNodes[0] = simplePose(2.9, 7, 30);
@@ -65,49 +65,76 @@ public class CommandSequences {
         shootingNearNodes[2] = simplePose(2.9, 4.08, -30);
     }
 
-    public Command robot1Command(SwerveSubsystem swerveSubsystem) {
+    public Command testingPath(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
-        swerveSubsystem.resetOdometry(importantNodes[0]);
+        swerveSubsystem.resetOdometry(new Pose2d());
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, importantNodes[0], List.of(), importantNodes[1]),
-                genratePath(swerveSubsystem, importantNodes[1], List.of(importantNodes[2].getPositivePoint()), importantNodes[3]),
+                genratePath(swerveSubsystem, exampleNodes[0], List.of(), exampleNodes[1]),
+                genratePath(swerveSubsystem, exampleNodes[1], List.of(), exampleNodes[3]),
                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(270))
                 
             );
     }
 
-    public Command robot2Command(SwerveSubsystem swerveSubsystem) {
+    public Command twoinampCommand(SwerveSubsystem swerveSubsystem) {
+
+        System.out.println("Autos Happening");
+        System.out.println(exampleNodes[0].toString());
+        swerveSubsystem.resetOdometry(startingNodes[0]);
+
+        return new SequentialCommandGroup(
+                genratePath(swerveSubsystem, startingNodes[0], List.of(), importantNodes[3]),
+                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]),
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(0))
+                
+            );
+    }
+
+    public Command twoinspeakerfrompositiontwoCommand(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
         swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[0]),
-                genratePath(swerveSubsystem, exampleNodes[0], List.of(), exampleNodes[1])
+                genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]),
+                genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2])
 
         );
     }
 
-    public Command robot3Command(SwerveSubsystem swerveSubsystem) {
+    public Command twoinspeakerfrompositiononeCommand(SwerveSubsystem swerveSubsystem) {
         swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, new PosPose2d(), List.of(), exampleNodes[2]),
-                genratePath(swerveSubsystem, exampleNodes[2], List.of(), exampleNodes[3]));
+                genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]));
     }
 
-    public Command twoInSpeakerPosTwo(SwerveSubsystem swerveSubsystem){
+    public Command twoinspeakerfrompositionthreeCommand(SwerveSubsystem swerveSubsystem){
         swerveSubsystem.resetOdometry(startingNodes[0]);
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, startingNodes[0], List.of(), ampNode),
-                genratePath(swerveSubsystem, ampNode, List.of(), collectingNearNodes[0]),
-                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), ampNode)
-            );
+                genratePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[1]),
+                genratePath(swerveSubsystem, importantNodes[1], List.of(importantNodes[3].getPositivePoint()), startingNodes[1]));
+    }
+
+    public Command oneinamponefromspeakerpositiononeCommand(SwerveSubsystem swerveSubsystem){
+        swerveSubsystem.resetOdometry(startingNodes[0]);
+
+        return new SequentialCommandGroup(
+                genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
+                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]));
+    }
+
+    public Command threeinspeakerfrompositionone(SwerveSubsystem swerveSubsystem){
+        swerveSubsystem.resetOdometry(startingNodes[0]);
+
+        return new SequentialCommandGroup(
+                genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
+                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]));
     }
 
     // generates a path via points

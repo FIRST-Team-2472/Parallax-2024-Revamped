@@ -17,7 +17,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 public class RobotContainer {
-  private final String placementone = "Robot 1", placementtwo = "Robot 2", placementthree = "Robot 3", path4 =  "2 in Speaker from Position 2";
+  private final String placementone = "Robot 1", placementtwo = "Robot 2", placementthree = "Robot 3", path4 =  "2 in Speaker from Position 2", testingPath =  "Test Path";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -63,17 +63,21 @@ public class RobotContainer {
        
       m_autoSelected = m_chooser.getSelected();
 
+      if (m_autoSelected == testingPath)
+        return new ParallelCommandGroup(commandSequences.testingPath(swerveSubsystem));
+
+
       if (m_autoSelected == placementone)
-      return new ParallelCommandGroup(commandSequences.robot1Command(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinampCommand(swerveSubsystem));
 
       if (m_autoSelected == placementtwo)
-      return new ParallelCommandGroup(commandSequences.robot2Command(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiontwoCommand(swerveSubsystem));
 
       if (m_autoSelected == placementthree)
-      return new ParallelCommandGroup(commandSequences.robot3Command(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiononeCommand(swerveSubsystem));
 
       if (m_autoSelected == path4)
-      return new ParallelCommandGroup(commandSequences.twoInSpeakerPosTwo(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositionthreeCommand(swerveSubsystem));
 
     return null;
   }
