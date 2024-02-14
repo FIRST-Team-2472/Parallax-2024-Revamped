@@ -66,7 +66,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(rightJoystick, 4).onTrue(new InstantCommand(swerveSubsystem :: zeroHeading));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, 45));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, pitchMotorEncoder, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
     if (xbox.getAButton())
       resetEncoder();
   }

@@ -121,6 +121,10 @@ public final class Constants {
       public static final int kPitchEncoderId = 0;
       public static final double kPitchEncoderForwardLimit = 10000.1;
       public static final double kPitchEncoderReverseLimit = -2152.3;
+      public static final double kPitchMotorIntakePresetAngle = 0.0;
+      public static final double kPitchMotorSpeakerPresetAngle = 0.0;
+      public static final double kPitchMotorAmpPresetAngle = 0.0;
+      public static final double kPitchMotorStandbyPresetAngle = 0.0;
     }
     public static class ShooterMotors{
       public static final int kTopShooterMotorId = 44; //conflicts with other constants

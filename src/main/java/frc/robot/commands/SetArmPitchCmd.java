@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ArmMotorsConstants.PitchMotor;
 import frc.robot.subsystems.ArmMotorsSubsystem;
 
 public class SetArmPitchCmd extends Command {
