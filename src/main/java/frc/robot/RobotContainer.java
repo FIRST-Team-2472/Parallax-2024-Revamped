@@ -49,6 +49,7 @@ public class RobotContainer {
     m_chooser.addOption(placementtwo, placementtwo);
     m_chooser.addOption(placementthree, placementthree);
     m_chooser.addOption(path4, path4);
+    m_chooser.addOption(testingPath, testingPath);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);

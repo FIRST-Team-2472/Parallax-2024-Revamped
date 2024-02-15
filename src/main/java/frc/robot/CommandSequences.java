@@ -86,8 +86,8 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[0]);
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, startingNodes[0], List.of(), importantNodes[3]),
-                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]),
+                genratePath(swerveSubsystem, startingNodes[0], List.of(), collectingNearNodes[0]),
+                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), startingNodes[0]),
                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(0))
                 
             );
