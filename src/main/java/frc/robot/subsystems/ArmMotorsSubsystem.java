@@ -5,9 +5,11 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.ArmMotorsConstants.*;
 
 public class ArmMotorsSubsystem extends SubsystemBase {
@@ -18,11 +20,10 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     private CANSparkMax intakeTopMotor = new CANSparkMax(IntakeMotors.kTopIntakeMotorId, MotorType.kBrushless);
     private CANSparkMax intakeBottomMotor = new CANSparkMax(IntakeMotors.kBottomIntakeMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
-    private AnalogEncoder pitchMotorEncoder;
+    public AnalogEncoder pitchMotorEncoder = new AnalogEncoder(ArmMotorsConstants.PitchMotor.kPitchEncoderId);
     public double baseIdleForce;
 
-    public ArmMotorsSubsystem(AnalogEncoder pitchMotorEncoder) {
-        this.pitchMotorEncoder = pitchMotorEncoder;
+    public ArmMotorsSubsystem() {
         shooterTopMotor.restoreFactoryDefaults();
         shooterBottomMotor.restoreFactoryDefaults();
         pushMotor.restoreFactoryDefaults();
@@ -33,6 +34,8 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         pitchMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) PitchMotor.kPitchEncoderReverseLimit);
         pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
 
+        pitchMotorEncoder.reset();
+        pitchMotorEncoder.setDistancePerRotation(360);
     }
 
     @Override
