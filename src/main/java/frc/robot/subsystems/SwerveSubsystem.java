@@ -100,6 +100,10 @@ public class SwerveSubsystem extends SubsystemBase{
         yController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
         thetaController = new PIDController(TargetPosConstants.kPAngleController, 0, 0);
 
+
+        /* Maybe the cause of the autonomous not working. When we call generate path in command sequences the swerveSubsystem is 
+         called 1st and then it trys to zero the heading! This might be a big advancement
+        */
         new Thread(() -> {
             try{
                 Thread.sleep(1000);
