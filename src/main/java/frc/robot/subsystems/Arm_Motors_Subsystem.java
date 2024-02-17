@@ -32,7 +32,7 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
         return pitchAnalogEncoder.getDistance();
     }
 
-    public void runPitchMotor(Double motorSpeed) {
+    public void runPitchMotor(double motorSpeed) {
         pitchMotor.set(motorSpeed);
     }
 
@@ -45,7 +45,7 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
         pushMotor.set(motorSpeed);
     }
 
-    public void runIntakeMotors(Double motorSpeed) {
+    public void runIntakeMotors(double motorSpeed) {
         intakeTopMotor.set(motorSpeed);
         intakeBottomMotor.set(-motorSpeed);
     }
