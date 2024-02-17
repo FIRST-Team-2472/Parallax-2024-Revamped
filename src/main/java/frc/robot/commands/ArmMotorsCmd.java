@@ -37,7 +37,7 @@ public class ArmMotorsCmd extends Command{
         if (pitchMotorSpeed < 0.1 && pitchMotorSpeed > -0.1) pitchMotorSpeed = 0.0;
         pitchMotorSpeed *= 0.3;
         shooterMotorsSpeed = shooterMotorsSpeaker.get() ? .75 : (shooterMotorsAmp.get() ? 0.5 : 0);
-        pushMotorSpeed = pushMotorRunning.get() ? 0.5 : 0;
+        pushMotorSpeed = pushMotorRunning.get() ? 0.5 : (intakeMotorsRunning.get() && !photoElectricSensor.get() ? 0.2 : 0);
         intakeMotorsSpeed = intakeMotorsRunning.get() && !photoElectricSensor.get() ? 1.0 : 0;
         armSubsystem.runPitchMotor(pitchMotorSpeed);
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
