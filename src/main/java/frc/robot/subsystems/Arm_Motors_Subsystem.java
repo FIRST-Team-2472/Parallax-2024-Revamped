@@ -36,12 +36,12 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
         pitchMotor.set(motorSpeed);
     }
 
-    public void runShooterMotors(Double motorSpeed) {
+    public void runShooterMotors(double motorSpeed) {
         shooterTopMotor.set(-motorSpeed);
         shooterBottomMotor.set(motorSpeed);
     }
 
-    public void runPushMotor(Double motorSpeed) {
+    public void runPushMotor(double motorSpeed) {
         pushMotor.set(motorSpeed);
     }
 

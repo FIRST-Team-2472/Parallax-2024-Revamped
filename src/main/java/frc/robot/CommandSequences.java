@@ -22,6 +22,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class CommandSequences {
+        private runShooter runShooter;
 
     PosPose2d[] exampleNodes = new PosPose2d[4];
     PosPose2d[] importantNodes = new PosPose2d[4];
@@ -191,4 +192,5 @@ public class CommandSequences {
     public PosPose2d simplePose(double x, double y, double angleDegrees) {
         return new PosPose2d(x, y, Rotation2d.fromDegrees(angleDegrees));
     }
+
 }
