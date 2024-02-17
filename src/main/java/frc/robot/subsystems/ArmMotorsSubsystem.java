@@ -25,6 +25,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
     public AnalogEncoder pitchMotorEncoder = new AnalogEncoder(ArmMotorsConstants.PitchMotor.kPitchEncoderId);
     ShuffleboardTab encoderTab = Shuffleboard.getTab("Absolute Encoder");
+    private GenericEntry internalEncoderPosition;
     private GenericEntry encoderVoltage;
     private GenericEntry encoderDeg;
     private GenericEntry pitchMotorSpeed;
@@ -42,12 +43,15 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
 
         pitchMotorEncoder.setDistancePerRotation(360);
+        pitchMotor.getEncoder().setPositionConversionFactor(PitchMotor.kPitchInternalEncoderConversionFactor); // 44.44444...
+        pitchMotor.getEncoder().setPosition(getEncoderDeg());
 
         /* Shuffleboard */
 
         encoderVoltage = encoderTab.add("Encoder Voltage", 0.0d).getEntry();
         encoderDeg = encoderTab.add("Encoder Degrees", 0.0d).getEntry();
         pitchMotorSpeed = encoderTab.add("Pitch Motor Speed", 0.0d).getEntry();
+        internalEncoderPosition = encoderTab.add("Internal Encoder Position", 0.0d).getEntry();
     }
 
     @Override
@@ -81,6 +85,8 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         encoderDeg.setDouble(getEncoderDeg());
         // The speed that the speed controller is applying to the motor.
         pitchMotorSpeed.setDouble(pitchMotor.get());
+
+        internalEncoderPosition.setDouble(pitchMotor.getEncoder().getPosition());
     }
 
     double addBaseIdleForce(double motorSpeed) {
