@@ -23,7 +23,8 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class CommandSequences {
-        private runShooter runShooter;
+    private runShooter runShooter;
+    private Arm_Motors_Subsystem armSubsystem;
 
     PosPose2d[] exampleNodes = new PosPose2d[4];
     PosPose2d[] importantNodes = new PosPose2d[4];
@@ -88,7 +89,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[0]);
 
         return new SequentialCommandGroup(
-                new runShooter(),
+                new runShooter(armSubsystem),
                 genratePath(swerveSubsystem, startingNodes[0], List.of(), collectingNearNodes[0]),
                 genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), startingNodes[0]),
                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(365))  
