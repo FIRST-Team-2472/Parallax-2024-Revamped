@@ -3,7 +3,9 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.SensorConstants;
 import frc.robot.subsystems.ArmMotorsSubsystem;
 
 public class ArmMotorsCmd extends Command{
@@ -12,6 +14,7 @@ public class ArmMotorsCmd extends Command{
     private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, pushMotorRunning;
     private ArmMotorsSubsystem armSubsystem;
     private AnalogEncoder pitchMotorEncoder;
+    DigitalInput photoElectricSensor = new DigitalInput(SensorConstants.kPhotoElectricSensorID);
     public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, AnalogEncoder pitchMotorEncoder, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
         Supplier<Boolean> pushMotorRunning, Supplier<Boolean> intakeMotorsRunning){
         this.pitchMotor = pitchMotor;
@@ -34,8 +37,8 @@ public class ArmMotorsCmd extends Command{
         if (pitchMotorSpeed < 0.1 && pitchMotorSpeed > -0.1) pitchMotorSpeed = 0.0;
         pitchMotorSpeed *= 0.3;
         shooterMotorsSpeed = shooterMotorsSpeaker.get() ? .75 : (shooterMotorsAmp.get() ? 0.5 : 0);
-        pushMotorSpeed = pushMotorRunning.get() ? 0.5 : 0;
-        intakeMotorsSpeed = intakeMotorsRunning.get() ? 1.0 : 0;
+        pushMotorSpeed = pushMotorRunning.get() ? 0.5 : (intakeMotorsRunning.get() && !photoElectricSensor.get() ? 0.2 : 0);
+        intakeMotorsSpeed = intakeMotorsRunning.get() && !photoElectricSensor.get() ? 1.0 : 0;
         armSubsystem.runPitchMotor(pitchMotorSpeed);
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
         armSubsystem.runPushMotor(pushMotorSpeed);
