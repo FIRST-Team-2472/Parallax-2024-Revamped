@@ -5,8 +5,11 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmMotorsConstants;
@@ -21,6 +24,10 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     private CANSparkMax intakeBottomMotor = new CANSparkMax(IntakeMotors.kBottomIntakeMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
     public AnalogEncoder pitchMotorEncoder = new AnalogEncoder(ArmMotorsConstants.PitchMotor.kPitchEncoderId);
+    ShuffleboardTab encoderTab = Shuffleboard.getTab("Absolute Encoder");
+    private GenericEntry encoderVoltage;
+    private GenericEntry encoderDeg;
+    private GenericEntry pitchMotorSpeed;
     public double baseIdleForce;
 
     public ArmMotorsSubsystem() {
@@ -34,8 +41,13 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         pitchMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) PitchMotor.kPitchEncoderReverseLimit);
         pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
 
-        pitchMotorEncoder.reset();
         pitchMotorEncoder.setDistancePerRotation(360);
+
+        /* Shuffleboard */
+
+        encoderVoltage = encoderTab.add("Encoder Voltage", 0.0d).getEntry();
+        encoderDeg = encoderTab.add("Encoder Degrees", 0.0d).getEntry();
+        pitchMotorSpeed = encoderTab.add("Pitch Motor Speed", 0.0d).getEntry();
     }
 
     @Override
@@ -58,6 +70,17 @@ public class ArmMotorsSubsystem extends SubsystemBase {
 
         // Pass in 0, as runPitchMotor() already adds the baseIdleForce
         runPitchMotor(0);
+
+        /* Shuffleboard */
+
+        // `getAbsolutePosition()` is the *absolute* position of the encoder, no
+        // rollovers, no offset.
+        encoderVoltage.setDouble(pitchMotorEncoder.getAbsolutePosition());
+        // `getDistance()` is the position of the encoder scaled by the distance per
+        // rotation, and does have rollovers.
+        encoderDeg.setDouble(getEncoderDeg());
+        // The speed that the speed controller is applying to the motor.
+        pitchMotorSpeed.setDouble(pitchMotor.get());
     }
 
     double addBaseIdleForce(double motorSpeed) {
@@ -65,7 +88,11 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     }
 
     public void runPitchMotor(double motorSpeed) {
-        pitchMotor.set(addBaseIdleForce(motorSpeed));
+        //pitchMotor.set(addBaseIdleForce(motorSpeed));
+    }
+
+    public double getEncoderDeg() {
+        return (pitchMotorEncoder.getDistance() + PitchMotor.kPitchEncoderOffset);
     }
 
     public void runShooterMotors(double motorSpeed) {
@@ -75,6 +102,10 @@ public class ArmMotorsSubsystem extends SubsystemBase {
 
     public void runPushMotor(double motorSpeed) {
         pushMotor.set(motorSpeed);
+    }
+
+    public void resetEncoder(){
+        pitchMotorEncoder.reset();
     }
 
     public void runIntakeMotors(double motorSpeed) {

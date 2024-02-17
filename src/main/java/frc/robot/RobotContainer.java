@@ -63,6 +63,7 @@ public class RobotContainer {
     new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue(new InstantCommand(armSubsystem :: resetEncoder));
   }
   public Command getAutonomousCommand() {
     System.out.println("Autos Begun");
