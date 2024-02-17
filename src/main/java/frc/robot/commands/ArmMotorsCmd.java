@@ -53,7 +53,7 @@ public class ArmMotorsCmd extends Command{
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
 
         //runs the push motor when ready to fire or during intaking, until it hit the sensor
-        pushMotorSpeed = ArmMotorsSubsystem.getShooterSpeed() > 2800 ? 0.5 : (intakeMotorsRunning.get() && !photoElectricSensor.get() ? 0.2 : 0);
+        pushMotorSpeed = ArmMotorsSubsystem.getShooterSpeed() < -3500 ? 0.5 : (intakeMotorsRunning.get() && !photoElectricSensor.get() ? 0.2 : 0);
         armSubsystem.runPushMotor(pushMotorSpeed);
 
         //runs the intake motors until the sensor is triggered

@@ -35,9 +35,9 @@ public class RobotContainer {
   
 
   public RobotContainer() {
-    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, pitchMotorEncoder, () -> -xbox.getLeftY(), // Pitch Motor
+    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, pitchMotorEncoder, () -> xbox.getLeftY(), // Pitch Motor
       () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
-      () -> xbox.getRightBumper())); // Intake Motors
+      () -> leftJoystick.getRawButton(1))); // Intake Motors
 
     pitchMotorEncoder.reset();
     pitchMotorEncoder.setDistancePerRotation(360);
