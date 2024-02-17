@@ -14,16 +14,17 @@ public class ArmMotorsCmd extends Command{
     // Suppliers are used so we can get constant updates to the values
     private Supplier<Double> pitchMotor;
     private Double intakeMotorsSpeed, shooterMotorsSpeed, pushMotorSpeed, pitchMotorSpeed;
-    private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, pushMotorRunning;
+    private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp;
     private ArmMotorsSubsystem armSubsystem;
     private AnalogEncoder pitchMotorEncoder;
     DigitalInput photoElectricSensor = new DigitalInput(SensorConstants.kPhotoElectricSensorID);
+
     public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, AnalogEncoder pitchMotorEncoder, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
-        Supplier<Boolean> pushMotorRunning, Supplier<Boolean> intakeMotorsRunning){
+         Supplier<Boolean> intakeMotorsRunning){
+
         this.pitchMotor = pitchMotor;
         this.shooterMotorsSpeaker = shooterMotorsSpeaker;
         this.shooterMotorsAmp = shooterMotorsAmp;
-        this.pushMotorRunning = pushMotorRunning;
         this.intakeMotorsRunning = intakeMotorsRunning;
         this.armSubsystem = armSubsystem;
         this.pitchMotorEncoder = pitchMotorEncoder;
@@ -52,7 +53,7 @@ public class ArmMotorsCmd extends Command{
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
 
         //runs the push motor when ready to fire or during intaking, until it hit the sensor
-        pushMotorSpeed = pushMotorRunning.get() ? 0.5 : (intakeMotorsRunning.get() && !photoElectricSensor.get() ? 0.2 : 0);
+        pushMotorSpeed = ArmMotorsSubsystem.getShooterSpeed() > 2800 ? 0.5 : (intakeMotorsRunning.get() && !photoElectricSensor.get() ? 0.2 : 0);
         armSubsystem.runPushMotor(pushMotorSpeed);
 
         //runs the intake motors until the sensor is triggered
