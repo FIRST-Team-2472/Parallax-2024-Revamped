@@ -90,6 +90,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     }
 
     double addBaseIdleForce(double motorSpeed) {
+        //clamps it between -1 and 1
         return clamp(motorSpeed + baseIdleForce, -1.0, 1.0);
     }
 
