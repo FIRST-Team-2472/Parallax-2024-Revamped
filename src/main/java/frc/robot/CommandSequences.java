@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class CommandSequences {
     private runShooter runShooter;
+    private runIntake runIntake;
     private Arm_Motors_Subsystem armSubsystem;
 
     PosPose2d[] exampleNodes = new PosPose2d[4];
