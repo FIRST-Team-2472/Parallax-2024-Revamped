@@ -10,13 +10,15 @@ import frc.robot.subsystems.Arm_Motors_Subsystem;
 public class runIntake extends Command { 
 
     private Arm_Motors_Subsystem armSubsystem;
+    private ArmMotorsCmd armCmd;
     private Timer timer;
 
 
 
-    public runIntake(Arm_Motors_Subsystem armSubsystem) {
+    public runIntake(Arm_Motors_Subsystem armSubsystem, ArmMotorsCmd armCmd) {
         timer = new Timer();
         this.armSubsystem = armSubsystem;
+        this.armCmd = armCmd;
     }
 
     @Override
@@ -27,6 +29,7 @@ public class runIntake extends Command {
     @Override
     public void execute() {
         armSubsystem.runIntakeMotors(0.5);
+        armSubsystem.runPushMotor(0.1);
     }
 
     @Override

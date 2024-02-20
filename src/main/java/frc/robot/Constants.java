@@ -27,6 +27,8 @@ public final class Constants {
   public static final class SensorConstants{
     public static final int kPigeonID = 13;
     public static final double sizeOfFieldMeters = 16;
+    public static final int kPhotoElectricSensorID = 2;
+
   }
 
   public static final class OIConstants{
