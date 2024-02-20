@@ -6,9 +6,11 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmMotorsConstants.*;
+import frc.robot.Constants.SensorConstants;
 
 public class ArmMotorsSubsystem extends SubsystemBase {
     private CANSparkMax pitchMotor = new CANSparkMax(PitchMotor.kPitchMotorId, MotorType.kBrushless);
@@ -19,6 +21,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     private CANSparkMax intakeBottomMotor = new CANSparkMax(IntakeMotors.kBottomIntakeMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
     private AnalogEncoder pitchMotorEncoder;
+    DigitalInput photoElectricSensor = new DigitalInput(SensorConstants.kPhotoElectricSensorID);
     public ArmMotorsSubsystem(AnalogEncoder pitchMotorEncoder) {
         this.pitchMotorEncoder = pitchMotorEncoder;
         shooterTopMotor.restoreFactoryDefaults();
@@ -56,5 +59,9 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         double speed = pitchPIDController.calculate(pitchMotorEncoder.getDistance(), angleDeg);
         
         runPitchMotor(speed);
+    }
+
+    public boolean getPhotoElectricSensor(){
+        return photoElectricSensor.get();
     }
 }
