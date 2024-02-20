@@ -42,6 +42,16 @@ public class PnuematicsSubsystem extends SubsystemBase {
       smallLeftExtended = false;
     }
 
+    public void toggleSmallpnuematics(){
+      toggleSmallLeftPneumatic();
+      toggleSmallRightPneumatic();
+    }
+
+    public void toggleBigpnuematics(){
+      toggleBigLeftPneumatic();
+      toggleBigRightPneumatic();
+    }
+
     public void toggleBigLeftPneumatic(){
       doubleSolenoidBigLeft.toggle();
       bigLeftExtended = bigLeftExtended ? false : true;
