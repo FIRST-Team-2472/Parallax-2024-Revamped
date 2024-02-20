@@ -91,6 +91,7 @@ public class CommandSequences {
         return new SequentialCommandGroup(
                 new runShooter(armSubsystem),
                 genratePath(swerveSubsystem, startingNodes[0], List.of(), collectingNearNodes[0]),
+                new runIntake(armSubsystem),
                 genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), startingNodes[0]),
                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(365))  
             );
