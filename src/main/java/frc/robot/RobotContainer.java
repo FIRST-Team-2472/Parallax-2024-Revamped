@@ -25,7 +25,7 @@ public class RobotContainer {
 
   private final CommandSequences commandSequences = new CommandSequences();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-
+  private final PnuematicsSubsystem pnuematicsSubsystem = new PnuematicsSubsystem();
 
   XboxController xbox = new XboxController(OperatorConstants.kXboxControllerPort);
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
@@ -39,14 +39,18 @@ public class RobotContainer {
       () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
       () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
       () -> xbox.getRightBumper())); // Intake Motors
+
     pitchMotorEncoder.reset();
     pitchMotorEncoder.setDistancePerRotation(360);
+
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
       ()-> -leftJoystick.getY(),
       ()-> leftJoystick.getX(),
       ()-> rightJoystick.getX(),
       ()-> rightJoystick.getRawButton(1)
     ));
+
+    pnuematicsSubsystem.setDefaultCommand(new PnuematicsCmd(pnuematicsSubsystem));
     
     configureBindings();
 

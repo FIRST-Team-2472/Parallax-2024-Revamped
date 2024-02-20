@@ -22,6 +22,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
     private AnalogEncoder pitchMotorEncoder;
     DigitalInput photoElectricSensor = new DigitalInput(SensorConstants.kPhotoElectricSensorID);
+    
     public ArmMotorsSubsystem(AnalogEncoder pitchMotorEncoder) {
         this.pitchMotorEncoder = pitchMotorEncoder;
         shooterTopMotor.restoreFactoryDefaults();

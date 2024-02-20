@@ -161,5 +161,20 @@ public final class Constants {
     public static final double kAcceptableDistanceError = 0.04;
     public static final double kAcceptableAngleError = 1.5;
 }
+public static final class PnuematicsConstants{
+    public static final int kCompressorid = 1;
+
+    public static final int kBigLeftPnuematicInflateChannel = 1;
+    public static final int kBigLeftPnuematicDeflateChannel = 13;
+    
+    public static final int kSmallLeftPnuematicInflateChannel = 0;
+    public static final int kSmallLeftPnuematicDeflateChannel = 12;
+
+    public static final int kBigRightPnuematicInflateChannel = 3;
+    public static final int kBigRightPnuematicDeflateChannel = 15;
+    
+    public static final int kSmallRightPnuematicInflateChannel = 2;
+    public static final int kSmallRightPnuematicDeflateChannel = 14;
+}
 
 }

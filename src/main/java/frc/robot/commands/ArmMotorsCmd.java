@@ -3,9 +3,7 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.SensorConstants;
 import frc.robot.subsystems.ArmMotorsSubsystem;
 
 public class ArmMotorsCmd extends Command{
