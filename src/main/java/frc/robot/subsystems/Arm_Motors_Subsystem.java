@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmMotorsConstants.*;
-import frc.robot.Constants.SensorConstants;ase;
+import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.ArmMotorsConstants.*;
 import frc.robot.Constants.SensorConstants;
 
@@ -56,7 +56,7 @@ public class Arm_Motors_Subsystem extends SubsystemBase {
         intakeBottomMotor.set(-motorSpeed);
     }
 
-    public void getPhotoElectricSensor(double motorSpeed) {
-        return photoElectricSensor;
+    public boolean getPhotoElectricSensor() {
+        return photoElectricSensor.get();
     }
 }
