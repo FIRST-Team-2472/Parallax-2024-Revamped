@@ -94,7 +94,6 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     }
 
     public void runPitchMotor(double motorSpeed) {
-        motorSpeed *= 0.07;
         motorSpeed = addBaseIdleForce(motorSpeed);
 
         // The speed that the speed controller is applying to the motor.
@@ -126,9 +125,8 @@ public class ArmMotorsSubsystem extends SubsystemBase {
 
     public void runPitchMotorWithKP(double angleDeg) {
 
-        double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg) * 0.40);
-
-        runPitchMotor(speed);
+        double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg));
+        runPitchMotor(speed *= 0.3);
     }
 
     double clamp(double value, double min, double max) {
