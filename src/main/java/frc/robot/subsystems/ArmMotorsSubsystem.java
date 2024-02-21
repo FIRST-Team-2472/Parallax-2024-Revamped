@@ -62,7 +62,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         // and be clamped to prevent values that are too high. This basically negates
         // gravity.
         baseIdleForce = PitchMotor.kPitchBaseIdleForce
-                * Math.sin((pitchMotorEncoder.getDistance() / 360) * (2 * Math.PI));
+                * Math.sin((getEncoderDeg() / 360) * (2 * Math.PI));
 
         // If there is any sort of jittering, shaking, or no movement, try running the
         // runPitchMotor() inside here. This will prevent setting the base idle force to
@@ -83,8 +83,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         // `getDistance()` is the position of the encoder scaled by the distance per
         // rotation, and does have rollovers.
         encoderDeg.setDouble(getEncoderDeg());
-        // The speed that the speed controller is applying to the motor.
-        pitchMotorSpeed.setDouble(pitchMotor.get());
+        
 
         internalEncoderPosition.setDouble(pitchMotor.getEncoder().getPosition());
     }
@@ -95,7 +94,12 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     }
 
     public void runPitchMotor(double motorSpeed) {
-        pitchMotor.set(addBaseIdleForce(motorSpeed));
+        motorSpeed *= 0.07;
+        motorSpeed = addBaseIdleForce(motorSpeed);
+
+        // The speed that the speed controller is applying to the motor.
+        pitchMotorSpeed.setDouble(motorSpeed);
+        pitchMotor.set(motorSpeed);
     }
 
     public double getEncoderDeg() {
@@ -122,7 +126,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
 
     public void runPitchMotorWithKP(double angleDeg) {
 
-        double speed = pitchPIDController.calculate(pitchMotorEncoder.getDistance(), angleDeg);
+        double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg) * 0.40);
 
         runPitchMotor(speed);
     }

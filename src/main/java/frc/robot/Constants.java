@@ -70,7 +70,7 @@ public final class Constants {
     public static final boolean kBackLeftTurningEncoderReversed = true;
     public static final int kBackLeftDriveAbsoluteEncoderPort = 60; // conflicts with other constants
     public static final double kBackLeftDriveAbsoluteEncoderOffsetAng = 0.53;
-    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
+    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
 
     public static final int kBackRightDriveMotorPort = 56;
     public static final int kBackRightTurningMotorPort = 57;
@@ -107,13 +107,13 @@ public final class Constants {
     public static class PitchMotor {
       public static final int kPitchMotorId = 58;
       public static final double kPitchMotorKP = 0.1;
-      public static final int kPitchEncoderId = 1;
+      public static final int kPitchEncoderId = 2;
       public static final double kPitchEncoderOffset = -141;
       public static final double kPitchInternalEncoderConversionFactor = -((4 / 9) * 100); // -44.4444...
-      public static final double kPitchBaseIdleForce = 0.0;
+      public static final double kPitchBaseIdleForce = 0.052;
       public static final double kPitchEncoderForwardLimit = 10;
       public static final double kPitchEncoderReverseLimit = -88;
-      public static final double kPitchMotorIntakePresetAngle = 0.0;
+      public static final double kPitchMotorIntakePresetAngle = 45.0;
       public static final double kPitchMotorSpeakerPresetAngle = 0.0;
       public static final double kPitchMotorAmpPresetAngle = 0.0;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;

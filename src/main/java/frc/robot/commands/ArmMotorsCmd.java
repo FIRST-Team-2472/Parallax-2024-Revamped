@@ -42,7 +42,6 @@ public class ArmMotorsCmd extends Command {
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
         armSubsystem.runPushMotor(pushMotorSpeed);
         armSubsystem.runIntakeMotors(intakeMotorsSpeed);
-        System.out.println(armSubsystem.getEncoderDeg());
         super.execute();
     }
 
