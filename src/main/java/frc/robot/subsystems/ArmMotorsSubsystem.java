@@ -43,7 +43,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
 
         pitchMotorEncoder.setDistancePerRotation(360);
-        pitchMotor.getEncoder().setPositionConversionFactor(PitchMotor.kPitchInternalEncoderConversionFactor); // 44.44444...
+        pitchMotor.getEncoder().setPositionConversionFactor(PitchMotor.kPitchInternalEncoderConversionFactor); // -44.44444...
         pitchMotor.getEncoder().setPosition(getEncoderDeg());
 
         /* Shuffleboard */
@@ -95,7 +95,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     }
 
     public void runPitchMotor(double motorSpeed) {
-        //pitchMotor.set(addBaseIdleForce(motorSpeed));
+        pitchMotor.set(addBaseIdleForce(motorSpeed));
     }
 
     public double getEncoderDeg() {
