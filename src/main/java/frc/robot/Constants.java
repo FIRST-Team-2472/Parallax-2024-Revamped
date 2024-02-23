@@ -106,16 +106,16 @@ public final class Constants {
 
     public static class PitchMotor {
       public static final int kPitchMotorId = 58;
-      public static final double kPitchMotorKP = 0.1;
+      public static final double kPitchMotorKP = 0.15;
       public static final int kPitchEncoderId = 0;
       public static final double kPitchEncoderOffset = -141;
       public static final double kPitchInternalEncoderConversionFactor = -((4 / 9) * 100); // -44.4444...
       public static final double kPitchBaseIdleForce = 0.052;
       public static final double kPitchEncoderForwardLimit = 10;
       public static final double kPitchEncoderReverseLimit = -88;
-      public static final double kPitchMotorIntakePresetAngle = 45.0;
-      public static final double kPitchMotorSpeakerPresetAngle = 0.0;
-      public static final double kPitchMotorAmpPresetAngle = 0.0;
+      public static final double kPitchMotorIntakePresetAngle = 92.0;
+      public static final double kPitchMotorSpeakerPresetAngle = 82.0;
+      public static final double kPitchMotorAmpPresetAngle = -7.0;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;
     }
 
