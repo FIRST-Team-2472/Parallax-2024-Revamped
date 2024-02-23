@@ -27,17 +27,18 @@ public class runIntake extends Command {
 
     @Override
     public void execute() {
-        armSubsystem.runIntakeMotors(-0.5);
-        armSubsystem.runPushMotor(0.1);
+        armSubsystem.runIntakeMotors(-0.3);
+        armSubsystem.runPushMotor(0.3);
     }
 
     @Override
     public void end(boolean interrupted) {
        armSubsystem.runIntakeMotors(0);
+       armSubsystem.runPushMotor(0);
     }
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(5);
+        return timer.hasElapsed(1);
     }
 }

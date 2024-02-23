@@ -59,7 +59,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(rightJoystick, 4).onTrue(new InstantCommand(swerveSubsystem :: zeroHeading));
-    //new XboxController(xbox).onTrue(new InstantCommand(armSubsystem :: runPitchMotor));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).axisGreaterThan(1, .5).whileTrue(new runShooter(armSubsystem));
   }
 
   public Command getAutonomousCommand() {

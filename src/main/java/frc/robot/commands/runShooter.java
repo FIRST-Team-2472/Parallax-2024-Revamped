@@ -27,11 +27,11 @@ public class runShooter extends Command {
     @Override
     public void execute() {
         if (timer.hasElapsed(1)) {
-            armSubsystem.runShooterMotors(-1);
+            armSubsystem.runShooterMotors(-0.25);
         } 
 
         if (timer.hasElapsed(3)) {
-            armSubsystem.runShooterMotors(-1);
+            armSubsystem.runShooterMotors(-0.15);
             armSubsystem.runPushMotor(2);
         }
     }
@@ -44,6 +44,6 @@ public class runShooter extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(8);
+        return timer.hasElapsed(5);
     }
 }
