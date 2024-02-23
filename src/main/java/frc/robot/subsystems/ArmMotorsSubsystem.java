@@ -126,7 +126,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     public void runPitchMotorWithKP(double angleDeg) {
 
         double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg));
-        runPitchMotor(speed *= 0.3);
+        runPitchMotor(speed *= 0.1);
     }
 
     double clamp(double value, double min, double max) {
