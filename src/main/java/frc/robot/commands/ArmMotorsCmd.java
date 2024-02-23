@@ -2,12 +2,9 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.AnalogEncoder;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Constants.SensorConstants;
 import frc.robot.subsystems.ArmMotorsSubsystem;
 
 public class ArmMotorsCmd extends Command {
@@ -19,7 +16,7 @@ public class ArmMotorsCmd extends Command {
 
     public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, Supplier<Double> pitchMotor,
             Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp,
-            Supplier<Boolean> pushMotorRunning, Supplier<Boolean> intakeMotorsRunning) {
+            Supplier<Boolean> intakeMotorsRunning) {
   
         this.pitchMotor = pitchMotor;
         this.shooterMotorsSpeaker = shooterMotorsSpeaker;
@@ -60,7 +57,6 @@ public class ArmMotorsCmd extends Command {
         intakeMotorsSpeed = intakeMotorsRunning.get() && !armSubsystem.getPhotoElectricSensor() ? 1.0 : 0;
         armSubsystem.runIntakeMotors(intakeMotorsSpeed);
         
-        System.out.println(pitchMotorEncoder.getDistance());
         SmartDashboard.putNumber("Shooter speed", ArmMotorsSubsystem.getShooterSpeed());
         super.execute();
     }
