@@ -36,8 +36,7 @@ public class RobotContainer {
   public RobotContainer() {
     armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
       () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
-      () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
-      () -> xbox.getRightBumper())); // Intake Motors
+      () -> leftJoystick.getRawButton(1))); // Intake Motors
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
       ()-> -leftJoystick.getY(),
@@ -100,6 +99,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("frontRight Encoder", swerveSubsystem.getFRAbsEncoder());
     SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
     SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
+    SmartDashboard.putNumber("Shooter speed", ArmMotorsSubsystem.getShooterSpeed());
     //SmartDashboard.putNumber("Arm Encoder", armSubsystem.getAbsoluteEncoder());
   }
 
