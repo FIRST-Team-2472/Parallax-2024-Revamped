@@ -27,7 +27,7 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
 
-  Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
+  private final Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
 
   XboxController xbox = new XboxController(OperatorConstants.kXboxControllerPort);
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
@@ -70,7 +70,7 @@ public class RobotContainer {
 
 
       if (m_autoSelected == placementone)
-      return new ParallelCommandGroup(commandSequences.twoinampCommand(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinampCommand(swerveSubsystem, armSubsystem));
 
       if (m_autoSelected == placementtwo)
       return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiontwoCommand(swerveSubsystem));

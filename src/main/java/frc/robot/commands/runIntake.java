@@ -27,7 +27,7 @@ public class runIntake extends Command {
 
     @Override
     public void execute() {
-        armSubsystem.runIntakeMotors(0.5);
+        armSubsystem.runIntakeMotors(-0.5);
         armSubsystem.runPushMotor(0.1);
     }
 
@@ -38,6 +38,6 @@ public class runIntake extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(0.5);
+        return timer.hasElapsed(5);
     }
 }

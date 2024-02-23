@@ -23,9 +23,6 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class CommandSequences {
-    private runShooter runShooter;
-    private runIntake runIntake;
-    private Arm_Motors_Subsystem armSubsystem;
 
     PosPose2d[] exampleNodes = new PosPose2d[4];
     PosPose2d[] importantNodes = new PosPose2d[4];
@@ -83,7 +80,7 @@ public class CommandSequences {
             );
     }
 
-    public Command twoinampCommand(SwerveSubsystem swerveSubsystem) {
+    public Command twoinampCommand(SwerveSubsystem swerveSubsystem, Arm_Motors_Subsystem armSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
@@ -94,7 +91,7 @@ public class CommandSequences {
                 genratePath(swerveSubsystem, startingNodes[0], List.of(), collectingNearNodes[0]),
                 new runIntake(armSubsystem),
                 genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), startingNodes[0]),
-                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(365))  
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(0))  
             );
     }
 

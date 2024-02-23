@@ -14,9 +14,9 @@ public class runShooter extends Command {
 
 
 
-    public runShooter(Arm_Motors_Subsystem armSubsystem) {
+    public runShooter(Arm_Motors_Subsystem ArmSubsystem) {
         timer = new Timer();
-        this.armSubsystem = armSubsystem;
+        this.armSubsystem = ArmSubsystem;
     }
 
     @Override
@@ -26,9 +26,14 @@ public class runShooter extends Command {
 
     @Override
     public void execute() {
-        armSubsystem.runShooterMotors(0.5);
-        if (timer.hasElapsed(1.5)) {
-            armSubsystem.runPushMotor(0.5);
+        armSubsystem.runShooterMotors(-1);
+        if (timer.hasElapsed(1)) {
+            armSubsystem.runShooterMotors(-1);
+        } 
+
+        if (timer.hasElapsed(3)) {
+            armSubsystem.runShooterMotors(-1);
+            armSubsystem.runPushMotor(1);
         }
     }
 
@@ -40,6 +45,6 @@ public class runShooter extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(0.5);
+        return timer.hasElapsed(6);
     }
 }
