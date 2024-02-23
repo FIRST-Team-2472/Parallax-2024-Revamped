@@ -9,13 +9,11 @@ public class SetArmPitchCmd extends Command {
     private ArmMotorsSubsystem armMotorsSubsystem;
     private final double angleDeg;
     private final Timer timer;
-    private AnalogEncoder pitchMotorEncoder;
     
-    public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, AnalogEncoder pitchMotorEncoder, double angleDeg) {
+    public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, double angleDeg) {
         this.angleDeg = angleDeg;
         this.timer = new Timer();
         this.armMotorsSubsystem = armMotorsSubsystem;
-        this.pitchMotorEncoder = pitchMotorEncoder;
         addRequirements(armMotorsSubsystem);
     }
 
@@ -36,7 +34,7 @@ public class SetArmPitchCmd extends Command {
 
     @Override
     public boolean isFinished() {
-        return (Math.abs(pitchMotorEncoder.getDistance() - angleDeg) < 1) || (timer.hasElapsed(5));
+        return (Math.abs(armMotorsSubsystem.getEncoderDeg() - angleDeg) < 0.5) || (timer.hasElapsed(5));
     }
 
 }

@@ -10,25 +10,27 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.SensorConstants;
 import frc.robot.subsystems.ArmMotorsSubsystem;
 
-public class ArmMotorsCmd extends Command{
+public class ArmMotorsCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Supplier<Double> pitchMotor;
     private Double intakeMotorsSpeed, shooterMotorsSpeed, pushMotorSpeed, pitchMotorSpeed;
     private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp;
     private ArmMotorsSubsystem armSubsystem;
-    private AnalogEncoder pitchMotorEncoder;
-    public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, AnalogEncoder pitchMotorEncoder, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
-         Supplier<Boolean> intakeMotorsRunning){
 
+    public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, Supplier<Double> pitchMotor,
+            Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp,
+            Supplier<Boolean> pushMotorRunning, Supplier<Boolean> intakeMotorsRunning) {
+  
         this.pitchMotor = pitchMotor;
         this.shooterMotorsSpeaker = shooterMotorsSpeaker;
         this.shooterMotorsAmp = shooterMotorsAmp;
         this.intakeMotorsRunning = intakeMotorsRunning;
         this.armSubsystem = armSubsystem;
-        this.pitchMotorEncoder = pitchMotorEncoder;
+
         // always need to require the subsystem 
         addRequirements(armSubsystem);
-    } 
+    }
+
     @Override
     public void initialize() {
         super.initialize();
