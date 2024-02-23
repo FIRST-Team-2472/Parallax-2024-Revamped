@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
@@ -34,10 +35,10 @@ public class RobotContainer {
   public static Joystick rightJoystick = new Joystick(OperatorConstants.kRightJoyPort);
   
   public RobotContainer() {
-    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
+/*    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
       () -> xbox.getLeftTriggerAxis() > 0.5, () -> xbox.getLeftBumper(), // Shooter Motors
         () -> xbox.getRightTriggerAxis() > 0.5, // Push Motor
-          () -> xbox.getRightBumper())); // Intake Motors
+          () -> xbox.getRightBumper())); // Intake Motors */
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
     ()-> -leftJoystick.getY(),
@@ -58,6 +59,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(rightJoystick, 4).onTrue(new InstantCommand(swerveSubsystem :: zeroHeading));
+    //new XboxController(xbox).onTrue(new InstantCommand(armSubsystem :: runPitchMotor));
   }
 
   public Command getAutonomousCommand() {
