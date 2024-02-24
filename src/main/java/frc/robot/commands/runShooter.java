@@ -5,16 +5,16 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm_Motors_Subsystem;
+import frc.robot.subsystems.ArmMotorsSubsystem;
 
 public class runShooter extends Command { 
 
-    private Arm_Motors_Subsystem armSubsystem;
+    private ArmMotorsSubsystem armSubsystem;
     private Timer timer;
 
 
 
-    public runShooter(Arm_Motors_Subsystem ArmSubsystem) {
+    public runShooter(ArmMotorsSubsystem ArmSubsystem) {
         timer = new Timer();
         this.armSubsystem = ArmSubsystem;
     }
