@@ -19,17 +19,14 @@ public class ArmMotorsCmd extends Command {
     private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, pushMotorRunning;
     private ArmMotorsSubsystem armSubsystem;
 
-    public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, Supplier<Double> pitchMotor,
-            Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp,
-            Supplier<Boolean> intakeMotorsRunning) {
-  
+    public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
+        Supplier<Boolean> pushMotorRunning, Supplier<Boolean> intakeMotorsRunning){
         this.pitchMotor = pitchMotor;
         this.shooterMotorsSpeaker = shooterMotorsSpeaker;
         this.shooterMotorsAmp = shooterMotorsAmp;
+        this.pushMotorRunning = pushMotorRunning;
         this.intakeMotorsRunning = intakeMotorsRunning;
         this.armSubsystem = armSubsystem;
-
-        // always need to require the subsystem 
         addRequirements(armSubsystem);
     }
 
