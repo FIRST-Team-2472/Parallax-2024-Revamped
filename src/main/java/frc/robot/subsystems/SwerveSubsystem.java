@@ -281,6 +281,10 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("frontRight Encoder", getFRAbsEncoder());
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
+
+        logOdometry();
+        logPigeonState();
+        logSwerveStates();
     }
 
     public void stopModules(){
