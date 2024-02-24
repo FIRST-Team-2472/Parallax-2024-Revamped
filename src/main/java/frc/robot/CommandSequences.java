@@ -25,10 +25,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class CommandSequences {
 
 
-    PosPose2d[] startingNodes = new PosPose2d[4];
-    PosPose2d[] collectingNearNodes = new PosPose2d[3];
-    PosPose2d[] shootingNearNodes = new PosPose2d[3];
-    PosPose2d ampNode = simplePose(1.84, 7.32, -90);
+        PosPose2d[] exampleNodes = new PosPose2d[4];
+        PosPose2d[] importantNodes = new PosPose2d[4];
+        PosPose2d[] startingNodes = new PosPose2d[4];
+        PosPose2d[] collectingNearNodes = new PosPose2d[3];
+        PosPose2d[] shootingNearNodes = new PosPose2d[3];
+        PosPose2d ampNode = simplePose(1.84, 7.32, -90);
+    
 
     public CommandSequences() {
 
@@ -81,7 +84,7 @@ public class CommandSequences {
             );
     }
 
-    public Command twoinampCommand(SwerveSubsystem swerveSubsystem, Arm_Motors_Subsystem armSubsystem) {
+    public Command twoinampCommand(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());

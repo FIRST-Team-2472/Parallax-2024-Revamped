@@ -29,7 +29,7 @@ public class RobotContainer {
   private final PnuematicsSubsystem pnuematicsSubsystem = new PnuematicsSubsystem();
 
 
-  private final Arm_Motors_Subsystem armSubsystem = new Arm_Motors_Subsystem();
+  private final ArmMotorsSubsystem armSubsystem = new ArmMotorsSubsystem();
 
   XboxController xbox = new XboxController(OperatorConstants.kXboxControllerPort);
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
