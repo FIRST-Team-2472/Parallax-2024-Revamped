@@ -18,6 +18,7 @@ public class runIntake extends Command {
     public runIntake(ArmMotorsSubsystem armSubsystem) {
         timer = new Timer();
         this.armSubsystem = armSubsystem;
+        addRequirements(armSubsystem);
     }
 
     @Override

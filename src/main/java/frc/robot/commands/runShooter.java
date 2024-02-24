@@ -17,6 +17,7 @@ public class runShooter extends Command {
     public runShooter(ArmMotorsSubsystem ArmSubsystem) {
         timer = new Timer();
         this.armSubsystem = ArmSubsystem;
+        addRequirements(armSubsystem);
     }
 
     @Override
