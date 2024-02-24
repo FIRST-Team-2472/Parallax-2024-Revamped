@@ -11,7 +11,6 @@ import frc.robot.LimelightHelpers;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.swerveExtras.FieldPose2d;
 import frc.robot.subsystems.swerveExtras.PosPose2d;
-import frc.robot.Constants.IntakeLimelightConstants;
 import frc.robot.commands.ApriltagAimingCmd;
 import frc.robot.commands.SetArmPitchCmd;
 import frc.robot.commands.SwerveDriveToPointCmd;
@@ -55,12 +54,13 @@ public class Limelights extends SubsystemBase{
         */
       }
     
-     
+    /*
     public void intakeDetectNote(){
       tx = LimelightHelpers.getTX("limelight-intake");
       ty = LimelightHelpers.getTY("limelight-intake") + IntakeLimelightConstants.kIntakeLimelightTYAngleOffset;
       distanceFwd = IntakeLimelightConstants.kIntakeLimelightHeight / Math.tan(ty);
       distanceLR = distanceFwd * Math.tan(tx);
     }
+    */
     
 }
