@@ -68,6 +68,8 @@ public class RobotContainer {
   private void configureBindings() {
     new JoystickButton(rightJoystick, 4).onTrue(new InstantCommand(swerveSubsystem :: zeroHeading));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).axisGreaterThan(1, .5).whileTrue(new runShooter(armSubsystem));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).whileTrue(new runShooter(armSubsystem));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftBumper().onTrue(new runShooter(armSubsystem));
 
     new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
