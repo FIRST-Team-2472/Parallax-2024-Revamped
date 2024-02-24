@@ -48,7 +48,6 @@ public class ArmMotorsCmd extends Command {
         pitchMotorSpeed = pitchMotorSpeed < -0.1 ? -0.1 : pitchMotorSpeed;
         shooterMotorsSpeed = shooterMotorsSpeaker.get() ? -0.5 : 0;
         shooterMotorsSpeed = shooterMotorsAmp.get() ? -0.25 : 0;
-        pushMotorSpeed = pushMotorRunning.get() ? 0.5 : (intakeMotorsRunning.get() && !armSubsystem.getPhotoElectricSensor() ? 0.2 : 0);
         intakeMotorsSpeed = intakeMotorsRunning.get() ? -0.5 : 0;
         // if (pitchMotorSpeed > 0.5) pitchMotorSpeed = 0.5;
         // if (pitchMotorSpeed < -0.5) pitchMotorSpeed = -0.5;
@@ -62,14 +61,14 @@ public class ArmMotorsCmd extends Command {
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
 
         //runs the push motor when ready to fire or during intaking, until it hit the sensor
-        pushMotorSpeed = ArmMotorsSubsystem.getShooterSpeed() < -3500 ? 0.5 : (intakeMotorsRunning.get() && !armSubsystem.getPhotoElectricSensor() ? 0.2 : 0);
+        pushMotorSpeed = armSubsystem.getShooterSpeed() < -3500 ? 0.5 : (intakeMotorsRunning.get() && !armSubsystem.getPhotoElectricSensor() ? 0.5 : shooterMotorsAmp.get() ? .5 : 0);
         armSubsystem.runPushMotor(pushMotorSpeed);
 
         //runs the intake motors until the sensor is triggered
-        intakeMotorsSpeed = intakeMotorsRunning.get() && !armSubsystem.getPhotoElectricSensor() ? 1.0 : 0;
+        intakeMotorsSpeed = intakeMotorsRunning.get() && !armSubsystem.getPhotoElectricSensor() ? 0.5 : 0;
         armSubsystem.runIntakeMotors(intakeMotorsSpeed);
         
-        SmartDashboard.putNumber("Shooter speed", ArmMotorsSubsystem.getShooterSpeed());
+        SmartDashboard.putNumber("Shooter speed", armSubsystem.getShooterSpeed());
         super.execute();
     }
 

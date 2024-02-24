@@ -108,7 +108,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("frontRight Encoder", swerveSubsystem.getFRAbsEncoder());
     SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
     SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
-    SmartDashboard.putNumber("Shooter speed", ArmMotorsSubsystem.getShooterSpeed());
+    SmartDashboard.putNumber("Shooter speed", armSubsystem.getShooterSpeed());
     //SmartDashboard.putNumber("Arm Encoder", armSubsystem.getAbsoluteEncoder());
   }
 

@@ -142,7 +142,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         return photoElectricSensor.get();
     }
     
-    public static double getShooterSpeed(){
+    public double getShooterSpeed(){
         return shooterTopMotor.getEncoder().getVelocity();
     }
 }
