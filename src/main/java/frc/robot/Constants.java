@@ -51,35 +51,35 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
 
     public static final int kFrontLeftDriveMotorPort = 55;
-    public static final int kFrontLeftTurningMotorPort = 54;
-    public static final boolean kFrontLeftDriveEncoderReversed = true;
+    public static final int kFrontLeftTurningMotorPort = 54; 
+    public static final boolean kFrontLeftDriveEncoderReversed = false;
     public static final boolean kFrontLeftTurningEncoderReversed = true;
     public static final int kFrontLeftDriveAbsoluteEncoderPort = 61;
-    public static final double kFrontLeftDriveAbsoluteEncoderOffsetAng = 0.74;
+    public static final double kFrontLeftDriveAbsoluteEncoderOffsetAng = 0.25;
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = true;
 
     public static final int kFrontRightDriveMotorPort = 53;
     public static final int kFrontRightTurningMotorPort = 51;
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kFrontRightTurningEncoderReversed = true;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 62; // conflicts with other constants
-    public static final double kFrontRightDriveAbsoluteEncoderOffsetAng = 0.45;
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 62; //conflicts with other constants
+    public static final double kFrontRightDriveAbsoluteEncoderOffsetAng = 0.46;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
 
     public static final int kBackLeftDriveMotorPort = 43;
     public static final int kBackLeftTurningMotorPort = 50;
-    public static final boolean kBackLeftDriveEncoderReversed = true;
+    public static final boolean kBackLeftDriveEncoderReversed = false;
     public static final boolean kBackLeftTurningEncoderReversed = true;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 60; // conflicts with other constants
-    public static final double kBackLeftDriveAbsoluteEncoderOffsetAng = 0.53;
+    public static final int kBackLeftDriveAbsoluteEncoderPort = 60; //conflicts with other constants
+    public static final double kBackLeftDriveAbsoluteEncoderOffsetAng = 0.03;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
 
     public static final int kBackRightDriveMotorPort = 56;
     public static final int kBackRightTurningMotorPort = 57;
-    public static final boolean kBackRightDriveEncoderReversed = true;
+    public static final boolean kBackRightDriveEncoderReversed = false;
     public static final boolean kBackRightTurningEncoderReversed = true;
     public static final int kBackRightDriveAbsoluteEncoderPort = 59;
-    public static final double kBackRightDriveAbsoluteEncoderOffsetAng = 0.85;
+    public static final double kBackRightDriveAbsoluteEncoderOffsetAng = 0.35;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 4;
@@ -92,9 +92,9 @@ public final class Constants {
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = Math.PI * 2;
   }
 
-  public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.4;
+  public static final class AutoConstants{
+    public static final double kMaxSpeedMetersPerSecond = 2.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.6;
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
     public static final double kPThetaController = 1.5;
