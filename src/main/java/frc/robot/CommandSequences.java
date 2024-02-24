@@ -89,14 +89,15 @@ public class CommandSequences {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
-        swerveSubsystem.resetOdometry(startingNodes[0]);
+        swerveSubsystem.resetOdometry(startingNodes[1]);
 
         return new SequentialCommandGroup(
-                new SetArmPitchCmd(armSubsystem, -7.0),
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle),
+                genratePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[3]),
                 new runShooter(armSubsystem),
-                genratePath(swerveSubsystem, startingNodes[0], List.of(), collectingNearNodes[0]),
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                genratePath(swerveSubsystem, importantNodes[3], List.of(), collectingNearNodes[0]),
                 new runIntake(armSubsystem),
-                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), startingNodes[0]),
                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(0))  
             );
     }
