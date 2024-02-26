@@ -94,7 +94,7 @@ public final class Constants {
 
   public static final class AutoConstants{
     public static final double kMaxSpeedMetersPerSecond = 2.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.6;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
     public static final double kPThetaController = 1.5;
