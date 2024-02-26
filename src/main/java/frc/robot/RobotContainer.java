@@ -98,13 +98,13 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.twoinampCommand(swerveSubsystem, armSubsystem));
 
       if (m_autoSelected == placementtwo)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiontwoCommand(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiontwoCommand(swerveSubsystem, armSubsystem));
 
       if (m_autoSelected == placementthree)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiononeCommand(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiononeCommand(swerveSubsystem, armSubsystem));
 
       if (m_autoSelected == path4)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositionthreeCommand(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositionthreeCommand(swerveSubsystem, armSubsystem));
 
     return null;
   }

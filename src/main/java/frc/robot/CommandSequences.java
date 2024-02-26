@@ -89,11 +89,11 @@ public class CommandSequences {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
-        swerveSubsystem.resetOdometry(startingNodes[1]);
+        swerveSubsystem.resetOdometry(startingNodes[0]);
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle),
-                genratePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[3]),
+                genratePath(swerveSubsystem, startingNodes[0], List.of(), importantNodes[3]),
                 new runShooter(armSubsystem),
                 new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 genratePath(swerveSubsystem, importantNodes[3], List.of(), collectingNearNodes[0]),
@@ -102,32 +102,44 @@ public class CommandSequences {
             );
     }
 
-    public Command twoinspeakerfrompositiontwoCommand(SwerveSubsystem swerveSubsystem) {
+    public Command twoinspeakerfrompositiontwoCommand(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
-        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+        swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new runShooter(armSubsystem),
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]),
+                new runIntake(armSubsystem),
                 genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2])
 
         );
     }
 
-    public Command twoinspeakerfrompositiononeCommand(SwerveSubsystem swerveSubsystem) {
-        swerveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+    public Command twoinspeakerfrompositiononeCommand(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem) {
+        swerveSubsystem.resetOdometry(startingNodes[1]);
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]));
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new runShooter(armSubsystem),
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
+                new runIntake(armSubsystem),
+                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), startingNodes[1]));
     }
 
-    public Command twoinspeakerfrompositionthreeCommand(SwerveSubsystem swerveSubsystem){
-        swerveSubsystem.resetOdometry(startingNodes[0]);
+    public Command twoinspeakerfrompositionthreeCommand(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem){
+        swerveSubsystem.resetOdometry(startingNodes[3]);
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[1]),
-                genratePath(swerveSubsystem, importantNodes[1], List.of(importantNodes[3].getPositivePoint()), startingNodes[1]));
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new runShooter(armSubsystem),
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                genratePath(swerveSubsystem, startingNodes[3], List.of(), importantNodes[1]),
+                genratePath(swerveSubsystem, importantNodes[1], List.of(), startingNodes[3]));
     }
 
     public Command oneinamponefromspeakerpositiononeCommand(SwerveSubsystem swerveSubsystem){
