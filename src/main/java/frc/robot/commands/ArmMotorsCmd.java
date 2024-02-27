@@ -48,18 +48,9 @@ public class ArmMotorsCmd extends Command {
         pitchMotorSpeed = pitchMotor.get();
 
         // applies a deadband
-        if (pitchMotorSpeed < OIConstants.kArmDeadband && pitchMotorSpeed > -OIConstants.kArmDeadband) pitchMotorSpeed = 0.0;
-            pitchMotorSpeed *= 0.3;//slows down the arm
-        pitchMotorSpeed = pitchMotorSpeed > 0.1 ? 0.1 : pitchMotorSpeed;
-        pitchMotorSpeed = pitchMotorSpeed < -0.1 ? -0.1 : pitchMotorSpeed;
-        shooterMotorsSpeed = shooterMotorsSpeaker.get() ? -0.5 : 0;
-        shooterMotorsSpeed = shooterMotorsAmp.get() ? -0.25 : 0;
-        intakeMotorsSpeed = intakeMotorsRunning.get() ? -0.5 : 0;
-        // if (pitchMotorSpeed > 0.5) pitchMotorSpeed = 0.5;
-        // if (pitchMotorSpeed < -0.5) pitchMotorSpeed = -0.5;
-        // if (shooterMotorsRunning.get()) shooterMotorsSpeed = 0.5;
-        // if (pushMotorRunning.get()) pushMotorSpeed = 0.5;
-        // if (intakeMotorsRunning.get()) intakeMotorsSpeed = 0.5;
+        if (pitchMotorSpeed < OIConstants.kArmDeadband && pitchMotorSpeed > -OIConstants.kArmDeadband) 
+            pitchMotorSpeed = 0.0;
+        pitchMotorSpeed *= 0.3;//slows down the arm
         armSubsystem.runPitchMotor(pitchMotorSpeed);
 
         //runs the shooter motor at 75% speed when we fire in speaker and 50% for the amp
