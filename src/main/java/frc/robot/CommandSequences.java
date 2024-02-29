@@ -48,7 +48,7 @@ public class CommandSequences {
         // Near front of Speaker
         importantNodes[2] = simplePose(2.2, 5.57, 0);
         // In from of amp
-        importantNodes[3] = simplePose(1.84, 7.32, -90);
+        importantNodes[3] = simplePose(1.84, 7.32, -130);
 
         // amp start
         startingNodes[0] = simplePose(1.41, 7.26, 0);
@@ -114,7 +114,8 @@ public class CommandSequences {
                 new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]),
                 new runIntake(armSubsystem),
-                genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2])
+                genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2]),
+                new runShooter(armSubsystem)
 
         );
     }

@@ -44,6 +44,8 @@ public class ArmMotorsSubsystem extends SubsystemBase {
 
         // sets their constants
         pitchMotor.setIdleMode(com.revrobotics.CANSparkBase.IdleMode.kBrake);
+        pitchMotor.setSmartCurrentLimit(39);
+        
         pitchMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) PitchMotor.kPitchEncoderReverseLimit);
         pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
 
