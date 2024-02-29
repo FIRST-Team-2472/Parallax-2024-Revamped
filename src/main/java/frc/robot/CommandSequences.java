@@ -28,7 +28,7 @@ public class CommandSequences {
 
         PosPose2d[] exampleNodes = new PosPose2d[4];
         PosPose2d[] importantNodes = new PosPose2d[4];
-        PosPose2d[] startingNodes = new PosPose2d[4];
+        PosPose2d[] startingNodes = new PosPose2d[5];
         PosPose2d[] collectingNearNodes = new PosPose2d[3];
         PosPose2d[] shootingNearNodes = new PosPose2d[3];
         PosPose2d ampNode = simplePose(1.84, 7.32, -90);
@@ -59,6 +59,8 @@ public class CommandSequences {
         // speakr start 3
         startingNodes[3] = simplePose(0.71, 4.38, -60);
 
+        startingNodes[4] = simplePose(0.71, 4.38, -60);
+
         // Collecting the near nodes
         collectingNearNodes[0] = simplePose(2.15, 7, 0);
         collectingNearNodes[1] = simplePose(2.15, 5.5,	0); //same as imp. n. [2];
@@ -78,10 +80,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(new Pose2d());
 
         return new SequentialCommandGroup(
-                genratePath(swerveSubsystem, exampleNodes[0], List.of(), exampleNodes[1]),
-                genratePath(swerveSubsystem, exampleNodes[1], List.of(), exampleNodes[3]),
-                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(270))
-                
+                genratePath(swerveSubsystem, startingNodes[0], List.of(), startingNodes[4])
             );
     }
 
