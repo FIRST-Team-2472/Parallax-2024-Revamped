@@ -14,6 +14,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.AutoConstants;
@@ -59,7 +60,7 @@ public class CommandSequences {
         // speakr start 3
         startingNodes[3] = simplePose(0.71, 4.38, -60);
 
-        startingNodes[4] = simplePose(2.46, 7.27, 0);
+        startingNodes[4] = simplePose(2.66, 7.2, 0);
 
         // Collecting the near nodes
         collectingNearNodes[0] = simplePose(2.15, 7, 0);
@@ -111,7 +112,8 @@ public class CommandSequences {
                 new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new runShooter(armSubsystem),
                 new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]),
+                //genratePath(swerveSubsystem, startingNodes[2], List.of(new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle))), importantNodes[2]),
+                new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])),
                 new runIntake(armSubsystem),
                 genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2]),
                 new runShooter(armSubsystem)

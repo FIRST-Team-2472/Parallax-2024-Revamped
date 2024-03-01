@@ -17,13 +17,13 @@ public class ArmMotorsCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Supplier<Double> pitchMotor;
     private Double intakeMotorsSpeed, shooterMotorsSpeed, pushMotorSpeed, pitchMotorSpeed;
-    private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp;
+    private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, reversed;
     private boolean fired, sensed;
     private ArmMotorsSubsystem armSubsystem;
     private Timer timer = new Timer();
 
     public ArmMotorsCmd(ArmMotorsSubsystem armSubsystem, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
-         Supplier<Boolean> intakeMotorsRunning){
+         Supplier<Boolean> intakeMotorsRunning, Supplier<Boolean> reversed){
         this.pitchMotor = pitchMotor;
         fired = false;
         sensed = false;
@@ -31,6 +31,7 @@ public class ArmMotorsCmd extends Command {
         this.shooterMotorsAmp = shooterMotorsAmp;
         this.intakeMotorsRunning = intakeMotorsRunning;
         this.armSubsystem = armSubsystem;
+        this.reversed = reversed;
         addRequirements(armSubsystem);
     }
 
@@ -50,11 +51,12 @@ public class ArmMotorsCmd extends Command {
         // applies a deadband
         if (pitchMotorSpeed < OIConstants.kArmDeadband && pitchMotorSpeed > -OIConstants.kArmDeadband) 
             pitchMotorSpeed = 0.0;
-        pitchMotorSpeed *= 0.3;//slows down the arm
+        pitchMotorSpeed *= 0.45;//slows down the arm
         armSubsystem.runPitchMotor(pitchMotorSpeed);
 
         //runs the shooter motor at 75% speed when we fire in speaker and 50% for the amp
         shooterMotorsSpeed = shooterMotorsSpeaker.get() ? .75 : (shooterMotorsAmp.get() ? 0.5 : 0);
+        shooterMotorsSpeed = reversed.get() ? -0.07 : shooterMotorsSpeed;
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
 
         if(armSubsystem.getPhotoElectricSensor()){
@@ -67,7 +69,8 @@ public class ArmMotorsCmd extends Command {
         
 
         //runs the push motor when ready to fire or during intaking, until it hit the sensor
-        pushMotorSpeed = armSubsystem.getShooterSpeed() < -3500 ? 0.5 : (intakeMotorsRunning.get() && !sensed ? 0.4 : shooterMotorsAmp.get() ? .7 : 0);
+        pushMotorSpeed = armSubsystem.getShooterSpeed() < -3500 ? 0.5 : (intakeMotorsRunning.get() && !sensed ? 0.4 : shooterMotorsAmp.get() ? .6 : 0);
+        pushMotorSpeed = reversed.get() ? -.07 : pushMotorSpeed;
         armSubsystem.runPushMotor(pushMotorSpeed);
 
 
