@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ArmMotorsSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -16,6 +17,7 @@ import frc.robot.subsystems.ArmMotorsSubsystem;
 public class ArmMotorsCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Supplier<Double> pitchMotor;
+    private SetArmPitchCmd pitchCmd;
     private Double intakeMotorsSpeed, shooterMotorsSpeed, pushMotorSpeed, pitchMotorSpeed;
     private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, reversed;
     private boolean fired, sensed;
@@ -52,8 +54,11 @@ public class ArmMotorsCmd extends Command {
         if (pitchMotorSpeed < OIConstants.kArmDeadband && pitchMotorSpeed > -OIConstants.kArmDeadband) 
             pitchMotorSpeed = 0.0;
         pitchMotorSpeed *= 0.45;//slows down the arm
-        armSubsystem.runPitchMotor(pitchMotorSpeed);
-
+        if(!intakeMotorsRunning.get())
+            armSubsystem.runPitchMotor(pitchMotorSpeed);
+        else
+            armSubsystem.runPitchMotor(pitchMotorSpeed, true);
+            
         //runs the shooter motor at 75% speed when we fire in speaker and 50% for the amp
         shooterMotorsSpeed = shooterMotorsSpeaker.get() ? .75 : (shooterMotorsAmp.get() ? 0.5 : 0);
         shooterMotorsSpeed = reversed.get() ? -0.07 : shooterMotorsSpeed;

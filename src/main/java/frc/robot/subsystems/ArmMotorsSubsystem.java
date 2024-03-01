@@ -107,6 +107,13 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         pitchMotorSpeed.setDouble(motorSpeed);
         pitchMotor.set(motorSpeed);
     }
+    public void runPitchMotor(double motorSpeed, boolean withoutKP) {
+
+        //shuffleboard
+        pitchMotorSpeed.setDouble(motorSpeed);
+        //running it
+        pitchMotor.set(motorSpeed);
+    }
 
     public double getEncoderDeg() {
         return (pitchMotorEncoder.getDistance() + PitchMotor.kPitchEncoderOffset);
