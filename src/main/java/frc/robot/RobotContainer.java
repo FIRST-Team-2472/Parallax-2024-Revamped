@@ -20,7 +20,9 @@ import frc.robot.commands.*;
 import frc.robot.CommandSequences;
 
 public class RobotContainer {
-  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", testingPath =  "Test Path", stagePath = "Go under Stage";
+  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", 
+  placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", 
+  testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -62,6 +64,7 @@ public class RobotContainer {
     m_chooser.addOption(path4, path4);
     m_chooser.addOption(testingPath, testingPath);
     m_chooser.addOption(stagePath, stagePath);
+    m_chooser.addOption(justShoot, justShoot);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -80,7 +83,7 @@ public class RobotContainer {
     new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
  
     new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(0).onTrue(new InstantCommand(limelights :: scanAmpAprilTag));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(180).onTrue(new InstantCommand(limelights :: scanSpeakerAprilTag));
@@ -92,8 +95,7 @@ public class RobotContainer {
       m_autoSelected = m_chooser.getSelected();
 
       if (m_autoSelected == testingPath)
-        return new ParallelCommandGroup(commandSequences.testingPath(swerveSubsystem));
-
+        return new ParallelCommandGroup(commandSequences.driveFromZone(swerveSubsystem));
 
       if (m_autoSelected == placementone)
       return new ParallelCommandGroup(commandSequences.twoinampCommand(swerveSubsystem, armSubsystem));
@@ -109,6 +111,8 @@ public class RobotContainer {
 
       if (m_autoSelected == stagePath)
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
+      if (m_autoSelected == justShoot)
+      return new ParallelCommandGroup(commandSequences.justShoot(armSubsystem));
 
     return null;
   }

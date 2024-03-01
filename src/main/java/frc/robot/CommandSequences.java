@@ -78,7 +78,7 @@ public class CommandSequences {
     }
 
    
-    public Command testingPath(SwerveSubsystem swerveSubsystem) {
+    public Command driveFromZone(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
@@ -113,13 +113,10 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
-                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle, 1),
                 new runShooter(armSubsystem),
-                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]),
-                new runIntake(armSubsystem),
-                //genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2]),
-                new ParallelCommandGroup(genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2]), new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle)),
+                new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle, 2), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])),
+                //new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle, 1), genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2])),
                 new runShooter(armSubsystem)
 
         );
@@ -173,6 +170,14 @@ public class CommandSequences {
         return new SequentialCommandGroup(
                 genratePath(swerveSubsystem, startingNodes[0], List.of(importantNodes[4].getPositivePoint()), importantNodes[5])
             );
+        }
+
+    public Command justShoot(ArmMotorsSubsystem armSubsystem) {
+        
+        return new SequentialCommandGroup(
+            new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+            new runShooter(armSubsystem)
+        );
     }
 
     // generates a path via points

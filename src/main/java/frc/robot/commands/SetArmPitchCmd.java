@@ -8,11 +8,17 @@ public class SetArmPitchCmd extends Command {
     private ArmMotorsSubsystem armMotorsSubsystem;
     private final double angleDeg;
     private final Timer timer;
+    private int rev;
     
     public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, double angleDeg) {
         this.angleDeg = angleDeg;
         this.timer = new Timer();
         this.armMotorsSubsystem = armMotorsSubsystem;
+        addRequirements(armMotorsSubsystem);
+    }
+    public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, double angleDeg, int rev) {
+        this(armMotorsSubsystem, angleDeg);
+        this.rev = rev;
         addRequirements(armMotorsSubsystem);
     }
 
@@ -24,7 +30,15 @@ public class SetArmPitchCmd extends Command {
     @Override
     public void execute() {
         armMotorsSubsystem.runPitchMotorWithKP(angleDeg);
-    }
+        if(rev == 1)
+            armMotorsSubsystem.runShooterMotors(.7);
+
+        if (rev == 2) {
+            armMotorsSubsystem.runIntakeMotors(0.6);
+            armMotorsSubsystem.runPushMotor(0.6);
+            armMotorsSubsystem.runShooterMotors(.7);
+        }
+    } 
 
     @Override
     public void end(boolean interrupted) {
@@ -33,7 +47,7 @@ public class SetArmPitchCmd extends Command {
 
     @Override
     public boolean isFinished() {
-        return (Math.abs(armMotorsSubsystem.getEncoderDeg() - angleDeg) < 0.5) || (timer.hasElapsed(2));
+        return (Math.abs(armMotorsSubsystem.getEncoderDeg() - angleDeg) < 0.5) || (timer.hasElapsed(3));
     }
 
 }

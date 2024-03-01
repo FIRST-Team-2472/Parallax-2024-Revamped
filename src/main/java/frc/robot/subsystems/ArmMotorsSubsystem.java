@@ -71,17 +71,6 @@ public class ArmMotorsSubsystem extends SubsystemBase {
         baseIdleForce = PitchMotor.kPitchBaseIdleForce
                 * Math.sin((getEncoderDeg() / 360) * (2 * Math.PI));
 
-        // If there is any sort of jittering, shaking, or no movement, try running the
-        // runPitchMotor() inside here. This will prevent setting the base idle force to
-        // the point of not moving, unless it is not moving. periodic() does run before
-        // execute, but just in case.
-        if (pitchMotor.get() == 0) {
-            // runPitchMotor(0);
-        }
-
-        // Pass in 0, as runPitchMotor() already adds the baseIdleForce
-        runPitchMotor(0);
-
         /* Shuffleboard */
 
         // `getAbsolutePosition()` is the *absolute* position of the encoder, no
@@ -105,6 +94,14 @@ public class ArmMotorsSubsystem extends SubsystemBase {
 
         // The speed that the speed controller is applying to the motor.
         pitchMotorSpeed.setDouble(motorSpeed);
+        pitchMotor.set(motorSpeed);
+    }
+
+    public void runPitchMotor(double motorSpeed, boolean withoutKP) {
+        motorSpeed -= 0.15;
+        //shuffleboard
+        pitchMotorSpeed.setDouble(motorSpeed);
+        //running it
         pitchMotor.set(motorSpeed);
     }
 
