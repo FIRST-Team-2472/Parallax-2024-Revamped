@@ -14,6 +14,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.AutoConstants;
@@ -113,7 +114,8 @@ public class CommandSequences {
                 new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]),
                 new runIntake(armSubsystem),
-                genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2]),
+                //genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2]),
+                new ParallelCommandGroup(genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2]), new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle)),
                 new runShooter(armSubsystem)
 
         );
