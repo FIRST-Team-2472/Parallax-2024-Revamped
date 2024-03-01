@@ -47,6 +47,6 @@ public class runShooter extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(5);
+        return timer.hasElapsed(4);
     }
 }

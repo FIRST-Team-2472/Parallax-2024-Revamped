@@ -28,8 +28,8 @@ public class runIntake extends Command {
 
     @Override
     public void execute() {
-        armSubsystem.runIntakeMotors(0.3);
-        armSubsystem.runPushMotor(0.3);
+        armSubsystem.runIntakeMotors(0.6);
+        armSubsystem.runPushMotor(0.6);
     }
 
     @Override

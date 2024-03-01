@@ -59,7 +59,7 @@ public class CommandSequences {
         // speakr start 3
         startingNodes[3] = simplePose(0.71, 4.38, -60);
 
-        startingNodes[4] = simplePose(0.71, 4.38, -60);
+        startingNodes[4] = simplePose(2.46, 7.27, 0);
 
         // Collecting the near nodes
         collectingNearNodes[0] = simplePose(2.15, 7, 0);
@@ -77,8 +77,8 @@ public class CommandSequences {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
-        swerveSubsystem.resetOdometry(new Pose2d());
-
+        swerveSubsystem.resetOdometry(startingNodes[0]);
+ 
         return new SequentialCommandGroup(
                 genratePath(swerveSubsystem, startingNodes[0], List.of(), startingNodes[4])
             );
