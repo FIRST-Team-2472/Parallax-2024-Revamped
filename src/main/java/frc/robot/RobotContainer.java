@@ -20,7 +20,7 @@ import frc.robot.commands.*;
 import frc.robot.CommandSequences;
 
 public class RobotContainer {
-  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", testingPath =  "Test Path";
+  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", testingPath =  "Test Path", stagePath = "Go under Stage";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -61,6 +61,7 @@ public class RobotContainer {
     m_chooser.addOption(placementthree, placementthree);
     m_chooser.addOption(path4, path4);
     m_chooser.addOption(testingPath, testingPath);
+    m_chooser.addOption(stagePath, stagePath);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -105,6 +106,9 @@ public class RobotContainer {
 
       if (m_autoSelected == path4)
       return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositionthreeCommand(swerveSubsystem, armSubsystem));
+
+      if (m_autoSelected == stagePath)
+      return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
 
     return null;
   }

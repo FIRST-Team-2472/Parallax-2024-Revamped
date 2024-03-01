@@ -28,7 +28,7 @@ public class CommandSequences {
 
 
         PosPose2d[] exampleNodes = new PosPose2d[4];
-        PosPose2d[] importantNodes = new PosPose2d[4];
+        PosPose2d[] importantNodes = new PosPose2d[6];
         PosPose2d[] startingNodes = new PosPose2d[5];
         PosPose2d[] collectingNearNodes = new PosPose2d[3];
         PosPose2d[] shootingNearNodes = new PosPose2d[3];
@@ -50,6 +50,10 @@ public class CommandSequences {
         importantNodes[2] = simplePose(2.2, 5.57, 0);
         // In from of amp
         importantNodes[3] = simplePose(1.84, 7.32, -130);
+        //amp side of stage
+        importantNodes[4] = simplePose(4.28, 6.30, 0);
+        //under the stage
+        importantNodes[5] = simplePose(4.78, 4.15, 0);
 
         // amp start
         startingNodes[0] = simplePose(1.41, 7.26, 0);
@@ -158,6 +162,17 @@ public class CommandSequences {
         return new SequentialCommandGroup(
                 genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
                 genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]));
+    }
+
+        public Command underStage(SwerveSubsystem swerveSubsystem) {
+
+        System.out.println("Autos Happening");
+        System.out.println(exampleNodes[0].toString());
+        swerveSubsystem.resetOdometry(startingNodes[0]);
+ 
+        return new SequentialCommandGroup(
+                genratePath(swerveSubsystem, startingNodes[0], List.of(importantNodes[4].getPositivePoint()), importantNodes[5])
+            );
     }
 
     // generates a path via points
