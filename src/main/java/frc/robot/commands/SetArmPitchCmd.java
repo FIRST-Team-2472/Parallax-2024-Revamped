@@ -31,7 +31,7 @@ public class SetArmPitchCmd extends Command {
     public void execute() {
         armMotorsSubsystem.runPitchMotorWithKP(angleDeg);
         if(rev)
-            armMotorsSubsystem.runShooterMotors(.75);
+            armMotorsSubsystem.runShooterMotors(.7);
         }
 
     @Override
