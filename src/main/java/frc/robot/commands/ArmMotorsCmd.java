@@ -61,7 +61,7 @@ public class ArmMotorsCmd extends Command {
 
         //runs the shooter motor at 75% speed when we fire in speaker and 50% for the amp
         shooterMotorsSpeed = shooterMotorsSpeaker.get() ? .75 : (shooterMotorsAmp.get() ? 0.5 : 0);
-        shooterMotorsSpeed = reversed.get() ? -0.2 : shooterMotorsSpeed;
+        shooterMotorsSpeed = reversed.get() ? -0.1 : shooterMotorsSpeed;
         armSubsystem.runShooterMotors(shooterMotorsSpeed);
 
         if(armSubsystem.getPhotoElectricSensor()){
