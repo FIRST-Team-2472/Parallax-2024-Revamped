@@ -115,7 +115,11 @@ public final class Constants {
       public static final double kPitchBaseIdleForce = 0.052;
       public static final double kPitchEncoderForwardLimit = 10;
       public static final double kPitchEncoderReverseLimit = -88;
+<<<<<<< HEAD
       public static final double kPitchMotorIntakePresetAngle = 86.5;
+=======
+      public static final double kPitchMotorIntakePresetAngle = 90.5;
+>>>>>>> parent of ff338dd (Final changes)
       public static final double kPitchMotorSpeakerPresetAngle = 82.0;
       public static final double kPitchMotorAmpPresetAngle = -7.0;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;
