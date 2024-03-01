@@ -109,8 +109,8 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
-                new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle, true),
-                new runShooter(armSubsystem)),
+                new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle, true),
+                new runShooter(armSubsystem),
                 //new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 //genratePath(swerveSubsystem, startingNodes[2], List.of(new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle))), importantNodes[2]),
                 new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])),
