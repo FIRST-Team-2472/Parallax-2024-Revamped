@@ -98,7 +98,7 @@ public class ArmMotorsSubsystem extends SubsystemBase {
     }
 
     public void runPitchMotor(double motorSpeed, boolean withoutKP) {
-
+        motorSpeed -= 0.15;
         //shuffleboard
         pitchMotorSpeed.setDouble(motorSpeed);
         //running it
