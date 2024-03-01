@@ -5,12 +5,10 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.subsystems.ArmMotorsSubsystem;
 
 public class runIntake extends Command { 
 
-    private SetArmPitchCmd armPitch;
     private ArmMotorsSubsystem armSubsystem;
     private ArmMotorsCmd armCmd;
     private Timer timer;
@@ -30,14 +28,12 @@ public class runIntake extends Command {
 
     @Override
     public void execute() {
-        armSubsystem.runPitchMotorWithKP(ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
         armSubsystem.runIntakeMotors(0.6);
         armSubsystem.runPushMotor(0.6);
     }
 
     @Override
     public void end(boolean interrupted) {
-        armSubsystem.runPitchMotor(0);
        armSubsystem.runIntakeMotors(0);
        armSubsystem.runPushMotor(0);
     }
