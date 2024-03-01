@@ -44,7 +44,8 @@ public class RobotContainer {
   public RobotContainer() {
     armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
        () -> xbox.getRightTriggerAxis() > 0.5, () -> xbox.getLeftTriggerAxis() > 0.5, // Shooter Motors
-      () -> leftJoystick.getRawButton(1))); // Intake Motors
+      () -> leftJoystick.getRawButton(1),
+      () -> xbox.getYButton())); // Intake Motors
   
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
