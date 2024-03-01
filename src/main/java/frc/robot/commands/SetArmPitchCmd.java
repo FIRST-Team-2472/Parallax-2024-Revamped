@@ -8,7 +8,7 @@ public class SetArmPitchCmd extends Command {
     private ArmMotorsSubsystem armMotorsSubsystem;
     private final double angleDeg;
     private final Timer timer;
-    private boolean rev;
+    private int rev;
     
     public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, double angleDeg) {
         this.angleDeg = angleDeg;
@@ -16,7 +16,7 @@ public class SetArmPitchCmd extends Command {
         this.armMotorsSubsystem = armMotorsSubsystem;
         addRequirements(armMotorsSubsystem);
     }
-    public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, double angleDeg, boolean rev) {
+    public SetArmPitchCmd(ArmMotorsSubsystem armMotorsSubsystem, double angleDeg, int rev) {
         this(armMotorsSubsystem, angleDeg);
         this.rev = rev;
         addRequirements(armMotorsSubsystem);
@@ -30,9 +30,15 @@ public class SetArmPitchCmd extends Command {
     @Override
     public void execute() {
         armMotorsSubsystem.runPitchMotorWithKP(angleDeg);
-        if(rev)
+        if(rev == 1)
+            armMotorsSubsystem.runShooterMotors(.7);
+
+        if (rev == 2) {
+            armMotorsSubsystem.runIntakeMotors(0.6);
+            armMotorsSubsystem.runPushMotor(0.6);
             armMotorsSubsystem.runShooterMotors(.7);
         }
+    } 
 
     @Override
     public void end(boolean interrupted) {
