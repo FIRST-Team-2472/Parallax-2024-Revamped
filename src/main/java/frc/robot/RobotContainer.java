@@ -20,7 +20,9 @@ import frc.robot.commands.*;
 import frc.robot.CommandSequences;
 
 public class RobotContainer {
-  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", testingPath =  "Test Path", justShoot = "Speaker Shoot";
+  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", 
+  placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", 
+  testingPath =  "Drive from start", justShoot = "Speaker Shoot";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -92,7 +94,7 @@ public class RobotContainer {
       m_autoSelected = m_chooser.getSelected();
 
       if (m_autoSelected == testingPath)
-        return new ParallelCommandGroup(commandSequences.testingPath(swerveSubsystem));
+        return new ParallelCommandGroup(commandSequences.driveFromZone(swerveSubsystem));
 
       if (m_autoSelected == placementone)
       return new ParallelCommandGroup(commandSequences.twoinampCommand(swerveSubsystem, armSubsystem));
@@ -107,7 +109,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositionthreeCommand(swerveSubsystem, armSubsystem));
 
       if (m_autoSelected == justShoot)
-      return new ParallelCommandGroup(commandSequences.justShoot(swerveSubsystem, armSubsystem));
+      return new ParallelCommandGroup(commandSequences.justShoot(armSubsystem));
 
     return null;
   }

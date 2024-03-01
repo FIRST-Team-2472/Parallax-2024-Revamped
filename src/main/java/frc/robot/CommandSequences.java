@@ -74,7 +74,7 @@ public class CommandSequences {
     }
 
    
-    public Command testingPath(SwerveSubsystem swerveSubsystem) {
+    public Command driveFromZone(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
         System.out.println(exampleNodes[0].toString());
@@ -160,7 +160,7 @@ public class CommandSequences {
                 genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]));
     }
 
-    public Command justShoot(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem) {
+    public Command justShoot(ArmMotorsSubsystem armSubsystem) {
         
         return new SequentialCommandGroup(
         new runShooter(armSubsystem)
