@@ -41,7 +41,7 @@ public class SetArmPitchCmd extends Command {
 
     @Override
     public boolean isFinished() {
-        return (Math.abs(armMotorsSubsystem.getEncoderDeg() - angleDeg) < 0.5) || (timer.hasElapsed(2));
+        return (Math.abs(armMotorsSubsystem.getEncoderDeg() - angleDeg) < 0.5) || (timer.hasElapsed(3));
     }
 
 }
