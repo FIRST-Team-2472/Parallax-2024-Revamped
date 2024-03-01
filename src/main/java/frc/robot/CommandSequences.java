@@ -161,7 +161,8 @@ public class CommandSequences {
     public Command justShoot(ArmMotorsSubsystem armSubsystem) {
         
         return new SequentialCommandGroup(
-        new runShooter(armSubsystem)
+            new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+            new runShooter(armSubsystem)
         );
     }
 
