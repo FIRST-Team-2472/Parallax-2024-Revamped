@@ -77,6 +77,7 @@ public class ArmMotorsCmd extends Command {
         //runs the intake motors until the sensor is triggered
         
         intakeMotorsSpeed = ((intakeMotorsRunning.get() && !sensed)|| armSubsystem.getShooterSpeed() < -3500|| shooterMotorsAmp.get()) ? 0.4 : 0;
+        intakeMotorsSpeed = reversed.get() ? -0.4 : intakeMotorsSpeed;
         armSubsystem.runIntakeMotors(intakeMotorsSpeed);
         
         SmartDashboard.putNumber("Shooter speed", armSubsystem.getShooterSpeed());
