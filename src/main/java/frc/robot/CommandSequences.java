@@ -116,7 +116,6 @@ public class CommandSequences {
                 new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle, 1),
                 new runShooter(armSubsystem),
                 new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle, 2), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])),
-                //new ParallelCommandGroup(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle, 1), genratePath(swerveSubsystem, importantNodes[2], List.of(), startingNodes[2])),
                 new runShooter(armSubsystem)
 
         );
