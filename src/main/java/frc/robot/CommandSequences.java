@@ -37,7 +37,7 @@ public class CommandSequences {
 
     public CommandSequences() {
 
-        exampleNodes[0] = simplePose(1, 0, 0);
+        exampleNodes[0] = simplePose(3, 2, 0);
         exampleNodes[1] = simplePose(1, 1, 0);
         exampleNodes[2] = simplePose(0, 1, 0);
         exampleNodes[3] = simplePose(1, 1, 0);
@@ -173,9 +173,22 @@ public class CommandSequences {
 
     public Command justShoot(ArmMotorsSubsystem armSubsystem) {
         
+        
         return new SequentialCommandGroup(
             new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
             new runShooter(armSubsystem)
+        );
+    }
+
+    public Command justShootAndMove(ArmMotorsSubsystem armSubsystem, SwerveSubsystem swerveSubsystem) {
+        
+        swerveSubsystem.resetOdometry(startingNodes[3]);
+
+
+        return new SequentialCommandGroup(
+            new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+            new runShooter(armSubsystem),
+            genratePath(swerveSubsystem, startingNodes[3], List.of(), exampleNodes[0])
         );
     }
 

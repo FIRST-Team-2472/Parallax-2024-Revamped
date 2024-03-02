@@ -22,7 +22,7 @@ import frc.robot.CommandSequences;
 public class RobotContainer {
   private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", 
   placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", 
-  testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage";
+  testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -66,6 +66,7 @@ public class RobotContainer {
     m_chooser.addOption(testingPath, testingPath);
     m_chooser.addOption(stagePath, stagePath);
     m_chooser.addOption(justShoot, justShoot);
+    m_chooser.addOption(justShootAndMove, justShootAndMove);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -112,8 +113,12 @@ public class RobotContainer {
 
       if (m_autoSelected == stagePath)
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
+
       if (m_autoSelected == justShoot)
       return new ParallelCommandGroup(commandSequences.justShoot(armSubsystem));
+
+      if (m_autoSelected == justShootAndMove)
+      return new ParallelCommandGroup(commandSequences.justShootAndMove(armSubsystem, swerveSubsystem));
 
     return null;
   }
