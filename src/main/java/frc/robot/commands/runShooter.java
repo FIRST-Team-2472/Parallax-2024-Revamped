@@ -5,48 +5,50 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmMotorsSubsystem;
+import frc.robot.subsystems.ArmSubsystems.*;
 
 public class runShooter extends Command { 
 
-    private ArmMotorsSubsystem armSubsystem;
-    private Timer timer;
+    private ShootingMotorSubsystem shooterSubsystem;
+    private IntakeMotorSubsystem intakeSubsystem;
+    private Timer timer, timerTwo;
 
 
 
-    public runShooter(ArmMotorsSubsystem ArmSubsystem) {
+    public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem) {
         timer = new Timer();
-        this.armSubsystem = ArmSubsystem;
-        addRequirements(armSubsystem);
+        timerTwo = new Timer();
+        this.shooterSubsystem = shooterSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
+        addRequirements(shooterSubsystem);
     }
 
     @Override
     public void initialize() {
-        timer.restart();
+        timer.start();
     }
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(0.01)) {
-            armSubsystem.runShooterMotors(0.7);
-        } 
+            shooterSubsystem.runShooterMotors(0.7);
 
-        if (timer.hasElapsed(2)) {
-            armSubsystem.runShooterMotors(0.7);
-            armSubsystem.runPushMotor(0.25);
-            armSubsystem.runIntakeMotors(0.25);
+        if (shooterSubsystem.getShooterSpeed() < -3500 || timer.hasElapsed(1)) {
+            timerTwo.start();
+            shooterSubsystem.runShooterMotors(0.7);
+            intakeSubsystem.runPushMotor(1);
+            intakeSubsystem.runIntakeMotors(1);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-       armSubsystem.runShooterMotors(0);
-       armSubsystem.runPushMotor(0);
-       armSubsystem.runIntakeMotors(0);
+       shooterSubsystem.runShooterMotors(0);
+       intakeSubsystem.runPushMotor(0);
+       intakeSubsystem.runIntakeMotors(0);
     }
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(3);
+        return timer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
     }
 }

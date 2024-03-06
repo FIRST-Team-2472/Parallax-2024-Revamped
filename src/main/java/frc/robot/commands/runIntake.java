@@ -1,45 +1,47 @@
 package frc.robot.commands;
 
-import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmMotorsSubsystem;
+import frc.robot.subsystems.ArmSubsystems.*;
 
 public class runIntake extends Command { 
 
-    private ArmMotorsSubsystem armSubsystem;
-    private ArmMotorsCmd armCmd;
+    private IntakeMotorSubsystem intakeSubsystem;
     private Timer timer;
+    private double startingDelay, endingDelay;
 
 
 
-    public runIntake(ArmMotorsSubsystem armSubsystem) {
+    public runIntake(IntakeMotorSubsystem intakeSubsystem, double startingDelay, double endingDelay) {
         timer = new Timer();
-        this.armSubsystem = armSubsystem;
-        addRequirements(armSubsystem);
+        this.intakeSubsystem = intakeSubsystem;
+        this.startingDelay = startingDelay;
+        this.endingDelay = endingDelay;
+        addRequirements(intakeSubsystem);
     }
 
     @Override
     public void initialize() {
-        timer.restart();
+        timer.start();
     }
 
     @Override
     public void execute() {
-        armSubsystem.runIntakeMotors(0.6);
-        armSubsystem.runPushMotor(0.6);
+        if(timer.hasElapsed(startingDelay)){
+        intakeSubsystem.runIntakeMotors(0.6);
+        intakeSubsystem.runPushMotor(0.6);
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
-       armSubsystem.runIntakeMotors(0);
-       armSubsystem.runPushMotor(0);
+       intakeSubsystem.runIntakeMotors(0);
+       intakeSubsystem.runPushMotor(0);
     }
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(0.8);
+        return timer.hasElapsed(endingDelay);
     }
 }

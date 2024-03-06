@@ -2,19 +2,25 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmMotorsSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.ArmSubsystems.*;
 
 public class OverrideCmd extends Command{
 
     private SwerveSubsystem swerveSubsystem;
-    private ArmMotorsSubsystem armSubsystem;
+    private IntakeMotorSubsystem intakeSubsystem;
+    private PitchMotorSubsystem pitchSubsystem;
+    private ShootingMotorSubsystem shooterSubsystem;
     
-    public OverrideCmd(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem) {
+    public OverrideCmd(SwerveSubsystem swerveSubsystem, IntakeMotorSubsystem intakeSubsystem, PitchMotorSubsystem pitchSubsystem, ShootingMotorSubsystem shooterSubsystem) {
         this.swerveSubsystem = swerveSubsystem;
-        this.armSubsystem = armSubsystem;
-        addRequirements(armSubsystem);
+        this.intakeSubsystem = intakeSubsystem;
+        this.pitchSubsystem = pitchSubsystem;
+        this.shooterSubsystem = shooterSubsystem;
+        addRequirements(intakeSubsystem);
         addRequirements(swerveSubsystem); 
+        addRequirements(pitchSubsystem);
+        addRequirements(shooterSubsystem);
     }
 
     @Override
