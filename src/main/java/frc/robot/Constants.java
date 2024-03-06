@@ -40,9 +40,9 @@ public final class Constants {
 
   public static final class DriveConstants {
 
-    public static final double kTrackWidth = Units.inchesToMeters(34.5);
+    public static final double kTrackWidth = Units.inchesToMeters(21);
 
-    public static final double kWheelBase = Units.inchesToMeters(34.5);
+    public static final double kWheelBase = Units.inchesToMeters(23);
 
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
