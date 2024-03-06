@@ -1,25 +1,19 @@
-package frc.robot.commands;
+package frc.robot.commands.DefaultCommands;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.OIConstants;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ArmMotorsConstants.ShooterMotors;
 import frc.robot.subsystems.ArmSubsystems.*;
-import frc.robot.Constants.SensorConstants;
 
 public class ArmMotorsCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Supplier<Double> pitchMotor;
-    private SetArmPitchCmd pitchCmd;
     private Double intakeMotorsSpeed, shooterMotorsSpeed, pushMotorSpeed, pitchMotorSpeed;
     private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, reversed;
-    private boolean fired, sensed;
+    private boolean sensed;
     private PitchMotorSubsystem armPitchSubsystem;
     private ShootingMotorSubsystem shootingMotorSubsystem;
     private IntakeMotorSubsystem intakeMotorSubsystem;
@@ -28,7 +22,6 @@ public class ArmMotorsCmd extends Command {
     public ArmMotorsCmd(PitchMotorSubsystem armPitchSubsystem, ShootingMotorSubsystem shootingMotorSubsystem, IntakeMotorSubsystem intakeMotorSubsystem, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
          Supplier<Boolean> intakeMotorsRunning, Supplier<Boolean> reversed){
         this.pitchMotor = pitchMotor;
-        fired = false;
         sensed = false;
         this.shooterMotorsSpeaker = shooterMotorsSpeaker;
         this.shooterMotorsAmp = shooterMotorsAmp;

@@ -12,7 +12,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -172,7 +171,7 @@ public class CommandSequences {
             );
         }
 
-    public Command justShoot(ShootingMotorSubsystem shooterSubsystem, PitchMotorSubsystem pitchMotorSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+    public Command justShoot(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
         
         
         return new SequentialCommandGroup(

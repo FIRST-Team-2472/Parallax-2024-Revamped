@@ -20,7 +20,9 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.ArmSubsystems.*;
 import frc.robot.subsystems.ArmSubsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
+import frc.robot.commands.DefaultCommands.SwerveJoystickCmd;
 import frc.robot.commands.*;
+import frc.robot.commands.DefaultCommands.ArmMotorsCmd;
 import frc.robot.CommandSequences;
 
 public class RobotContainer {
@@ -48,7 +50,7 @@ public class RobotContainer {
   
 
   public RobotContainer() {
-    armSubsystem.setDefaultCommand(new ArmMotorsCmd(armSubsystem, () -> xbox.getLeftY(), // Pitch Motor
+    pitchMotorSubsystem.setDefaultCommand(new ArmMotorsCmd(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem, () -> xbox.getLeftY(), // Pitch Motor
        () -> xbox.getRightTriggerAxis() > 0.5, () -> xbox.getLeftTriggerAxis() > 0.5, // Shooter Motors
       () -> leftJoystick.getRawButton(1),
       () -> xbox.getYButton())); // Intake Motors
@@ -121,10 +123,10 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
 
       if (m_autoSelected == justShoot)
-      return new ParallelCommandGroup(commandSequences.justShoot(shootingMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.justShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justShootAndMove)
-      return new ParallelCommandGroup(commandSequences.justShootAndMove(pitchMotorSubsystem, swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justShootAndMove(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
     return null;
   }

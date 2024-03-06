@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
 
 public class SetArmPitchCmd extends Command {
