@@ -30,7 +30,8 @@ public class RobotContainer {
   testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move", 
   justMovePosition2tonote2 = "Just Move from front of speaker to note 2", justRunIntake = "Run the Intake", 
   shootFromFurtherAway = "Shoot from note position", justMovePosition2tonote1 = "Move to note 1 from the front of subwoofer",
-  justMovePosition2tonote3 = "Move to note 3 from front of subwoofer";
+  justMovePosition2tonote3 = "Move to note 3 from front of subwoofer", justMovePosition1tonote1 = "Move to note 1 from position 1",
+  justMovePosition1tonote2 = "Move to note 2 from position 1", justMovePosition1tonote3 = "Move to note 3 from position 1";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -82,6 +83,9 @@ public class RobotContainer {
     m_chooser.addOption(shootFromFurtherAway, shootFromFurtherAway);
     m_chooser.addOption(justMovePosition2tonote1, justMovePosition2tonote1);
     m_chooser.addOption(justMovePosition2tonote3, justMovePosition2tonote3);
+    m_chooser.addOption(justMovePosition1tonote1, justMovePosition1tonote1);
+    m_chooser.addOption(justMovePosition1tonote2, justMovePosition1tonote2);
+    m_chooser.addOption(justMovePosition1tonote3, justMovePosition1tonote3);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -149,6 +153,15 @@ public class RobotContainer {
 
       if (m_autoSelected == justMovePosition2tonote3)
       return new ParallelCommandGroup(commandSequences.justMovePosition2tonote3(swerveSubsystem));
+
+      if (m_autoSelected == justMovePosition1tonote1)
+      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote1(swerveSubsystem));
+
+      if (m_autoSelected == justMovePosition1tonote2)
+      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote2(swerveSubsystem));
+
+      if (m_autoSelected == justMovePosition1tonote3)
+      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote3(swerveSubsystem));
 
     return null;
   }

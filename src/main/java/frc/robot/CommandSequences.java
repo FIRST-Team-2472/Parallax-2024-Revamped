@@ -236,6 +236,33 @@ public class CommandSequences {
         );
     }
 
+    public Command justMovePosition1tonote1(SwerveSubsystem swerveSubsystem) {
+        
+        swerveSubsystem.resetOdometry(startingNodes[1]);
+
+        return new SequentialCommandGroup(
+            genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0])
+        );
+    }
+
+    public Command justMovePosition1tonote2(SwerveSubsystem swerveSubsystem) {
+        
+        swerveSubsystem.resetOdometry(startingNodes[1]);
+
+        return new SequentialCommandGroup(
+            genratePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[2])
+        );
+    }
+
+    public Command justMovePosition1tonote3(SwerveSubsystem swerveSubsystem) {
+        
+        swerveSubsystem.resetOdometry(startingNodes[1]);
+
+        return new SequentialCommandGroup(
+            genratePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[1])
+        );
+    }
+
     // generates a path via points
     private static Command genratePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint,
             List<PositivePoint> midPoints,
