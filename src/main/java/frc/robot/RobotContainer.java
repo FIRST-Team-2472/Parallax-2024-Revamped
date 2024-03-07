@@ -20,7 +20,8 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.ArmSubsystems.*;
 import frc.robot.commands.DefaultCommands.SwerveJoystickCmd;
 import frc.robot.commands.*;
-import frc.robot.commands.DefaultCommands.ArmMotorsCmd;
+import frc.robot.commands.DefaultCommands.*;
+import frc.robot.commands.DefaultCommands.PitchMotorCmd;
 import frc.robot.CommandSequences;
 
 public class RobotContainer {
@@ -51,8 +52,8 @@ public class RobotContainer {
   
 
   public RobotContainer() {
-    pitchMotorSubsystem.setDefaultCommand(new ArmMotorsCmd(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem, () -> xbox.getLeftY(), // Pitch Motor
-       () -> xbox.getRightTriggerAxis() > 0.5, () -> xbox.getLeftTriggerAxis() > 0.5, // Shooter Motors
+    pitchMotorSubsystem.setDefaultCommand(new PitchMotorCmd(pitchMotorSubsystem, () -> xbox.getLeftY(), // Pitch Motor
+      () -> xbox.getRightTriggerAxis() > 0.5, () -> xbox.getLeftTriggerAxis() > 0.5, // Shooter Motors
       () -> leftJoystick.getRawButton(1),
       () -> xbox.getYButton())); // Intake Motors
   

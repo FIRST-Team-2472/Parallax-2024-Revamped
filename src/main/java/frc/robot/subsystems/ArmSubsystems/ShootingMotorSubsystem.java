@@ -16,8 +16,8 @@ public class ShootingMotorSubsystem extends SubsystemBase {
         // make sure all of them have the same settings in case we grabbed one with presets
         shooterTopMotor.restoreFactoryDefaults();
         shooterBottomMotor.restoreFactoryDefaults();
-        shooterBottomMotor.setSmartCurrentLimit(2);
-        shooterTopMotor.setSmartCurrentLimit(2);
+        shooterBottomMotor.setSmartCurrentLimit(39);
+        shooterTopMotor.setSmartCurrentLimit(39);
 
     }
 
