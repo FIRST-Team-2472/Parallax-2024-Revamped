@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+/* package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
@@ -52,16 +52,16 @@ public class Limelights extends SubsystemBase{
         armSubsystem.runShooterMotors(0.0);
         armSubsystem.runPushMotor(0.0);
         new SetArmPitchCmd(armSubsystem, PitchMotor.kPitchMotorIntakePresetAngle);
-        */
+        
       }
     
-    /*
+    
     public void intakeDetectNote(){
       tx = LimelightHelpers.getTX("limelight-intake");
       ty = LimelightHelpers.getTY("limelight-intake") + IntakeLimelightConstants.kIntakeLimelightTYAngleOffset;
       distanceFwd = IntakeLimelightConstants.kIntakeLimelightHeight / Math.tan(ty);
       distanceLR = distanceFwd * Math.tan(tx);
     }
-    */
     
-}
+    
+} */

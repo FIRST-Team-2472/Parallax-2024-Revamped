@@ -43,7 +43,7 @@ public class RobotContainer {
   private final PitchMotorSubsystem pitchMotorSubsystem = new PitchMotorSubsystem();
   private final ShootingMotorSubsystem shootingMotorSubsystem = new ShootingMotorSubsystem();
 
-  private final Limelights limelights = new Limelights(swerveSubsystem, armSubsystem);
+  //private final Limelights limelights = new Limelights(swerveSubsystem, armSubsystem);
   XboxController xbox = new XboxController(OperatorConstants.kXboxControllerPort);
   public static Joystick leftJoystick = new Joystick(OperatorConstants.kLeftJoyPort);
   public static Joystick rightJoystick = new Joystick(OperatorConstants.kRightJoyPort);
@@ -101,8 +101,8 @@ public class RobotContainer {
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
  
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(0).onTrue(new InstantCommand(limelights :: scanAmpAprilTag));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(180).onTrue(new InstantCommand(limelights :: scanSpeakerAprilTag));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(0).onTrue(new InstantCommand(limelights :: scanAmpAprilTag));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(180).onTrue(new InstantCommand(limelights :: scanSpeakerAprilTag));
   }
 
   public Command getAutonomousCommand() {

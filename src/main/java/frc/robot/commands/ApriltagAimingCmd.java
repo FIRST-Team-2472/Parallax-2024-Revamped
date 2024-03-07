@@ -1,4 +1,4 @@
-package frc.robot.commands;
+/* package frc.robot.commands;
 
 import java.util.function.Supplier;
 
@@ -107,6 +107,7 @@ public class ApriltagAimingCmd extends Command{
         armSubsystem.runShooterMotors(0.0);
         armSubsystem.runPushMotor(0.0);
         new SetArmPitchCmd(armSubsystem, PitchMotor.kPitchMotorIntakePresetAngle);
-        */
+        
     }//}}
 }
+*/
