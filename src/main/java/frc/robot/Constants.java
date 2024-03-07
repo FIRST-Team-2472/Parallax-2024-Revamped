@@ -173,5 +173,9 @@ public static final class PnuematicsConstants{
     public static final int kBigRightPnuematicInflateChannel = 2;
     public static final int kBigRightPnuematicDeflateChannel = 14;
 }
+public static final class AutoAimingConstants{
+    public static final int kLimeLightAngle = 35;
+    public static final double kShooterAngle = 62.23;
+}
 
 }

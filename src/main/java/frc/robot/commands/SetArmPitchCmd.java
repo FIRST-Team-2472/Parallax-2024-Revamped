@@ -8,13 +8,14 @@ public class SetArmPitchCmd extends Command {
     private PitchMotorSubsystem pitchMotorSubsystem;
     private double angleDeg;
     private final Timer timer;
-    
+
     public SetArmPitchCmd(PitchMotorSubsystem pitchMotorSubsystem, double angleDeg) {
         this.angleDeg = angleDeg;
         this.timer = new Timer();
         this.pitchMotorSubsystem = pitchMotorSubsystem;
         addRequirements(pitchMotorSubsystem);
     }
+
     @Override
     public void initialize() {
         timer.start();
@@ -23,7 +24,7 @@ public class SetArmPitchCmd extends Command {
     @Override
     public void execute() {
         pitchMotorSubsystem.runPitchMotorWithKP(angleDeg);
-    } 
+    }
 
     @Override
     public void end(boolean interrupted) {
