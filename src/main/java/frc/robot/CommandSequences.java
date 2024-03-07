@@ -3,6 +3,8 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.type.CollectionLikeType;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -171,7 +173,7 @@ public class CommandSequences {
             );
         }
 
-    public Command justShoot(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+    public Command justShoot(PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
         
         
         return new SequentialCommandGroup(
@@ -189,6 +191,48 @@ public class CommandSequences {
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
             new runShooter(shooterSubsystem, intakeMotorSubsystem),
             genratePath(swerveSubsystem, startingNodes[3], List.of(), exampleNodes[0])
+        );
+    }
+
+    public Command justMovePosition2tonote2(SwerveSubsystem swerveSubsystem) {
+        
+        swerveSubsystem.resetOdometry(startingNodes[2]);
+
+        return new SequentialCommandGroup(
+            genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])
+        );
+    }
+
+    public Command justRunIntake(IntakeMotorSubsystem intakeMotorSubsystem) {
+
+        return new SequentialCommandGroup(
+            new runIntake(intakeMotorSubsystem, 0, 0.8)
+        );
+    }
+
+    public Command shootFromFurtherAway(PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+
+        return new SequentialCommandGroup(
+            new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
+            new runShooter(shooterSubsystem, intakeMotorSubsystem)
+        );
+    }
+
+    public Command justMovePosition2tonote1(SwerveSubsystem swerveSubsystem) {
+        
+        swerveSubsystem.resetOdometry(startingNodes[2]);
+
+        return new SequentialCommandGroup(
+            genratePath(swerveSubsystem, startingNodes[2], List.of(), collectingNearNodes[0])
+        );
+    }
+
+    public Command justMovePosition2tonote3(SwerveSubsystem swerveSubsystem) {
+        
+        swerveSubsystem.resetOdometry(startingNodes[2]);
+
+        return new SequentialCommandGroup(
+            genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[1])
         );
     }
 

@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ArmSubsystems.*;
-import frc.robot.subsystems.ArmSubsystems.IntakeMotorSubsystem;
-import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
 import frc.robot.commands.DefaultCommands.SwerveJoystickCmd;
 import frc.robot.commands.*;
 import frc.robot.commands.DefaultCommands.ArmMotorsCmd;
@@ -28,7 +26,10 @@ import frc.robot.CommandSequences;
 public class RobotContainer {
   private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", 
   placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", 
-  testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move";
+  testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move", 
+  justMovePosition2tonote2 = "Just Move from front of speaker to note 2", justRunIntake = "Run the Intake", 
+  shootFromFurtherAway = "Shoot from note position", justMovePosition2tonote1 = "Move to note 1 from the front of subwoofer",
+  justMovePosition2tonote3 = "Move to note 3 from front of subwoofer";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -75,6 +76,11 @@ public class RobotContainer {
     m_chooser.addOption(stagePath, stagePath);
     m_chooser.addOption(justShoot, justShoot);
     m_chooser.addOption(justShootAndMove, justShootAndMove);
+    m_chooser.addOption(justMovePosition2tonote2, justMovePosition2tonote2);
+    m_chooser.addOption(justRunIntake, justRunIntake);
+    m_chooser.addOption(shootFromFurtherAway, shootFromFurtherAway);
+    m_chooser.addOption(justMovePosition2tonote1, justMovePosition2tonote1);
+    m_chooser.addOption(justMovePosition2tonote3, justMovePosition2tonote3);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -123,10 +129,25 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
 
       if (m_autoSelected == justShoot)
-      return new ParallelCommandGroup(commandSequences.justShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.justShoot(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justShootAndMove)
       return new ParallelCommandGroup(commandSequences.justShootAndMove(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+
+      if (m_autoSelected == justMovePosition2tonote2)
+      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote2(swerveSubsystem));
+
+      if (m_autoSelected == justRunIntake)
+      return new ParallelCommandGroup(commandSequences.justRunIntake(intakeMotorSubsystem));
+
+      if (m_autoSelected == shootFromFurtherAway)
+      return new ParallelCommandGroup(commandSequences.shootFromFurtherAway(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+
+      if (m_autoSelected == justMovePosition2tonote1)
+      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote1(swerveSubsystem));
+
+      if (m_autoSelected == justMovePosition2tonote3)
+      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote3(swerveSubsystem));
 
     return null;
   }
