@@ -11,13 +11,14 @@ public class PitchMotorCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Supplier<Double> pitchMotor;
     private Double pitchMotorSpeed;
-    private Supplier<Boolean> intakeMotorsRunning;
+    private Supplier<Boolean> intakebutton;
     private PitchMotorSubsystem armPitchSubsystem;
     private Timer timer = new Timer();
 
-    public PitchMotorCmd(PitchMotorSubsystem armPitchSubsystem, Supplier<Double> pitchMotor){
+    public PitchMotorCmd(PitchMotorSubsystem armPitchSubsystem, Supplier<Double> pitchMotor, Supplier<Boolean> intakebutton){
         this.pitchMotor = pitchMotor;
         this.armPitchSubsystem = armPitchSubsystem;
+        this.intakebutton = intakebutton;
         addRequirements(armPitchSubsystem);
     }
 
@@ -38,7 +39,7 @@ public class PitchMotorCmd extends Command {
         if (pitchMotorSpeed < OIConstants.kArmDeadband && pitchMotorSpeed > -OIConstants.kArmDeadband) 
             pitchMotorSpeed = 0.0;
         pitchMotorSpeed *= 0.45;//slows down the arm
-        if(!intakeMotorsRunning.get())
+        if(!intakebutton.get())
             armPitchSubsystem.runPitchMotor(pitchMotorSpeed);
         else
             armPitchSubsystem.runPitchMotor(pitchMotorSpeed, true);

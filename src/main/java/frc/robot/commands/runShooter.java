@@ -20,11 +20,19 @@ public class runShooter extends Command {
         this.intakeSubsystem = intakeSubsystem;
         this.speed = speed;
         addRequirements(shooterSubsystem);
+        addRequirements(intakeSubsystem);
     }
 
     @Override
     public void initialize() {
+        timer.stop();
+        timer.reset();
         timer.start();
+
+        timerTwo.stop();
+        timerTwo.reset();
+        System.out.println("running");
+        System.out.println(""+timer.get());
     }
 
     @Override
@@ -32,8 +40,8 @@ public class runShooter extends Command {
             shooterSubsystem.runShooterMotors(speed);
 
         if (shooterSubsystem.getShooterSpeed() < -3500 || timer.hasElapsed(1) || speed < 0.6) {
-            timerTwo.start();
-            shooterSubsystem.runShooterMotors(speed);
+            if(timerTwo.get() != 0.0)
+                timerTwo.start();
             intakeSubsystem.runPushMotor(1);
             intakeSubsystem.runIntakeMotors(1);
         }
@@ -44,10 +52,12 @@ public class runShooter extends Command {
        shooterSubsystem.runShooterMotors(0);
        intakeSubsystem.runPushMotor(0);
        intakeSubsystem.runIntakeMotors(0);
+       System.out.println("interrupted");
     }
 
     @Override
     public boolean isFinished() {
+
         return timer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
     }
 }
