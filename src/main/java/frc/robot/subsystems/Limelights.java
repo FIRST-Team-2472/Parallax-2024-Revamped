@@ -26,6 +26,7 @@ public class Limelights extends SubsystemBase{
     private ArmMotorsSubsystem armSubsystem;
     private SwerveDriveToPointCmd swerveDriveToPointCmd;
     private SwerveRotateToAngle swerveRotateToAngle;
+
     public Limelights(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem){
         this.swerveSubsystem = swerveSubsystem;
         this.armSubsystem = armSubsystem;
@@ -41,16 +42,29 @@ public class Limelights extends SubsystemBase{
     public void scanSpeakerAprilTag(){
         tx = LimelightHelpers.getTX("limelight-shooter");
         new ApriltagAimingCmd(swerveSubsystem, swerveRotateToAngle, armSubsystem, tx);
-        /*
+        
         new PosPose2d(0.45, 5.52, new Rotation2d(0));
+
         new SetArmPitchCmd(armSubsystem, PitchMotor.kPitchMotorAmpPresetAngle);
+
         timer.restart();
+
         armSubsystem.runShooterMotors(0.5);
-        while(!timer.hasElapsed(1)){}
+
+        while(!timer.hasElapsed(1)){
+
+        }
+
         armSubsystem.runPushMotor(0.5);
-        while(!timer.hasElapsed(3)){}
+
+        while(!timer.hasElapsed(3)){
+
+        }
+
         armSubsystem.runShooterMotors(0.0);
+
         armSubsystem.runPushMotor(0.0);
+
         new SetArmPitchCmd(armSubsystem, PitchMotor.kPitchMotorIntakePresetAngle);
         
       }

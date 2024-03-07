@@ -94,20 +94,21 @@ public class ApriltagAimingCmd extends Command{
       if(swerveRotateToAngle.isFinished()){
         new SetArmPitchCmd(armSubsystem, PitchMotor.kPitchMotorSpeakerPresetAngle);
       }
-      /*
+      
       new SetArmPitchCmd(armSubsystem, PitchMotor.kPitchMotorSpeakerPresetAngle);
       armSubsystem.runShooterMotors(.75);
 
         if(timer.hasElapsed(1)){
         
         armSubsystem.runPushMotor(0.5);
+        }
         
         if(timer.hasElapsed(3)){
 
         armSubsystem.runShooterMotors(0.0);
         armSubsystem.runPushMotor(0.0);
         new SetArmPitchCmd(armSubsystem, PitchMotor.kPitchMotorIntakePresetAngle);
+        }
         
-    }//}}
-}
-*/
+    }
+} */
