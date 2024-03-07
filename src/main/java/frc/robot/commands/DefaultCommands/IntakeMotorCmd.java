@@ -2,9 +2,7 @@ package frc.robot.commands.DefaultCommands;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.ArmSubsystems.*;
 
@@ -41,17 +39,17 @@ public class IntakeMotorCmd extends Command {
             timer.reset();
         }
         
-        //runs the push motor when ready to fire or during intaking, until it hit the sensor
+        //runs the push motor until it hit the sensor
         pushMotorSpeed = 0.0;
         pushMotorSpeed = reversed.get() ? -.2 : pushMotorSpeed;
-        pushMotorSpeed = intakeMotorsRunning.get() ? 0.6 : pushMotorSpeed;
+        pushMotorSpeed = intakeMotorsRunning.get() && !sensed ? 0.6 : pushMotorSpeed;
         intakeMotorSubsystem.runPushMotor(pushMotorSpeed);
 
 
         //runs the intake motors until the sensor is triggered
         intakeMotorsSpeed = 0.0;
         intakeMotorsSpeed = reversed.get() ? -0.2 : intakeMotorsSpeed;
-        intakeMotorsSpeed = intakeMotorsRunning.get() ? 0.6 : intakeMotorsSpeed;
+        intakeMotorsSpeed = intakeMotorsRunning.get() && !sensed ? 0.6 : intakeMotorsSpeed;
         intakeMotorSubsystem.runIntakeMotors(intakeMotorsSpeed);
         
         super.execute();

@@ -100,7 +100,7 @@ public class CommandSequences {
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle),
                 genratePath(swerveSubsystem, startingNodes[0], List.of(), importantNodes[3]),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem),
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 genratePath(swerveSubsystem, importantNodes[3], List.of(), collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 0.8),
@@ -116,9 +116,9 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem),
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem)
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
 
         );
     }
@@ -128,7 +128,7 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem),
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 0.8),
@@ -140,7 +140,7 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem),
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 genratePath(swerveSubsystem, startingNodes[3], List.of(), importantNodes[1]),
                 genratePath(swerveSubsystem, importantNodes[1], List.of(), startingNodes[3]));
@@ -178,7 +178,7 @@ public class CommandSequences {
         
         return new SequentialCommandGroup(
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-            new runShooter(shooterSubsystem, intakeMotorSubsystem)
+            new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
         );
     }
 
@@ -189,7 +189,7 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-            new runShooter(shooterSubsystem, intakeMotorSubsystem),
+            new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
             genratePath(swerveSubsystem, startingNodes[3], List.of(), exampleNodes[0])
         );
     }
@@ -214,7 +214,7 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
-            new runShooter(shooterSubsystem, intakeMotorSubsystem)
+            new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
         );
     }
 

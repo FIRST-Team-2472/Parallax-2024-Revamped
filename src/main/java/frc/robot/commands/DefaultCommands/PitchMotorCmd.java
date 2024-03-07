@@ -2,7 +2,6 @@ package frc.robot.commands.DefaultCommands;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.Timer;
@@ -12,16 +11,13 @@ public class PitchMotorCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Supplier<Double> pitchMotor;
     private Double pitchMotorSpeed;
-    private Supplier<Boolean> intakeMotorsRunning, shooterMotorsSpeaker, shooterMotorsAmp, reversed;
-    private boolean sensed;
+    private Supplier<Boolean> intakeMotorsRunning;
     private PitchMotorSubsystem armPitchSubsystem;
     private Timer timer = new Timer();
 
-    public PitchMotorCmd(PitchMotorSubsystem armPitchSubsystem, Supplier<Double> pitchMotor, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, 
-         Supplier<Boolean> intakeMotorsRunning, Supplier<Boolean> reversed){
+    public PitchMotorCmd(PitchMotorSubsystem armPitchSubsystem, Supplier<Double> pitchMotor){
         this.pitchMotor = pitchMotor;
         this.armPitchSubsystem = armPitchSubsystem;
-        this.reversed = reversed;
         addRequirements(armPitchSubsystem);
     }
 

@@ -10,14 +10,15 @@ public class runShooter extends Command {
     private ShootingMotorSubsystem shooterSubsystem;
     private IntakeMotorSubsystem intakeSubsystem;
     private Timer timer, timerTwo;
+    private double speed;
 
 
-
-    public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem) {
+    public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem, double speed) {
         timer = new Timer();
         timerTwo = new Timer();
         this.shooterSubsystem = shooterSubsystem;
         this.intakeSubsystem = intakeSubsystem;
+        this.speed = speed;
         addRequirements(shooterSubsystem);
     }
 
@@ -28,11 +29,11 @@ public class runShooter extends Command {
 
     @Override
     public void execute() {
-            shooterSubsystem.runShooterMotors(0.7);
+            shooterSubsystem.runShooterMotors(speed);
 
-        if (shooterSubsystem.getShooterSpeed() < -3500 || timer.hasElapsed(1)) {
+        if (shooterSubsystem.getShooterSpeed() < -3500 || timer.hasElapsed(1) || speed < 0.6) {
             timerTwo.start();
-            shooterSubsystem.runShooterMotors(0.7);
+            shooterSubsystem.runShooterMotors(speed);
             intakeSubsystem.runPushMotor(1);
             intakeSubsystem.runIntakeMotors(1);
         }
