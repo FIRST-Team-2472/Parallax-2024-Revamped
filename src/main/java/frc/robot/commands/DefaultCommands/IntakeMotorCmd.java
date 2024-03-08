@@ -38,6 +38,9 @@ public class IntakeMotorCmd extends Command {
             sensed = true;
             timer.reset();
         }
+        if(timer.hasElapsed(2)){
+            sensed = false;
+        }
         
         //runs the push motor until it hit the sensor
         pushMotorSpeed = 0.0;

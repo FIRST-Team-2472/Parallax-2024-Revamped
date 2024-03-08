@@ -42,6 +42,6 @@ public class runIntake extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(endingDelay);
+        return timer.hasElapsed(endingDelay) || intakeSubsystem.getPhotoElectricSensor() == true;
     }
 }

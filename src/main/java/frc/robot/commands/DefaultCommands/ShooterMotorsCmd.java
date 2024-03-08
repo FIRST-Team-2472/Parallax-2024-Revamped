@@ -9,12 +9,10 @@ import frc.robot.subsystems.ArmSubsystems.*;
 public class ShooterMotorsCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Double shooterMotorsSpeed;
-    private Supplier<Boolean> shooterMotorsSpeaker, shooterMotorsAmp, reversed;
+    private Supplier<Boolean>  reversed;
     private ShootingMotorSubsystem shootingMotorSubsystem;;
 
-    public ShooterMotorsCmd(ShootingMotorSubsystem shootingMotorSubsystem, Supplier<Boolean> shooterMotorsSpeaker, Supplier<Boolean> shooterMotorsAmp, Supplier<Boolean> reversed){
-        this.shooterMotorsSpeaker = shooterMotorsSpeaker;
-        this.shooterMotorsAmp = shooterMotorsAmp;
+    public ShooterMotorsCmd(ShootingMotorSubsystem shootingMotorSubsystem, Supplier<Boolean> reversed){
         this.shootingMotorSubsystem = shootingMotorSubsystem;
         this.reversed = reversed;
         addRequirements(shootingMotorSubsystem);
@@ -30,8 +28,8 @@ public class ShooterMotorsCmd extends Command {
     @Override
     public void execute() {
         //runs the shooter motor at 75% speed when we fire in speaker and 50% for the amp
-        shooterMotorsSpeed = shooterMotorsSpeaker.get() ? .75 : (shooterMotorsAmp.get() ? 0.5 : 0);
-        shooterMotorsSpeed = reversed.get() ? -0.1 : shooterMotorsSpeed;
+        shooterMotorsSpeed = 0.0;
+        shooterMotorsSpeed = reversed.get() ? -0.2 : shooterMotorsSpeed;
         shootingMotorSubsystem.runShooterMotors(shooterMotorsSpeed);
         
         SmartDashboard.putNumber("Shooter speed", shootingMotorSubsystem.getShooterSpeed());

@@ -18,6 +18,8 @@ public class SetArmPitchCmd extends Command {
 
     @Override
     public void initialize() {
+        timer.stop();
+        timer.reset();
         timer.start();
     }
 
