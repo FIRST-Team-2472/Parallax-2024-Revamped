@@ -117,7 +117,7 @@ public final class Constants {
       public static final double kPitchEncoderReverseLimit = -88;
       public static final double kPitchMotorIntakePresetAngle = 90.5;
       public static final double kPitchMotorSpeakerPresetAngle = 80.0;
-      public static final double kPitchMotorFarSpeakerPresetAngle = 67.0;
+      public static final double kPitchMotorFarSpeakerPresetAngle = 63.5;
       public static final double kPitchMotorAmpPresetAngle = -7.0;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;
     }

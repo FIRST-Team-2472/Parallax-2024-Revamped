@@ -117,7 +117,8 @@ public class CommandSequences {
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
-                new ParallelCommandGroup(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])),
+                new ParallelCommandGroup(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]), new runIntake(intakeMotorSubsystem, 0, 1.9)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
 
         );
@@ -206,7 +207,7 @@ public class CommandSequences {
     public Command justRunIntake(IntakeMotorSubsystem intakeMotorSubsystem) {
 
         return new SequentialCommandGroup(
-            new runIntake(intakeMotorSubsystem, 0, 0.8)
+            new runIntake(intakeMotorSubsystem, 0, 0.6)
         );
     }
 
