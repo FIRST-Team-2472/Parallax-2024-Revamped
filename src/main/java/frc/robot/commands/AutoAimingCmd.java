@@ -33,7 +33,7 @@ public class AutoAimingCmd extends Command {
 
     @Override
     public void execute() {
-    targetPoseCameraSpace = LimelightHelpers.getTargetPose3d_CameraSpace(""); // FIXME Add Limelight Name
+    targetPoseCameraSpace = LimelightHelpers.getTargetPose3d_CameraSpace("limelight-shooter");
     // TODO Filter out all targets exept the one we want
     
         //x = targetPoseCameraSpace.getX();
