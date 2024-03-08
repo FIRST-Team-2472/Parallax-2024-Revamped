@@ -3,6 +3,7 @@ package frc.robot.commands;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.AutoAimingConstants;
@@ -40,8 +41,8 @@ public class AutoAimingCmd extends Command {
         //y = targetPoseCameraSpace.getY();
         //z = targetPoseCameraSpace.getZ();
 
-        pitchAngle = Math.atan(y / z);
-        yawAngle = Math.atan(x / z);
+        pitchAngle = Units.radiansToDegrees(Math.atan(y / z));
+        yawAngle = Units.radiansToDegrees(Math.atan(x / z));
 
         System.out.println(armAimingEquation(pitchAngle));
         
