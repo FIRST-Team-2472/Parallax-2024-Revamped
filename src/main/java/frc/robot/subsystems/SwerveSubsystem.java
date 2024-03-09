@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.TargetPosConstants;
@@ -190,6 +191,7 @@ public class SwerveSubsystem extends SubsystemBase{
     public void resetOdometry(Pose2d pose){
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
+    
     public void intializeJoystickRunFromField() {
         xLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -281,6 +283,13 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("frontRight Encoder", getFRAbsEncoder());
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
+
+
+        // TODO Reset Odometry with LimeLight. Get limelight's position on robot.
+
+        System.out.println("Blue: " + LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter"));
+        System.out.println("Red: " + LimelightHelpers.getBotPose2d_wpiRed("limelight-shooter"));
+        System.out.println("Global: " + LimelightHelpers.getBotPose2d("limelight-shooter"));
 
         logOdometry();
         logPigeonState();
