@@ -88,7 +88,6 @@ public class RobotContainer {
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
     driverBoard.addCamera("Limelight Stream Intake", "limelight_intake", "mjpg:http://limelight-intake.local:5800").withSize(4,4);
     driverBoard.addCamera("Limelight Stream Shooter", "limelight_shooter", "mjpg:http://limelight-shooter.local:5800").withSize(4,4);
-
   }
 
   private void configureBindings() {
@@ -171,7 +170,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
     SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
     SmartDashboard.putNumber("Shooter speed", shootingMotorSubsystem.getShooterSpeed());
-    SmartDashboard.putNumber("Rotation", swerveSubsystem.getRotation2d().getDegrees());
     //SmartDashboard.putNumber("Arm Encoder", armSubsystem.getAbsoluteEncoder());
   }
 

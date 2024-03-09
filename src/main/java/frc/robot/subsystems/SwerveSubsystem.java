@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.BooleanSubscriber;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -74,6 +75,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     private static BooleanSubscriber isOnRed;
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
+    private GenericEntry rotationShuffleBoard;
     private final String red = "Red", blue = "Blue";
 
     public SwerveSubsystem(){
@@ -91,6 +93,7 @@ public class SwerveSubsystem extends SubsystemBase{
         colorChooser.addOption(red, red);
         colorChooser.addOption(blue, blue);
         driverBoard.add("Team Chooser", colorChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+        rotationShuffleBoard = programmerBoard.add("Robot Rotation", 0).getEntry();
 
         xLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -116,6 +119,10 @@ public class SwerveSubsystem extends SubsystemBase{
 
     public void zeroHeading(){
         gyro.setYaw(0);
+    }
+
+    public void zeroHeading(double offset){
+        gyro.setYaw(offset);
     }
 
     public double getHeading(){
@@ -188,6 +195,8 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     
     public void resetOdometry(Pose2d pose){
+        int inverse = isOnRed() ? 1 : -1;
+       // zeroHeading(pose.getRotation().getDegrees() * inverse);
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
     public void intializeJoystickRunFromField() {
@@ -275,6 +284,7 @@ public class SwerveSubsystem extends SubsystemBase{
     @Override
     public void periodic(){
         odometer.update(getRotation2d(), getModulePositions());
+        rotationShuffleBoard.setDouble(getRotation2d().getDegrees());
         SmartDashboard.putNumber("Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("frontLeft Encoder", getFLAbsEncoder());
