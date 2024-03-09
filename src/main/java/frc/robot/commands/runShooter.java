@@ -52,7 +52,7 @@ public class runShooter extends Command {
        shooterSubsystem.runShooterMotors(0);
        intakeSubsystem.runPushMotor(0);
        intakeSubsystem.runIntakeMotors(0);
-       System.out.println("interrupted");
+       if (interrupted) System.out.println("interrupted");
     }
 
     @Override

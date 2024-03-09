@@ -36,6 +36,6 @@ public class DrivePose2d extends Pose2d{
         if (SwerveSubsystem.isOnRed()) {
             return new PosPose2d(getX(), getY(), getRotation());
         }
-        return new PosPose2d(getX(), Math.abs(getY()), getRotation());
+        return new PosPose2d(getX(), Math.abs(getY()), getRotation().times(-1));
     }
 }

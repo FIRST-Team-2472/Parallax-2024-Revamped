@@ -72,14 +72,14 @@ public class CommandSequences {
         startingNodes[4] = simplePose(2.46, 7.27, 0);
 
         // Collecting the near nodes
-        collectingNearNodes[0] = simplePose(2.4, 6.92, 0);
+        collectingNearNodes[0] = simplePose(2.9, 6.92, 0);
         collectingNearNodes[1] = simplePose(2.15, 5.5,	0); //same as imp. n. [2];
         collectingNearNodes[2] = simplePose(2.15, 4.08, 0); //same as imp. n. [3];
 
         // Shooting to the speaker from the near nodes
-        shootingNearNodes[0] = simplePose(2.9, 7, 30);
+        shootingNearNodes[0] = simplePose(2.9, 7, 26);
         shootingNearNodes[1] = simplePose(2.9, 5.5,	0);
-        shootingNearNodes[2] = simplePose(2.9, 4.08, -30);
+        shootingNearNodes[2] = simplePose(2.9, 4.08, -26);
     }
 
    
@@ -98,7 +98,7 @@ public class CommandSequences {
 
         System.out.println("Autos Happening");
         System.out.println(miscellaneousNodes[0].toString());
-        swerveSubsystem.resetOdometry(startingNodes[2]);
+        swerveSubsystem.resetOdometry(startingNodes[2].toDrivePose2d());
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
@@ -117,23 +117,24 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[1].toDrivePose2d());
 
          return new SequentialCommandGroup(
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
-                new ParallelCommandGroup(
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                genratePath(swerveSubsystem, startingNodes[1], List.of(miscellaneousNodes[2].getPositivePoint()), collectingNearNodes[0]),
+            new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+            new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
+            new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+            genratePath(swerveSubsystem, startingNodes[1], List.of(), miscellaneousNodes[2]),
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 2.2)
-                ),
-                new ParallelCommandGroup(
-                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(miscellaneousNodes[2].getPositivePoint()), startingNodes[1]),
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle)),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
-                ); 
+            ),
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, shootingNearNodes[0]),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle)),
+            new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
+            ); 
                 //return new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
     } 
 
     public Command twoinspeakerfrompositionthreeCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
-        swerveSubsystem.resetOdometry(startingNodes[3]);
+        swerveSubsystem.resetOdometry(startingNodes[3].toDrivePose2d());
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),

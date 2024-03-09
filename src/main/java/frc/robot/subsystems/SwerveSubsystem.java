@@ -122,7 +122,7 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public void zeroHeading(double offset){
-        gyro.setYaw(offset);
+        gyro.setYaw(-offset);
     }
 
     public double getHeading(){
@@ -195,10 +195,13 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     
     public void resetOdometry(Pose2d pose){
-        int inverse = isOnRed() ? 1 : -1;
-       // zeroHeading(pose.getRotation().getDegrees() * inverse);
+        zeroHeading(pose.getRotation().getDegrees());
+        //odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getTranslation(), new Rotation2d()));
+        System.out.println("Rotation: " + getRotation2d().getDegrees());
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
+
     }
+
     public void intializeJoystickRunFromField() {
         xLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -269,6 +272,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
         runModulesFieldRelative(0, 0, turningSpeed);
     }
+
     private void runModulesFieldRelative(double xSpeed, double ySpeed, double turningSpeed) {
         // Converts robot speeds to speeds relative to field
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
