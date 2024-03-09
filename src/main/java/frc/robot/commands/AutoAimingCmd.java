@@ -31,7 +31,8 @@ public class AutoAimingCmd extends Command {
     private PosPose2d posPose2d;
     private boolean isDone = false;
 
-    public AutoAimingCmd(PitchMotorSubsystem pitchSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem) {
+    public AutoAimingCmd(PitchMotorSubsystem pitchSubsystem, ShootingMotorSubsystem shooterSubsystem,
+            IntakeMotorSubsystem intakeSubsystem) {
         this.pitchSubsystem = pitchSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.shooterSubsystem = shooterSubsystem;
@@ -48,15 +49,13 @@ public class AutoAimingCmd extends Command {
         LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
         // TODO Filter out all targets exept the one we want
 
-        if (llr.targetingResults.targets_Fiducials.length > 0) {
+        if (llr.targetingResults.targets_Fiducials.length > 0) { // if the lime light sees an april tag then run the aiming
             x = targetPoseCameraSpace.getX();
             y = targetPoseCameraSpace.getY();
             z = targetPoseCameraSpace.getZ();
 
             pitchAngle = Units.radiansToDegrees(Math.atan2(z, y));
             yawAngle = Units.radiansToDegrees(Math.atan2(z, x));
-
-
 
             System.out.println(armAimingEquation(pitchAngle));
 
@@ -81,6 +80,7 @@ public class AutoAimingCmd extends Command {
 
     public double armAimingEquation(double angle) {
         return -((angle - (-AutoAimingConstants.kLimeLightAngle + 90)) + AutoAimingConstants.kShooterAngle);
+        // given the 
     }
 
 }
