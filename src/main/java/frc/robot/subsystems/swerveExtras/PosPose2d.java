@@ -1,41 +1,37 @@
 package frc.robot.subsystems.swerveExtras;
 
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.Constants.SensorConstants;
+import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class PosPose2d extends Pose2d {
+public class PosPose2d{
     // positive/blue position -> simplfyed position for comparisions to auto points
-
-
-    public PosPose2d() {
-        super();
+    
+    double x,y;
+    Rotation2d angle;
+    
+    public PosPose2d(double x, double y, double angle){ // red is true
+        this.y = y;
+        this.x = x;
+        this.angle = new Rotation2d(angle);
+    }
+    
+    public double getX(){
+        return x;
     }
 
-    public PosPose2d(double x, double y, Rotation2d angle) {
-        super(x, y, angle);
+    public void changeToRed(){
+        x = Constants.SensorConstants.sizeOfFieldMeters - x;
+        angle = new Rotation2d(180 - angle.getDegrees());
     }
-
-    public PosPose2d(PositivePoint posPoint, Rotation2d angle) {
-        super(posPoint, angle);
+    
+    public double getY(){
+        return y;
     }
-
-    public PositivePoint getPositivePoint() {
-        return new PositivePoint(getX(), getY());
-    }
-
-    public FieldPose2d toFieldPose2d() {
-        if (SwerveSubsystem.isOnRed()) {
-            return new FieldPose2d(SensorConstants.sizeOfFieldMeters - getX(), getY(), getRotation());
-        }
-        return new FieldPose2d(getX(), getY(), getRotation());
-    }
-
-    public DrivePose2d toDrivePose2d() {
-        if (SwerveSubsystem.isOnRed()) {
-            return new DrivePose2d(getX(), getY(), getRotation());
-        }
-        return new DrivePose2d(Math.abs(getX()), -Math.abs(getY()), getRotation());
+    
+    public Rotation2d getAngle(){
+        return angle;
     }
 }

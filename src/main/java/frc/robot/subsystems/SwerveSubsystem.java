@@ -28,6 +28,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.TargetPosConstants;
 import frc.robot.subsystems.swerveExtras.AccelerationLimiter;
+import frc.robot.subsystems.swerveExtras.PosPose2d;
 
 public class SwerveSubsystem extends SubsystemBase{
     private final SwerveModule frontLeft = new SwerveModule(//
@@ -194,12 +195,11 @@ public class SwerveSubsystem extends SubsystemBase{
         return odometer.getPoseMeters();
     }
     
-    public void resetOdometry(Pose2d pose){
-        zeroHeading(pose.getRotation().getDegrees());
-        //odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getTranslation(), new Rotation2d()));
+    public void resetOdometry(PosPose2d pose){
+        zeroHeading(pose.getAngle().getDegrees());
+        //odometer.resetPosition(getRotation2d(), getModulePositions(), new PosPose2d(pose.getTranslation(), new Rotation2d()));
         System.out.println("Rotation: " + getRotation2d().getDegrees());
-        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
-
+        odometer.resetPosition(pose.getAngle(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), pose.getAngle()));
     }
 
     public void intializeJoystickRunFromField() {
