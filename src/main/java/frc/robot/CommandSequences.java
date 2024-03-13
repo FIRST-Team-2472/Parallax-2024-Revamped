@@ -55,6 +55,7 @@ public class CommandSequences {
         miscellaneousNodes[1] = new PosPose2d(2.91, 5.56, 0);
         //On the way to note 1
         miscellaneousNodes[2] = new PosPose2d(1.76, 7, 0);
+        //can be used later
         miscellaneousNodes[3] = new PosPose2d(1, 1, 0);
 
         // non-amp side of Speaker
@@ -116,10 +117,10 @@ public class CommandSequences {
                 new ParallelCommandGroup(
                     new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), 
                     genratePath(swerveSubsystem, List.of(), importantNodes[2]), 
-                    new runIntake(intakeMotorSubsystem, 0, 1.7)),
+                    new runIntake(intakeMotorSubsystem, 0, 1)),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
-                genratePath(swerveSubsystem, List.of(), miscellaneousNodes[1])
+                new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1])
         );
     }
 
@@ -130,14 +131,14 @@ public class CommandSequences {
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-            genratePath(swerveSubsystem, List.of(), miscellaneousNodes[2]),
+            //genratePath(swerveSubsystem, List.of(), miscellaneousNodes[2]),
             new ParallelCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 2.2)
             ),
             new ParallelCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, shootingNearNodes[0]),
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle)),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
             ); 
                 //return new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
