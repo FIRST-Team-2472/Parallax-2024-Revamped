@@ -290,17 +290,11 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
 
-        // TODO Reset Odometry with LimeLight. Get limelight's position on robot.
-
-        System.out.println("Blue: " + LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter"));
-        System.out.println("Red: " + LimelightHelpers.getBotPose2d_wpiRed("limelight-shooter"));
-        System.out.println("Global: " + LimelightHelpers.getBotPose2d("limelight-shooter"));
-
         LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
         int fiducialCount = llr.targetingResults.targets_Fiducials.length;
 
-        if (fiducialCount >= 2) {
-            resetOdometry(LimelightHelpers.getBotPose2d("limelight-shooter"));
+        if (fiducialCount >= 2) { // Make sure there are at least 2 AprilTags in sight for accuracy
+            resetOdometry(LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter"));
         }
 
         logOdometry();
