@@ -27,44 +27,45 @@ import frc.robot.LimelightHelpers;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.TargetPosConstants;
+import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.subsystems.swerveExtras.AccelerationLimiter;
 
-public class SwerveSubsystem extends SubsystemBase{
+public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(//
-        DriveConstants.kFrontLeftDriveMotorPort,
-        DriveConstants.kFrontLeftTurningMotorPort,
-        DriveConstants.kFrontLeftDriveEncoderReversed,
-        DriveConstants.kFrontLeftTurningEncoderReversed,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed );
+            DriveConstants.kFrontLeftDriveMotorPort,
+            DriveConstants.kFrontLeftTurningMotorPort,
+            DriveConstants.kFrontLeftDriveEncoderReversed,
+            DriveConstants.kFrontLeftTurningEncoderReversed,
+            DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
+            DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule frontRight = new SwerveModule(//
-        DriveConstants.kFrontRightDriveMotorPort,
-        DriveConstants.kFrontRightTurningMotorPort,
-        DriveConstants.kFrontRightDriveEncoderReversed,
-        DriveConstants.kFrontRightTurningEncoderReversed,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderReversed );
+            DriveConstants.kFrontRightDriveMotorPort,
+            DriveConstants.kFrontRightTurningMotorPort,
+            DriveConstants.kFrontRightDriveEncoderReversed,
+            DriveConstants.kFrontRightTurningEncoderReversed,
+            DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
+            DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
     private final SwerveModule backLeft = new SwerveModule(//
-        DriveConstants.kBackLeftDriveMotorPort,
-        DriveConstants.kBackLeftTurningMotorPort,
-        DriveConstants.kBackLeftDriveEncoderReversed,
-        DriveConstants.kBackLeftTurningEncoderReversed,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderReversed );
+            DriveConstants.kBackLeftDriveMotorPort,
+            DriveConstants.kBackLeftTurningMotorPort,
+            DriveConstants.kBackLeftDriveEncoderReversed,
+            DriveConstants.kBackLeftTurningEncoderReversed,
+            DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
+            DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule backRight = new SwerveModule(//
-        DriveConstants.kBackRightDriveMotorPort,
-        DriveConstants.kBackRightTurningMotorPort,
-        DriveConstants.kBackRightDriveEncoderReversed,
-        DriveConstants.kBackRightTurningEncoderReversed,
-        DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-        DriveConstants.kBackRightDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kBackRightDriveAbsoluteEncoderReversed );
+            DriveConstants.kBackRightDriveMotorPort,
+            DriveConstants.kBackRightTurningMotorPort,
+            DriveConstants.kBackRightDriveEncoderReversed,
+            DriveConstants.kBackRightTurningEncoderReversed,
+            DriveConstants.kBackRightDriveAbsoluteEncoderPort,
+            DriveConstants.kBackRightDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     private final AccelerationLimiter xLimiter, yLimiter, turningLimiter;
     private PIDController xController, yController, thetaController;
@@ -77,7 +78,7 @@ public class SwerveSubsystem extends SubsystemBase{
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
     private final String red = "Red", blue = "Blue";
 
-    public SwerveSubsystem(){
+    public SwerveSubsystem() {
 
         // Gets tabs from Shuffleboard
         ShuffleboardTab programmerBoard = Shuffleboard.getTab("Programmer Board");
@@ -101,28 +102,30 @@ public class SwerveSubsystem extends SubsystemBase{
         yController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
         thetaController = new PIDController(TargetPosConstants.kPAngleController, 0, 0);
 
-
-        /* Maybe the cause of the autonomous not working. When we call generate path in command sequences the swerveSubsystem is 
-         called 1st and then it trys to zero the heading! This might be a big advancement
-        */
+        /*
+         * Maybe the cause of the autonomous not working. When we call generate path in
+         * command sequences the swerveSubsystem is
+         * called 1st and then it trys to zero the heading! This might be a big
+         * advancement
+         */
         new Thread(() -> {
-            try{
+            try {
                 Thread.sleep(1000);
                 zeroHeading();
-            }catch(Exception e){
+            } catch (Exception e) {
 
             }
         }).start();
     }
 
-    public void zeroHeading(){
+    public void zeroHeading() {
         gyro.setYaw(0);
     }
 
-    public double getHeading(){
+    public double getHeading() {
         return -gyro.getYaw().getValue();
     }
-    
+
     public boolean isAtPoint(Translation2d targetDrivePos) {
         return getPose().getTranslation().getDistance(targetDrivePos) //
                 <= TargetPosConstants.kAcceptableDistanceError; //
@@ -179,19 +182,19 @@ public class SwerveSubsystem extends SubsystemBase{
 
         return temp.omegaRadiansPerSecond;
     }
-    
-    public Rotation2d getRotation2d(){
+
+    public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
 
-    public Pose2d getPose(){
+    public Pose2d getPose() {
         return odometer.getPoseMeters();
     }
-    
-    public void resetOdometry(Pose2d pose){
+
+    public void resetOdometry(Pose2d pose) {
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
-    
+
     public void intializeJoystickRunFromField() {
         xLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -214,9 +217,9 @@ public class SwerveSubsystem extends SubsystemBase{
 
     public void initializeDriveToPointAndRotate() {
         xLimiter.setLimit(TargetPosConstants.kForwardMaxAcceleration,
-        TargetPosConstants.kBackwardMaxAcceleration);
+                TargetPosConstants.kBackwardMaxAcceleration);
         yLimiter.setLimit(TargetPosConstants.kForwardMaxAcceleration,
-        TargetPosConstants.kBackwardMaxAcceleration);
+                TargetPosConstants.kBackwardMaxAcceleration);
         xLimiter.reset(getXSpeedFieldRel());
         yLimiter.reset(getYSpeedFieldRel());
 
@@ -227,6 +230,7 @@ public class SwerveSubsystem extends SubsystemBase{
         thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
         thetaController.reset();
     }
+
     public void excuteDriveToPointAndRotate(Pose2d targetPosition) {
         double xSpeed = MathUtil.clamp(
                 xController.calculate(getPose().getX(), targetPosition.getX()), -1, 1);
@@ -248,6 +252,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
         runModulesFieldRelative(xSpeed, ySpeed, turningSpeed);
     }
+
     public void initializeRotateToAngle() {
         thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
         thetaController.reset();
@@ -262,6 +267,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
         runModulesFieldRelative(0, 0, turningSpeed);
     }
+
     private void runModulesFieldRelative(double xSpeed, double ySpeed, double turningSpeed) {
         // Converts robot speeds to speeds relative to field
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -275,7 +281,7 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
         SmartDashboard.putNumber("Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
@@ -284,26 +290,32 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
 
-
         // TODO Reset Odometry with LimeLight. Get limelight's position on robot.
 
         System.out.println("Blue: " + LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter"));
         System.out.println("Red: " + LimelightHelpers.getBotPose2d_wpiRed("limelight-shooter"));
         System.out.println("Global: " + LimelightHelpers.getBotPose2d("limelight-shooter"));
 
+        LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
+        int fiducialCount = llr.targetingResults.targets_Fiducials.length;
+
+        if (fiducialCount >= 2) {
+            resetOdometry(LimelightHelpers.getBotPose2d("limelight-shooter"));
+        }
+
         logOdometry();
         logPigeonState();
         logSwerveStates();
     }
 
-    public void stopModules(){
+    public void stopModules() {
         frontLeft.stop();
         frontRight.stop();
         backLeft.stop();
         backRight.stop();
     }
 
-    public void setModuleStates(SwerveModuleState[] desiredStates){
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
         frontRight.setDesiredState(desiredStates[1]);
@@ -312,7 +324,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
         logSwerveDesiredStates(desiredStates);
     }
-    
+
     public SwerveModulePosition[] getModulePositions() {
         // Finds the position of each individual module based on the encoder values.
         SwerveModulePosition[] temp = { frontLeft.getPosition(), frontRight.getPosition(), backLeft.getPosition(),
@@ -334,16 +346,19 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     // send over shuffleboard values
-    public double getFLAbsEncoder(){
+    public double getFLAbsEncoder() {
         return frontLeft.getUnfilteredPosition();
     }
-    public double getFRAbsEncoder(){
+
+    public double getFRAbsEncoder() {
         return frontRight.getUnfilteredPosition();
     }
-    public double getBLAbsEncoder(){
+
+    public double getBLAbsEncoder() {
         return backLeft.getUnfilteredPosition();
     }
-    public double getBRAbsEncoder(){
+
+    public double getBRAbsEncoder() {
         return backRight.getUnfilteredPosition();
     }
 
@@ -361,11 +376,13 @@ public class SwerveSubsystem extends SubsystemBase{
      * <value> can be of any rudimentary variable, Translation2d, Pose3d,
      * SwerveModuleState, and Mechanism2d. These are the values that will be logged.
      * All supported variable types are listed here:
-     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/DATA-FLOW.md#data-types
+     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/DATA-FLOW
+     * .md#data-types
      * 
      * Logging can also be done using the @AutoLogOutput annotation.
-     * More info here: 
-     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/RECORDING-OUTPUTS.md#autologoutput-annotation
+     * More info here:
+     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/RECORDING
+     * -OUTPUTS.md#autologoutput-annotation
      * 
      * 
      */

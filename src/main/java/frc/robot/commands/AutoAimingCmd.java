@@ -36,7 +36,7 @@ public class AutoAimingCmd extends Command {
     private double distanceFromSpeaker;
 
     Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.25, 5.6), new Rotation2d());
-    Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.35, 5.6), new Rotation2d());
+    Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.25, 5.6), new Rotation2d());
     private boolean isDone = false;
 
     public AutoAimingCmd(PitchMotorSubsystem pitchSubsystem, ShootingMotorSubsystem shooterSubsystem,
@@ -83,8 +83,8 @@ public class AutoAimingCmd extends Command {
         return isDone;
     }
 
-    public double distanceToAngle(double angle) {
-        return (-20.6 * angle) + 104;
+    public double distanceToAngle(double Distance) {
+        return (-20.6 * Distance) + 104;
     }
 
     double getDistance(double x1, double y1, double x2, double y2) {
@@ -92,6 +92,6 @@ public class AutoAimingCmd extends Command {
     }
 
     boolean isOnBlueSide(double xPos) {
-        return xPos < 8.3;
+        return xPos < 8.25;
     }
 }
