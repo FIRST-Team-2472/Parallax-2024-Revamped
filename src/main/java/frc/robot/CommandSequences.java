@@ -74,11 +74,11 @@ public class CommandSequences {
         // amp start
         startingNodes[0] = new PosPose2d(1.41, 7.26, 0);
         //speaker start 1
-        startingNodes[1] = new PosPose2d(0.71, 6.7, 60);
+        startingNodes[1] = new PosPose2d(0.71, 6.7, 300);
         //speaker start 2
         startingNodes[2] = new PosPose2d(1.4, 5.52, 0);
         // speakr start 3
-        startingNodes[3] = new PosPose2d(0.71, 4.38, -60);
+        startingNodes[3] = new PosPose2d(0.71, 4.38, 60);
 
         startingNodes[4] = new PosPose2d(2.46, 7.27, 0);
 
@@ -141,7 +141,6 @@ public class CommandSequences {
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle)),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
             ); 
-                //return new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
     }
 
     public Command twoinspeakerfrompositionthreeCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
