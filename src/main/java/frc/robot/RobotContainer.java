@@ -25,7 +25,11 @@ public class RobotContainer {
   testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move";
   
   private String m_autoSelected;
+  private String m_autoSelected_two;
+
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser_two = new SendableChooser<>();
+
 
   private final CommandSequences commandSequences = new CommandSequences();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
@@ -70,6 +74,7 @@ public class RobotContainer {
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+    driverBoard.add("Auto choices", m_chooser_two).withWidget(BuiltInWidgets.kComboBoxChooser);
     driverBoard.addCamera("Limelight Stream Intake", "limelight_intake", "mjpg:http://limelight-intake.local:5800").withSize(4,4);
     driverBoard.addCamera("Limelight Stream Shooter", "limelight_shooter", "mjpg:http://limelight-shooter.local:5800").withSize(4,4);
 
@@ -95,6 +100,7 @@ public class RobotContainer {
     System.out.println("Autos Begun");
        
       m_autoSelected = m_chooser.getSelected();
+      m_autoSelected_two = m_chooser_two.getSelected();
 
       if (m_autoSelected == testingPath)
         return new ParallelCommandGroup(commandSequences.driveFromZone(swerveSubsystem));
