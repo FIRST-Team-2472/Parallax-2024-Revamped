@@ -196,10 +196,7 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     
     public void resetOdometry(PosPose2d pose){
-        zeroHeading(gyro.getAngle());
-        //odometer.resetPosition(getRotation2d(), getModulePositions(), new PosPose2d(pose.getTranslation(), new Rotation2d()));
-        System.out.println("Rotation: " + getRotation2d().getDegrees());
-        odometer.resetPosition(gyro.getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), pose.getAngle()));
+        odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), pose.getAngle()));
     }
 
     public void intializeJoystickRunFromField() {
