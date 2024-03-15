@@ -74,7 +74,7 @@ public class CommandSequences {
         // amp start
         startingNodes[0] = new PosPose2d(1.41, 7.26, 0);
         //speaker start 1
-        startingNodes[1] = new PosPose2d(0.71, 6.7, 300);
+        startingNodes[1] = new PosPose2d(0.71, 6.7, 60);
         //speaker start 2
         startingNodes[2] = new PosPose2d(1.4, 5.52, 0);
         // speakr start 3
@@ -125,14 +125,18 @@ public class CommandSequences {
     }
 
     public Command twoinspeakerfrompositiononeCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+        if(swerveSubsystem.isOnRed()){
+            flipToRed();
+            System.out.println("on red");
+        }
         swerveSubsystem.resetOdometry(startingNodes[1]);
 
          return new SequentialCommandGroup(
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-            //genratePath(swerveSubsystem, List.of(), miscellaneousNodes[2]),
             new ParallelCommandGroup(
+                //genratePath(swerveSubsystem, List.of(miscellaneousNodes[2]), collectingNearNodes[0]),
                 new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 2.2)
             ),

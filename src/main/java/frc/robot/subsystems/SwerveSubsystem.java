@@ -123,7 +123,7 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public void zeroHeading(double offset){
-        gyro.setYaw(-offset);
+        gyro.setYaw(offset);
     }
 
     public double getHeading(){
@@ -196,10 +196,10 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     
     public void resetOdometry(PosPose2d pose){
-        zeroHeading(pose.getAngle().getDegrees());
+        zeroHeading(gyro.getAngle());
         //odometer.resetPosition(getRotation2d(), getModulePositions(), new PosPose2d(pose.getTranslation(), new Rotation2d()));
         System.out.println("Rotation: " + getRotation2d().getDegrees());
-        odometer.resetPosition(pose.getAngle(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), pose.getAngle()));
+        odometer.resetPosition(gyro.getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), pose.getAngle()));
     }
 
     public void intializeJoystickRunFromField() {
@@ -295,6 +295,7 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("frontRight Encoder", getFRAbsEncoder());
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
+        SmartDashboard.putNumber("Rotation", getRotation2d().getDegrees());
 
         logOdometry();
         logPigeonState();
@@ -327,7 +328,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     // used for anything that requires team color.
     // this is housed in swerve subsystem since it uses it the most
-    public static boolean isOnRed() {
+    public boolean isOnRed() {
         // gets the selected team color from the suffleboard
         String choices = colorChooser.getSelected();
         if (choices == "Red")

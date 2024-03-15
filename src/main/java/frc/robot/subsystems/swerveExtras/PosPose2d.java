@@ -15,7 +15,7 @@ public class PosPose2d{
     public PosPose2d(double x, double y, double angle){ // red is true
         this.y = y;
         this.x = x;
-        this.angle = new Rotation2d(angle);
+        this.angle = new Rotation2d(Math.toRadians(angle));
     }
     
     public double getX(){
