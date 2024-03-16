@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -118,7 +120,7 @@ public final class Constants {
       public static final double kPitchMotorIntakePresetAngle = 90.5;
       public static final double kPitchMotorSpeakerPresetAngle = 80.0;
       public static final double kPitchMotorFarSpeakerPresetAngle = 63.5;
-      public static final double kPitchMotorAmpPresetAngle = -7.0;
+      public static final double kPitchMotorAmpPresetAngle = 3.3;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;
     }
 
@@ -153,7 +155,7 @@ public final class Constants {
     public static final double kMinSpeedMetersPerSec = .2;
 
     public static final double kPDriveController = 1.9;
-    public static final double kPAngleController = 1.9;
+    public static final double kPAngleController = 0.05;
     public static final double kAcceptableDistanceError = 0.04;
     public static final double kAcceptableAngleError = 1.5;
 }
@@ -176,6 +178,9 @@ public static final class PnuematicsConstants{
 public static final class AutoAimingConstants{
     public static final int kLimeLightAngle = 35;
     public static final double kShooterAngle = 62.23;
+
+    public static final Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.25, 5.6), new Rotation2d());
+    public static final Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.25, 5.6), new Rotation2d());
 }
 
 }

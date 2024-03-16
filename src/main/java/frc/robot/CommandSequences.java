@@ -259,6 +259,18 @@ public class CommandSequences {
         );
     }
 
+    public Command RotateNShoot(SwerveSubsystem swerveSubsystem, 
+    PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shootingMotorSubsystem, 
+    IntakeMotorSubsystem intakeMotorSubsystem , double robotAngle, double armAngle){
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new SwerveRotateToAngle(swerveSubsystem, new Rotation2d().fromDegrees(robotAngle)),
+                new SetArmPitchCmd(pitchMotorSubsystem, armAngle)
+            ),
+            new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 1)
+        );
+    }
+
     // generates a path via points
     private static Command genratePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint,
             List<PositivePoint> midPoints,

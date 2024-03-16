@@ -11,7 +11,7 @@ public class runShooter extends Command {
     private IntakeMotorSubsystem intakeSubsystem;
     private Timer overideTimer, timerTwo;
     private double speed;
-
+    private int rpm;
 
     public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem, double speed) {
         overideTimer = new Timer();
@@ -21,8 +21,13 @@ public class runShooter extends Command {
         this.speed = speed;
         addRequirements(shooterSubsystem);
         addRequirements(intakeSubsystem);
+        rpm = 3500;
     }
-
+     public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem, double speed, int rpm) {
+        this(shooterSubsystem, intakeSubsystem, speed);
+        this.rpm = rpm;
+    }
+  
     @Override
     public void initialize() {
         overideTimer.stop();
@@ -39,7 +44,7 @@ public class runShooter extends Command {
     public void execute() {
             shooterSubsystem.runShooterMotors(speed);
 
-        if (shooterSubsystem.getShooterSpeed() < -3500 || overideTimer.hasElapsed(1) || speed < 0.6) {
+        if (shooterSubsystem.getShooterSpeed() < -rpm || overideTimer.hasElapsed(2) || speed < 0.6) {
             if(timerTwo.get() != 0.0)
                 timerTwo.start();
             intakeSubsystem.runPushMotor(1);
@@ -58,6 +63,6 @@ public class runShooter extends Command {
     @Override
     public boolean isFinished() {
 
-        return overideTimer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
+        return overideTimer.hasElapsed(2.5) || timerTwo.hasElapsed(0.3);
     }
 }
