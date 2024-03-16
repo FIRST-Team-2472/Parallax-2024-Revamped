@@ -38,6 +38,7 @@ public class runShooter extends Command {
         timerTwo.reset();
         System.out.println("running");
         System.out.println(""+overideTimer.get());
+        System.out.println(""+ -1*rpm);
     }
 
     @Override

@@ -120,7 +120,7 @@ public final class Constants {
       public static final double kPitchMotorIntakePresetAngle = 90.5;
       public static final double kPitchMotorSpeakerPresetAngle = 80.0;
       public static final double kPitchMotorFarSpeakerPresetAngle = 63.5;
-      public static final double kPitchMotorAmpPresetAngle = 3.3;
+      public static final double kPitchMotorAmpPresetAngle = -7;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;
     }
 
@@ -155,9 +155,9 @@ public final class Constants {
     public static final double kMinSpeedMetersPerSec = .2;
 
     public static final double kPDriveController = 1.9;
-    public static final double kPAngleController = 0.05;
+    public static final double kPAngleController = 0.07;
     public static final double kAcceptableDistanceError = 0.04;
-    public static final double kAcceptableAngleError = 1.5;
+    public static final double kAcceptableAngleError = 0.5;
 }
   
 public static final class PnuematicsConstants{

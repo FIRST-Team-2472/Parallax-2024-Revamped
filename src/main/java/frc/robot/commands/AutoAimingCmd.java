@@ -105,7 +105,7 @@ public class AutoAimingCmd extends Command {
     }
 
     public double distanceToAngle(double Distance) {
-        return 94.9* Math.exp(-0.142*Distance);// google equation
+        return 94.9 * Math.exp(-0.142 * Distance);// google equation
         // return 0.26*Distance*Distance - 11.19*Distance + 93.06; calculator eqation
     }
 
@@ -118,8 +118,20 @@ public class AutoAimingCmd extends Command {
     }
 
     double ngrdjfejsjflues(double x1, double y1, double x2, double y2) {
-        double returningAngle = Units.radiansToDegrees(Math.atan2((Math.abs(y1 - y2)), (Math.abs(x1 - x2)))) - 90;
-        returningAngle *= y2 > AutoAimingConstants.redSpeakerPos.getY() ? -1 : 1;
-        return returningAngle;
+        return -(Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI));
     }
+
+    /* public static double ngrdjfejsjflues(double x1, double y1, double x2, double y2) {
+        // Calculate the difference in x and y coordinates
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+
+        // Use atan2 to calculate the angle in radians (more accurate than atan)
+        double angleInRadians = Math.atan2(dy, dx);
+
+        // Convert from radians to degrees
+        double angleInDegrees = Math.toDegrees(angleInRadians);
+
+        return angleInDegrees;
+    } */
 }
