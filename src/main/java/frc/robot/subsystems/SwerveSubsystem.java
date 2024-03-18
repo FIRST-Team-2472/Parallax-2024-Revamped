@@ -94,7 +94,7 @@ public class SwerveSubsystem extends SubsystemBase{
         colorChooser.addOption(red, red);
         colorChooser.addOption(blue, blue);
         driverBoard.add("Team Chooser", colorChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
-        rotationShuffleBoard = programmerBoard.add("Robot Rotation", 0).getEntry();
+        rotationShuffleBoard = programmerBoard.add("Robot Rotation", getRotation2d().getDegrees()).getEntry();
 
         xLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
