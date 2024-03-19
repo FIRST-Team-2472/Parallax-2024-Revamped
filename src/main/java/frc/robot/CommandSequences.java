@@ -265,7 +265,7 @@ public class CommandSequences {
                 new SwerveRotateToAngle(swerveSubsystem, new Rotation2d().fromDegrees(robotAngle)),
                 new SetArmPitchCmd(pitchMotorSubsystem, armAngle)
             ),
-            new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 1)
+            new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9)
         );
     }
 

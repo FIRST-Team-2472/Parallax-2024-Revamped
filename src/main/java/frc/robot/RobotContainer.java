@@ -99,7 +99,7 @@ public class RobotContainer {
     new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
 
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, pitchMotorSubsystem.getEncoderDeg() > 30 ? 0.8 : 0.4, pitchMotorSubsystem.getEncoderDeg() > 30 ? 3500 : 0));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, pitchMotorSubsystem.getEncoderDeg() > 30 ? 0.9 : 0.4, pitchMotorSubsystem.getEncoderDeg() > 30 ? 3500 : 0));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue(new AutoAimingCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem, commandSequences));
  

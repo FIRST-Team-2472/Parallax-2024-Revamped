@@ -25,7 +25,7 @@ public class ShootingMotorSubsystem extends SubsystemBase {
     public void periodic() {}
 
     public void runShooterMotors(double motorSpeed) {
-        shooterTopMotor.set(-motorSpeed*.9);
+        shooterTopMotor.set(-motorSpeed);
         shooterBottomMotor.set(motorSpeed);
     }
 
