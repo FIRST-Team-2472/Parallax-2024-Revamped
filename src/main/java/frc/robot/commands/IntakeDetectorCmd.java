@@ -2,8 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.CommandSequences;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.IntakeLimelightConstants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -19,24 +18,29 @@ public class IntakeDetectorCmd extends Command {
     private double tx, ty, distanceFromNote, STUPIDROBOTANGLE, otherDumbAngle, xPosDifference, yPosDifference, robotXPos, robotYPos;
     private PosPose2d notePostion;
     private Rotation2d robotRotation2d;
+    private CommandSequences commandSequences;
+    private Command driveNPickUpNote;
 
-    public IntakeDetectorCmd(PitchMotorSubsystem pitchSubsystem, SwerveSubsystem swerveSubsystem, IntakeMotorSubsystem intakeSubsystem) {
+    public IntakeDetectorCmd(PitchMotorSubsystem pitchSubsystem, SwerveSubsystem swerveSubsystem, IntakeMotorSubsystem intakeSubsystem, CommandSequences commandSequences) {
         this.pitchSubsystem = pitchSubsystem;
         this.swerveSubsystem = swerveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
+        this.commandSequences = commandSequences;
         addRequirements(pitchSubsystem);
     }
 
     @Override
     public void initialize() {
         pitchSubsystem.runPitchMotor(0,false);
-        tx = LimelightHelpers.getTX("limelight-intake");
-        if (!(tx < 0.1 && tx > -0.1))
-            new SwerveRotateToAngle(swerveSubsystem, new Rotation2d(tx + swerveSubsystem.getRotation2d().getDegrees()));
+
+        //tx = LimelightHelpers.getTX("limelight-intake");
+        //if (tx < 0.1 && tx > -0.1) tx = 0;
+        tx = 0;
         ty = -LimelightHelpers.getTY("limelight-intake") + IntakeLimelightConstants.kIntakeLimelightTYAngleOffset;
         distanceFromNote = IntakeLimelightConstants.kIntakeLimelightHeight / Math.tan(ty);
-        STUPIDROBOTANGLE = swerveSubsystem.getRotation2d().getDegrees();
-        robotRotation2d = swerveSubsystem.getRotation2d();
+        STUPIDROBOTANGLE = swerveSubsystem.getRotation2d().getDegrees() + tx;
+        System.out.println(STUPIDROBOTANGLE); 
+        robotRotation2d = null;//swerveSubsystem.getRotation2d();//.plus(new Rotation2d(tx));
         otherDumbAngle = Math.abs(STUPIDROBOTANGLE) < 90 ? 90 - Math.abs(STUPIDROBOTANGLE) : Math.abs(STUPIDROBOTANGLE) - 90;
         xPosDifference = Math.sin(otherDumbAngle) * distanceFromNote;// may need slight offset
         yPosDifference = Math.cos(otherDumbAngle) * distanceFromNote;// may need slight offset
@@ -66,12 +70,8 @@ public class IntakeDetectorCmd extends Command {
         } else if (STUPIDROBOTANGLE > 1 && STUPIDROBOTANGLE < 89){
             notePostion = new PosPose2d(robotXPos + xPosDifference, robotYPos + yPosDifference, robotRotation2d);
         }
-        new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                new SwerveDriveToPointCmd(swerveSubsystem, notePostion),
-                new runIntake(intakeSubsystem, 0, 10)
-            )
-        );  
+        driveNPickUpNote = commandSequences.driveNPickUpNote(swerveSubsystem, notePostion, intakeSubsystem);
+        driveNPickUpNote.schedule(); 
     }
 
     @Override
@@ -81,6 +81,7 @@ public class IntakeDetectorCmd extends Command {
     @Override
     public void end(boolean interrupted) {
         pitchSubsystem.runPitchMotor(0);
+        System.out.println("ended");
     }
 
     @Override

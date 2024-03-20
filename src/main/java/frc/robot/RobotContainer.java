@@ -53,8 +53,8 @@ public class RobotContainer {
 
   public RobotContainer() {
     pitchMotorSubsystem.setDefaultCommand(new PitchMotorCmd(pitchMotorSubsystem, () -> xbox.getLeftY(), () -> leftJoystick.getRawButton(1))); // Intake Motors
-    intakeMotorSubsystem.setDefaultCommand(new IntakeMotorCmd(intakeMotorSubsystem, () -> leftJoystick.getRawButton(1),
-    () -> xbox.getYButton()));
+    //intakeMotorSubsystem.setDefaultCommand(new IntakeMotorCmd(intakeMotorSubsystem, () -> leftJoystick.getRawButton(1),
+    //() -> xbox.getYButton()));
     shootingMotorSubsystem.setDefaultCommand(new ShooterMotorsCmd(shootingMotorSubsystem, () -> xbox.getYButton()));
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
@@ -106,7 +106,7 @@ public class RobotContainer {
  
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(0).onTrue(new InstantCommand(limelights :: scanAmpAprilTag));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(180).onTrue(new InstantCommand(limelights :: scanSpeakerAprilTag));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger().onTrue(new IntakeDetectorCmd(pitchMotorSubsystem, swerveSubsystem, intakeMotorSubsystem));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger().onTrue(new IntakeDetectorCmd(pitchMotorSubsystem, swerveSubsystem, intakeMotorSubsystem, commandSequences));
   }
 
   public Command getAutonomousCommand() {

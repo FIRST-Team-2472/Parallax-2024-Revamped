@@ -345,4 +345,14 @@ public class CommandSequences {
         ampNode.changeToRed();
     }
 
+
+    public Command driveNPickUpNote(SwerveSubsystem swerveSubsystem, PosPose2d notePostion, IntakeMotorSubsystem intakeSubsystem) {
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, notePostion),
+                new runIntake(intakeSubsystem, 0, 10)
+            )
+        ); 
+    }
+
 }
