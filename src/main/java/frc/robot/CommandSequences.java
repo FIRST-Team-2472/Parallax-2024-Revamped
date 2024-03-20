@@ -73,7 +73,7 @@ public class CommandSequences {
         startingNodes[4] = simplePose(2.46, 7.27, 0);
 
         // Collecting the near nodes
-        collectingNearNodes[0] = simplePose(2.15, 7, 0);
+        collectingNearNodes[0] = simplePose(2.9, 7, 0);
         collectingNearNodes[1] = simplePose(2.15, 5.5,	0); //same as imp. n. [2];
         collectingNearNodes[2] = simplePose(2.15, 4.08, 0); //same as imp. n. [3];
 
@@ -142,7 +142,8 @@ public class CommandSequences {
                 genratePath(swerveSubsystem, List.of(miscellaneousNodes[2].getPositivePoint()), collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 2.2)
             ),
-            new SwerveRotateToAngle(swerveSubsystem, new Rotation2d().fromDegrees(38))
+            new SwerveRotateToAngle(swerveSubsystem, new Rotation2d().fromDegrees(38)),
+            new runShooter(shooterSubsystem, intakeMotorSubsystem, 0)
             ); 
     }
 
