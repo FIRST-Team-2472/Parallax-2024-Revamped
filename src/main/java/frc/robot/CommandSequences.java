@@ -29,6 +29,7 @@ import frc.robot.subsystems.swerveExtras.PosPose2d;
 
 public class CommandSequences {
 
+<<<<<<< HEAD
         int miscNodeLength = 4;
         PosPose2d[] miscellaneousNodes = new PosPose2d[miscNodeLength];
         
@@ -45,10 +46,20 @@ public class CommandSequences {
         PosPose2d[] shootingNearNodes = new PosPose2d[shootingNearNodesLength];
         
         PosPose2d ampNode = new PosPose2d(1.84, 7.32, -90);
+=======
+
+        PosPose2d[] exampleNodes = new PosPose2d[4];
+        PosPose2d[] importantNodes = new PosPose2d[6];
+        PosPose2d[] startingNodes = new PosPose2d[5];
+        PosPose2d[] collectingNearNodes = new PosPose2d[3];
+        PosPose2d[] shootingNearNodes = new PosPose2d[3];
+        PosPose2d ampNode = simplePose(1.84, 7.32, -90);
+>>>>>>> parent of affb0a7 (Update to Autonomous)
     
 
     public CommandSequences() {
 
+<<<<<<< HEAD
         // by the source over the line
         miscellaneousNodes[0] = new PosPose2d(3, 2, 0);
         //On top of note 2
@@ -57,6 +68,12 @@ public class CommandSequences {
         miscellaneousNodes[2] = new PosPose2d(1.76, 7, 0);
         //can be used later
         miscellaneousNodes[3] = new PosPose2d(1, 1, 0);
+=======
+        exampleNodes[0] = simplePose(3, 2, 0);
+        exampleNodes[1] = simplePose(1, 1, 0);
+        exampleNodes[2] = simplePose(0, 1, 0);
+        exampleNodes[3] = simplePose(1, 1, 0);
+>>>>>>> parent of affb0a7 (Update to Autonomous)
 
         // non-amp side of Speaker
         importantNodes[0] = new PosPose2d(.55, 4.10, 0);
@@ -83,9 +100,15 @@ public class CommandSequences {
         startingNodes[4] = new PosPose2d(2.46, 7.27, 0);
 
         // Collecting the near nodes
+<<<<<<< HEAD
         collectingNearNodes[0] = new PosPose2d(2.9, 6.92, 0);
         collectingNearNodes[1] = new PosPose2d(2.15, 5.5,	0); //same as imp. n. [2];
         collectingNearNodes[2] = new PosPose2d(2.15, 4.08, 0); //same as imp. n. [3];
+=======
+        collectingNearNodes[0] = simplePose(2.15, 7, 0);
+        collectingNearNodes[1] = simplePose(2.15, 5.5,	0); //same as imp. n. [2];
+        collectingNearNodes[2] = simplePose(2.15, 4.08, 0); //same as imp. n. [3];
+>>>>>>> parent of affb0a7 (Update to Autonomous)
 
         // Shooting to the speaker from the near nodes
         shootingNearNodes[0] = new PosPose2d(2.9, 7, 26);
@@ -97,7 +120,7 @@ public class CommandSequences {
     public Command driveFromZone(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
-        System.out.println(miscellaneousNodes[0].toString());
+        System.out.println(exampleNodes[0].toString());
         swerveSubsystem.resetOdometry(startingNodes[0]);
  
         return new SequentialCommandGroup(
@@ -105,15 +128,33 @@ public class CommandSequences {
             );
     }
 
+    public Command twoinampCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+
+        System.out.println("Autos Happening");
+        System.out.println(exampleNodes[0].toString());
+        swerveSubsystem.resetOdometry(startingNodes[0]);
+
+        return new SequentialCommandGroup(
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle),
+                genratePath(swerveSubsystem, startingNodes[0], List.of(), importantNodes[3]),
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                genratePath(swerveSubsystem, importantNodes[3], List.of(), collectingNearNodes[0]),
+                new runIntake(intakeMotorSubsystem, 0, 0.8),
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(0))  
+            );
+    }
+
     public Command twoinspeakerfrompositiontwoCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
 
         System.out.println("Autos Happening");
-        System.out.println(miscellaneousNodes[0].toString());
+        System.out.println(exampleNodes[0].toString());
         swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
+<<<<<<< HEAD
                 new ParallelCommandGroup(
                     new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), 
                     genratePath(swerveSubsystem, List.of(), importantNodes[2]), 
@@ -121,6 +162,12 @@ public class CommandSequences {
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1])
+=======
+                new ParallelCommandGroup(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), genratePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]), new runIntake(intakeMotorSubsystem, 0, 1.9)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
+
+>>>>>>> parent of affb0a7 (Update to Autonomous)
         );
     }
 
@@ -131,6 +178,7 @@ public class CommandSequences {
         }
         swerveSubsystem.resetOdometry(startingNodes[1]);
 
+<<<<<<< HEAD
          return new SequentialCommandGroup(
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
@@ -145,6 +193,15 @@ public class CommandSequences {
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle)),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
             ); 
+=======
+        return new SequentialCommandGroup(
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                genratePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
+                new runIntake(intakeMotorSubsystem, 0, 0.8),
+                genratePath(swerveSubsystem, collectingNearNodes[0], List.of(), startingNodes[1]));
+>>>>>>> parent of affb0a7 (Update to Autonomous)
     }
 
     public Command twoinspeakerfrompositionthreeCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
@@ -177,7 +234,7 @@ public class CommandSequences {
         public Command underStage(SwerveSubsystem swerveSubsystem) {
 
         System.out.println("Autos Happening");
-        System.out.println(miscellaneousNodes[0].toString());
+        System.out.println(exampleNodes[0].toString());
         swerveSubsystem.resetOdometry(startingNodes[0]);
  
         return new SequentialCommandGroup(
@@ -202,7 +259,11 @@ public class CommandSequences {
         return new SequentialCommandGroup(
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
+<<<<<<< HEAD
             genratePath(swerveSubsystem, List.of(), miscellaneousNodes[0])
+=======
+            genratePath(swerveSubsystem, startingNodes[3], List.of(), exampleNodes[0])
+>>>>>>> parent of affb0a7 (Update to Autonomous)
         );
     }
 

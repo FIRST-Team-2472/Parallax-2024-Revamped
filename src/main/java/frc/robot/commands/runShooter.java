@@ -9,12 +9,12 @@ public class runShooter extends Command {
 
     private ShootingMotorSubsystem shooterSubsystem;
     private IntakeMotorSubsystem intakeSubsystem;
-    private Timer overideTimer, timerTwo;
+    private Timer timer, timerTwo;
     private double speed;
 
 
     public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem, double speed) {
-        overideTimer = new Timer();
+        timer = new Timer();
         timerTwo = new Timer();
         this.shooterSubsystem = shooterSubsystem;
         this.intakeSubsystem = intakeSubsystem;
@@ -25,21 +25,21 @@ public class runShooter extends Command {
 
     @Override
     public void initialize() {
-        overideTimer.stop();
-        overideTimer.reset();
-        overideTimer.start();
+        timer.stop();
+        timer.reset();
+        timer.start();
 
         timerTwo.stop();
         timerTwo.reset();
         System.out.println("running");
-        System.out.println(""+overideTimer.get());
+        System.out.println(""+timer.get());
     }
 
     @Override
     public void execute() {
             shooterSubsystem.runShooterMotors(speed);
 
-        if (shooterSubsystem.getShooterSpeed() < -3500 || overideTimer.hasElapsed(1) || speed < 0.6) {
+        if (shooterSubsystem.getShooterSpeed() < -3500 || timer.hasElapsed(1) || speed < 0.6) {
             if(timerTwo.get() != 0.0)
                 timerTwo.start();
             intakeSubsystem.runPushMotor(1);
@@ -57,6 +57,11 @@ public class runShooter extends Command {
 
     @Override
     public boolean isFinished() {
+<<<<<<< HEAD
         return overideTimer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
+=======
+
+        return timer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
+>>>>>>> parent of affb0a7 (Update to Autonomous)
     }
 }
