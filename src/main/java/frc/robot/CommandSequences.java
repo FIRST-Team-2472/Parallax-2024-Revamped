@@ -139,14 +139,10 @@ public class CommandSequences {
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
             new ParallelCommandGroup(
-                //genratePath(swerveSubsystem, List.of(miscellaneousNodes[2]), collectingNearNodes[0]),
-                new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[0]),
+                genratePath(swerveSubsystem, List.of(miscellaneousNodes[2].getPositivePoint()), collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 2.2)
             ),
-            new ParallelCommandGroup(
-                new SwerveDriveToPointCmd(swerveSubsystem, shootingNearNodes[0]),
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle)),
-            new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
+            new SwerveRotateToAngle(swerveSubsystem, new Rotation2d().fromDegrees(38))
             ); 
     }
 
