@@ -136,7 +136,7 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public boolean isAtAngle(Rotation2d angle) {
-        return Math.abs(getRotation2d().minus(angle).getDegrees()) //
+        return Math.abs(odometer.getPoseMeters().getRotation().minus(angle).getDegrees()) //
                 <= TargetPosConstants.kAcceptableAngleError;
     }
 
@@ -196,7 +196,7 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     
     public void resetOdometry(PosPose2d pose){
-        odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), pose.getAngle()));
+        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 
     public void intializeJoystickRunFromField() {
@@ -325,7 +325,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     // used for anything that requires team color.
     // this is housed in swerve subsystem since it uses it the most
-    public boolean isOnRed() {
+    public static boolean isOnRed() {
         // gets the selected team color from the suffleboard
         String choices = colorChooser.getSelected();
         if (choices == "Red")

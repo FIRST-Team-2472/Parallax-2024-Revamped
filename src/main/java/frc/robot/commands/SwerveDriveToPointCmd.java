@@ -13,7 +13,7 @@ public class SwerveDriveToPointCmd extends Command {
 
   public SwerveDriveToPointCmd(SwerveSubsystem m_SwerveSubsystem, PosPose2d targetPosition) {
     this.swerveSubsystem = m_SwerveSubsystem;
-    this.targetPosition = new Pose2d(targetPosition.getX(), targetPosition.getY(), targetPosition.getAngle());
+    this.targetPosition = targetPosition;
     
     timer = new Timer();
 

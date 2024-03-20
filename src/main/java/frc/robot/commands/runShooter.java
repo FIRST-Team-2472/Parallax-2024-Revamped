@@ -57,11 +57,6 @@ public class runShooter extends Command {
 
     @Override
     public boolean isFinished() {
-<<<<<<< HEAD
-        return overideTimer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
-=======
-
         return timer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
->>>>>>> parent of affb0a7 (Update to Autonomous)
     }
 }
