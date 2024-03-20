@@ -16,8 +16,9 @@ public class IntakeDetectorCmd extends Command {
     private PitchMotorSubsystem pitchSubsystem;
     private SwerveSubsystem swerveSubsystem;
     private IntakeMotorSubsystem intakeSubsystem;
-    private double tx, ty, distanceFromNote, STUPIDROBOTANGLE, otherDumbAngle, xPosDifference, yPosDifference;
+    private double tx, ty, distanceFromNote, STUPIDROBOTANGLE, otherDumbAngle, xPosDifference, yPosDifference, robotXPos, robotYPos;
     private PosPose2d notePostion;
+    private Rotation2d robotRotation2d;
 
     public IntakeDetectorCmd(PitchMotorSubsystem pitchSubsystem, SwerveSubsystem swerveSubsystem, IntakeMotorSubsystem intakeSubsystem) {
         this.pitchSubsystem = pitchSubsystem;
@@ -35,32 +36,42 @@ public class IntakeDetectorCmd extends Command {
         ty = -LimelightHelpers.getTY("limelight-intake") + IntakeLimelightConstants.kIntakeLimelightTYAngleOffset;
         distanceFromNote = IntakeLimelightConstants.kIntakeLimelightHeight / Math.tan(ty);
         STUPIDROBOTANGLE = swerveSubsystem.getRotation2d().getDegrees();
+        robotRotation2d = swerveSubsystem.getRotation2d();
         otherDumbAngle = Math.abs(STUPIDROBOTANGLE) < 90 ? 90 - Math.abs(STUPIDROBOTANGLE) : Math.abs(STUPIDROBOTANGLE) - 90;
-        xPosDifference = Math.sin(otherDumbAngle) * distanceFromNote;
-        yPosDifference = Math.cos(otherDumbAngle) * distanceFromNote;
+        xPosDifference = Math.sin(otherDumbAngle) * distanceFromNote;// may need slight offset
+        yPosDifference = Math.cos(otherDumbAngle) * distanceFromNote;// may need slight offset
+        robotXPos = swerveSubsystem.getPose().getX();
+        robotYPos = swerveSubsystem.getPose().getY();
         if (STUPIDROBOTANGLE >= -1 && STUPIDROBOTANGLE <= 1){
-            //notePostion = new PosPose2d(robot's x pos + distanceFromNote, robot's y pos, swerveSubsystem.getRotation2d());
+            notePostion = new PosPose2d(robotXPos + distanceFromNote, robotYPos, robotRotation2d);
+
         } else if (STUPIDROBOTANGLE <= -89 && STUPIDROBOTANGLE >= -91){
-            //notePostion = new PosPose2d(robot's x pos, robot's y pos - distanceFromNote, swerveSubsystem.getRotation2d());
+            notePostion = new PosPose2d(robotXPos, robotYPos - distanceFromNote, robotRotation2d);
+
         } else if (STUPIDROBOTANGLE >= 179 || STUPIDROBOTANGLE <= -179){
-            //notePostion = new PosPose2d(robot's x pos - distanceFromNote, robot's y pos, swerveSubsystem.getRotation2d());
+            notePostion = new PosPose2d(robotXPos - distanceFromNote, robotYPos, robotRotation2d);
+
         } else if (STUPIDROBOTANGLE >= 89 && STUPIDROBOTANGLE <= 91){
-            //notePostion = new PosPose2d(robot's x pos, robot's y pos + distanceFromNote, swerveSubsystem.getRotation2d());
+            notePostion = new PosPose2d(robotXPos, robotYPos + distanceFromNote, robotRotation2d);
+
         } else if (STUPIDROBOTANGLE < -1 && STUPIDROBOTANGLE > -89){
-            //notePostion = new PosPose2d(robot's x pos + xPosDifference, robot's y pos - yPosDifference, swerveSubsystem.getRotation2d());
-        } else if (STUPIDROBOTANGLE < -89 && STUPIDROBOTANGLE > -91){
-            //notePostion = new PosPose2d(robot's x pos - xPosDifference, robot's y pos - yPosDifference, swerveSubsystem.getRotation2d());
-        } else if (STUPIDROBOTANGLE > 179 || STUPIDROBOTANGLE < -179){
-            //notePostion = new PosPose2d(robot's x pos - xPosDifference, robot's y pos + yPosDifference, swerveSubsystem.getRotation2d());
-        } else if (STUPIDROBOTANGLE > 89 && STUPIDROBOTANGLE < 91){
-            //notePostion = new PosPose2d(robot's x pos + xPosDifference, robot's y pos + yPosDifference, swerveSubsystem.getRotation2d());
+            notePostion = new PosPose2d(robotXPos + xPosDifference, robotYPos - yPosDifference, robotRotation2d);
+
+        } else if (STUPIDROBOTANGLE < -91 && STUPIDROBOTANGLE > -179){
+            notePostion = new PosPose2d(robotXPos - xPosDifference, robotYPos - yPosDifference, robotRotation2d);
+
+        } else if (STUPIDROBOTANGLE > 91 && STUPIDROBOTANGLE < 179){
+            notePostion = new PosPose2d(robotXPos - xPosDifference, robotYPos + yPosDifference, robotRotation2d);
+
+        } else if (STUPIDROBOTANGLE > 1 && STUPIDROBOTANGLE < 89){
+            notePostion = new PosPose2d(robotXPos + xPosDifference, robotYPos + yPosDifference, robotRotation2d);
         }
         new SequentialCommandGroup(
             new ParallelCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, notePostion),
-                new runIntake(intakeSubsystem, null, null)
+                new runIntake(intakeSubsystem, 0, 10)
             )
-        );
+        );  
     }
 
     @Override
