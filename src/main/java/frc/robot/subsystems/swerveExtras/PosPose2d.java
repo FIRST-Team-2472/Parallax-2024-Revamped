@@ -18,6 +18,10 @@ public class PosPose2d{
         this.angle = new Rotation2d(Math.toRadians(angle));
     }
     
+    public PosPose2d(double x2, double y2, Rotation2d rotation2d) {
+        //TODO Auto-generated constructor stub
+    }
+
     public double getX(){
         return x;
     }
