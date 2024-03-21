@@ -42,10 +42,6 @@ public class SwerveRotateToAngle extends Command {
     if (overide.hasElapsed(3))
       return true;
     
-    // use this function if you overide the command to finsih it
-    if ( swerveSubsystem.isAtAngle(targetAngle))
-      return timer.hasElapsed(.2);
-    timer.restart();
-    return false;
+    return (swerveSubsystem.isAtAngle(targetAngle));
   }
 }

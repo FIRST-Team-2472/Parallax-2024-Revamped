@@ -21,7 +21,7 @@ import frc.robot.commands.DefaultCommands.*;
 import frc.robot.CommandSequences;
 
 public class RobotContainer {
-  private final String placementtwo = "2 in speaker from position 2", 
+  private final String placementone = "2 in amp command", placementtwo = "2 in speaker from position 2", 
   placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", 
   testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move", 
   justMovePosition2tonote2 = "Just Move from front of speaker to note 2", justRunIntake = "Run the Intake", 
@@ -65,6 +65,7 @@ public class RobotContainer {
     
     configureBindings();
 
+    m_chooser.addOption(placementone, placementone);
     m_chooser.addOption(placementtwo, placementtwo);
     m_chooser.addOption(placementthree, placementthree);
     m_chooser.addOption(path4, path4);
@@ -85,7 +86,6 @@ public class RobotContainer {
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
     driverBoard.addCamera("Limelight Stream Intake", "limelight_intake", "mjpg:http://limelight-intake.local:5800").withSize(4,4);
     driverBoard.addCamera("Limelight Stream Shooter", "limelight_shooter", "mjpg:http://limelight-shooter.local:5800").withSize(4,4);
-
   }
 
   private void configureBindings() {
@@ -114,6 +114,9 @@ public class RobotContainer {
 
       if (m_autoSelected == testingPath)
         return new ParallelCommandGroup(commandSequences.driveFromZone(swerveSubsystem));
+
+      if (m_autoSelected == placementone)
+      return new ParallelCommandGroup(commandSequences.twoinampCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == placementtwo)
       return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiontwoCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
@@ -169,7 +172,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
     SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
     SmartDashboard.putNumber("Shooter speed", shootingMotorSubsystem.getShooterSpeed());
-    SmartDashboard.putNumber("Rotation", swerveSubsystem.getRotation2d().getDegrees());
     //SmartDashboard.putNumber("Arm Encoder", armSubsystem.getAbsoluteEncoder());
   }
 

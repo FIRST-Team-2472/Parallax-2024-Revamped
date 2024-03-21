@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.BooleanSubscriber;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -29,6 +30,7 @@ import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.TargetPosConstants;
 import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.subsystems.swerveExtras.AccelerationLimiter;
+import frc.robot.subsystems.swerveExtras.PosPose2d;
 
 public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(//
@@ -76,6 +78,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private static BooleanSubscriber isOnRed;
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
+    private GenericEntry rotationShuffleBoard;
     private final String red = "Red", blue = "Blue";
 
     public SwerveSubsystem() {
@@ -93,6 +96,7 @@ public class SwerveSubsystem extends SubsystemBase {
         colorChooser.addOption(red, red);
         colorChooser.addOption(blue, blue);
         driverBoard.add("Team Chooser", colorChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+        rotationShuffleBoard = programmerBoard.add("Robot Rotation", getRotation2d().getDegrees()).getEntry();
 
         xLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -132,7 +136,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public boolean isAtAngle(Rotation2d angle) {
-        return Math.abs(getRotation2d().minus(angle).getDegrees()) //
+        return Math.abs(odometer.getPoseMeters().getRotation().minus(angle).getDegrees()) //
                 <= TargetPosConstants.kAcceptableAngleError;
     }
 
@@ -259,7 +263,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void excuteRotateToAngle(Rotation2d targetPosition) {
-        Rotation2d angleDifference = getRotation2d().minus(targetPosition);
+        Rotation2d angleDifference = odometer.getPoseMeters().getRotation().minus(targetPosition);
         double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
                 0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
 
@@ -283,12 +287,14 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
+        rotationShuffleBoard.setDouble(getRotation2d().getDegrees());
         SmartDashboard.putNumber("Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("frontLeft Encoder", getFLAbsEncoder());
         SmartDashboard.putNumber("frontRight Encoder", getFRAbsEncoder());
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
+        SmartDashboard.putNumber("Rotation", getRotation2d().getDegrees());
 
         LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
         int fiducialCount = llr.targetingResults.targets_Fiducials.length;
