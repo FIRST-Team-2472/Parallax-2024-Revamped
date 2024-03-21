@@ -40,7 +40,7 @@ public class AutoAimingCmd extends Command {
     @Override
     public void initialize() {
         System.out.println("Distance Self-Test: " + getDistance(2.2, 5.6, 0.25, 5.6) + " == 1.95");
-        System.out.println("Angle Equation Self-Test: " + distanceToAngle(1.15) + " == 80");
+        System.out.println("Angle Equation Self-Test: " + distanceToAngle(1.15) + " == 80.858");
 
         robotPos = swerveSubsystem.getPose();
 
@@ -72,9 +72,8 @@ public class AutoAimingCmd extends Command {
         return true;
     }
 
-    public double distanceToAngle(double Distance) {
-        return 94.9 * Math.exp(-0.142 * Distance);// google equation
-        // return 0.26*Distance*Distance - 11.19*Distance + 93.06; calculator equation
+    public double distanceToAngle(double distance) {
+        return 109 + -31.6 * distance + 6.73 * Math.pow(distance, 2) + -0.462 * Math.pow(distance, 3);
     }
 
     double getDistance(double x1, double y1, double x2, double y2) {

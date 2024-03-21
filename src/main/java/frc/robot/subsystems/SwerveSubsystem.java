@@ -122,6 +122,10 @@ public class SwerveSubsystem extends SubsystemBase {
         gyro.setYaw(0);
     }
 
+    public void setHeading(double yaw) {
+        gyro.setYaw(yaw);
+    }
+
     public double getHeading() {
         return -gyro.getYaw().getValue();
     }
@@ -294,7 +298,9 @@ public class SwerveSubsystem extends SubsystemBase {
         int fiducialCount = llr.targetingResults.targets_Fiducials.length;
 
         if (fiducialCount >= 2) { // Make sure there are at least 2 AprilTags in sight for accuracy
-            resetOdometry(LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter"));
+            Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
+            resetOdometry(botPose);
+            setHeading(botPose.getRotation().getDegrees() + 180);
         }
 
         logOdometry();
