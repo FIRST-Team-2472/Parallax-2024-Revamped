@@ -29,8 +29,8 @@ public class runIntake extends Command {
     @Override
     public void execute() {
         if(timer.hasElapsed(startingDelay)){
-        intakeSubsystem.runIntakeMotors(0.6);
-        intakeSubsystem.runPushMotor(0.6);
+        intakeSubsystem.runIntakeMotors(1);
+        intakeSubsystem.runPushMotor(1);
         }
     }
 
@@ -42,6 +42,6 @@ public class runIntake extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(endingDelay) || intakeSubsystem.getPhotoElectricSensor() == true;
+        return timer.hasElapsed(endingDelay) || intakeSubsystem.getPhotoElectricSensor();
     }
 }
