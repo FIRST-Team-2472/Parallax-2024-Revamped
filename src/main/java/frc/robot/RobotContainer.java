@@ -116,13 +116,13 @@ public class RobotContainer {
         return new ParallelCommandGroup(commandSequences.driveFromZone(swerveSubsystem));
 
       if (m_autoSelected == placementtwo)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiontwoCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionTwoCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == placementthree)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiononeCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionOneCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == path4)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositionthreeCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionThreeCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == stagePath)
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
@@ -134,7 +134,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.justShootAndMove(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justMovePosition2tonote2)
-      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote2(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteTwoCommand(swerveSubsystem));
 
       if (m_autoSelected == justRunIntake)
       return new ParallelCommandGroup(commandSequences.justRunIntake(intakeMotorSubsystem));
@@ -143,16 +143,16 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.shootFromFurtherAway(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justMovePosition2tonote1)
-      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote1(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteOne(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition2tonote3)
-      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote3(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteThreeCommand(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition1tonote1)
-      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote1(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionOneToNoteOneCommand(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition1tonote2)
-      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote2(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionOneToNoteTwoCommand(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition1tonote3)
       return new ParallelCommandGroup(commandSequences.justMovePosition1tonote3(swerveSubsystem));

@@ -38,7 +38,7 @@ public class SwerveDriveToPointCmd extends Command {
 
   @Override
   public void execute() {
-    swerveSubsystem.excuteDriveToPointAndRotate(targetPosition);
+    swerveSubsystem.executeDriveToPointAndRotate(targetPosition);
   }
 
   @Override

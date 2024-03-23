@@ -84,12 +84,12 @@ public class SwerveSubsystem extends SubsystemBase {
         ShuffleboardTab programmerBoard = Shuffleboard.getTab("Programmer Board");
         ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
 
-        // Gets the field infomation
+        // Gets the field information
         NetworkTable firstInfo = NetworkTableInstance.getDefault().getTable("FMSInfo");
         // Gets the team color from the field information
         isOnRed = firstInfo.getBooleanTopic("IsRedAlliance").subscribe(false);
 
-        // makes a team color choser
+        // makes a team color chooser
         colorChooser.addOption(red, red);
         colorChooser.addOption(blue, blue);
         driverBoard.add("Team Chooser", colorChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -105,7 +105,7 @@ public class SwerveSubsystem extends SubsystemBase {
         /*
          * Maybe the cause of the autonomous not working. When we call generate path in
          * command sequences the swerveSubsystem is
-         * called 1st and then it trys to zero the heading! This might be a big
+         * called 1st and then it tries to zero the heading! This might be a big
          * advancement
          */
         new Thread(() -> {
@@ -199,7 +199,7 @@ public class SwerveSubsystem extends SubsystemBase {
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 
-    public void intializeJoystickRunFromField() {
+    public void initializeJoystickRunFromField() {
         xLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         turningLimiter.setLimit(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -209,7 +209,7 @@ public class SwerveSubsystem extends SubsystemBase {
         turningLimiter.reset(getRotationalSpeed());
     }
 
-    public void excuteJoystickRunFromField(double xSpeedPercent, double ySpeedPercent, double thetaSpeedPercent) {
+    public void executeJoystickRunFromField(double xSpeedPercent, double ySpeedPercent, double thetaSpeedPercent) {
         // 3. Make the driving smoother (limits acceleration)
         xSpeedPercent = xLimiter.calculate(xSpeedPercent * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
         ySpeedPercent = yLimiter.calculate(ySpeedPercent * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
@@ -235,7 +235,7 @@ public class SwerveSubsystem extends SubsystemBase {
         thetaController.reset();
     }
 
-    public void excuteDriveToPointAndRotate(Pose2d targetPosition) {
+    public void executeDriveToPointAndRotate(Pose2d targetPosition) {
         double xSpeed = MathUtil.clamp(
                 xController.calculate(getPose().getX(), targetPosition.getX()), -1, 1);
         double ySpeed = MathUtil.clamp(
@@ -262,7 +262,7 @@ public class SwerveSubsystem extends SubsystemBase {
         thetaController.reset();
     }
 
-    public void excuteRotateToAngle(Rotation2d targetPosition) {
+    public void executeRotateToAngle(Rotation2d targetPosition) {
         Rotation2d angleDifference = getRotation2d().minus(targetPosition);
         double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
                 0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
@@ -286,7 +286,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometer.update(getRotation2d(), getModulePositions());
+        odometer.update(getRotation2d().times(-1), getModulePositions());
         SmartDashboard.putNumber("Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("frontLeft Encoder", getFLAbsEncoder());
@@ -300,7 +300,7 @@ public class SwerveSubsystem extends SubsystemBase {
         if (fiducialCount >= 2) { // Make sure there are at least 2 AprilTags in sight for accuracy
             Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
             resetOdometry(botPose);
-            setHeading(botPose.getRotation().getDegrees() + 180);
+            setHeading(botPose.getRotation().getDegrees());
         }
 
         logOdometry();

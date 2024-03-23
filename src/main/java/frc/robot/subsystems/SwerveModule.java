@@ -104,9 +104,9 @@ public class SwerveModule {
         // converts from 0-360 to -PI to PI then applies abosluteEncoder offset and
         // reverse
         double angle = Units.degreesToRadians(absoluteEncoder.getAbsolutePosition().getValue());
-       // angle -= absoluteEncoderoffset;
-       angle *= absoluteEncoderReversed ? -1 : 1;
-       angle *= 360;
+        // angle -= absoluteEncoderoffset;
+        angle *= absoluteEncoderReversed ? -1 : 1;
+        angle *= 360;
         // atan2 funtion range in -PI to PI, so it automaticaly converts (needs the sin
         // and cos to) any input angle to that range
         return Math.atan2(Math.sin(angle), Math.cos(angle));

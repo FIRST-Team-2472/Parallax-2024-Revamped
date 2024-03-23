@@ -29,7 +29,7 @@ public class SwerveRotateToAngle extends Command {
 
   @Override
   public void execute() {
-    swerveSubsystem.excuteRotateToAngle(targetAngle);
+    swerveSubsystem.executeRotateToAngle(targetAngle);
   }
 
   @Override
