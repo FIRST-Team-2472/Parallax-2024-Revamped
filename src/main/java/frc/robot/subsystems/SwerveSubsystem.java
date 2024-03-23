@@ -127,7 +127,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        return -gyro.getYaw().getValue();
+        return gyro.getYaw().getValue();
     }
 
     public boolean isAtPoint(Translation2d targetDrivePos) {
@@ -286,9 +286,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometer.update(getRotation2d().times(-1), getModulePositions());
+        odometer.update(getRotation2d(), getModulePositions());
         SmartDashboard.putNumber("Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putNumber("frontLeft Unfiltered Encoder", getFLAbsUnfilteredEncoder());
+        SmartDashboard.putNumber("frontRight Unfiltered Encoder", getFRAbsUnfilteredEncoder());
+        SmartDashboard.putNumber("BackLeft Unfiltered Encoder", getBLAbsUnfilteredEncoder());
+        SmartDashboard.putNumber("BackRight Unfiltered Encoder", getBRAbsUnfilteredEncoder());
         SmartDashboard.putNumber("frontLeft Encoder", getFLAbsEncoder());
         SmartDashboard.putNumber("frontRight Encoder", getFRAbsEncoder());
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
@@ -346,20 +350,32 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     // send over shuffleboard values
-    public double getFLAbsEncoder() {
+    public double getFLAbsUnfilteredEncoder() {
         return frontLeft.getUnfilteredPosition();
     }
+    public double getFLAbsEncoder(){
+        return frontLeft.getAbsolutePosition();
+    }
 
-    public double getFRAbsEncoder() {
+    public double getFRAbsUnfilteredEncoder() {
         return frontRight.getUnfilteredPosition();
     }
-
-    public double getBLAbsEncoder() {
-        return backLeft.getUnfilteredPosition();
+    public double getFRAbsEncoder(){
+        return frontRight.getAbsolutePosition();
     }
 
-    public double getBRAbsEncoder() {
+    public double getBLAbsUnfilteredEncoder() {
+        return backLeft.getUnfilteredPosition();
+    }
+    public double getBLAbsEncoder(){
+        return backLeft.getAbsolutePosition();
+    }
+
+    public double getBRAbsUnfilteredEncoder() {
         return backRight.getUnfilteredPosition();
+    }
+    public double getBRAbsEncoder(){
+        return backRight.getAbsolutePosition();
     }
 
     /* -- LOGGING -- */
