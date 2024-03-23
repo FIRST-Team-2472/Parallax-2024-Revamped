@@ -51,7 +51,7 @@ public class CommandSequences {
         // non-amp side of Speaker
         importantNodes[0] = simplePose(.55, 4.10, 0);
         // In front of Note
-        importantNodes[1] = simplePose(2.2, 4.10, 0);
+        importantNodes[1] = simplePose(2.45, 4.10, 0);
         // Near front of Speaker
         importantNodes[2] = simplePose(2.2, 5.57, 0);
         // In from of amp
