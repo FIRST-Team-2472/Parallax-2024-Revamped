@@ -9,12 +9,12 @@ public class runShooter extends Command {
 
     private ShootingMotorSubsystem shooterSubsystem;
     private IntakeMotorSubsystem intakeSubsystem;
-    private Timer timer, timerTwo;
+    private Timer overideTimer, timerTwo;
     private double speed;
     private int rpm;
 
     public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem, double speed) {
-        timer = new Timer();
+        overideTimer = new Timer();
         timerTwo = new Timer();
         this.shooterSubsystem = shooterSubsystem;
         this.intakeSubsystem = intakeSubsystem;
@@ -30,9 +30,9 @@ public class runShooter extends Command {
   
     @Override
     public void initialize() {
-        timer.stop();
-        timer.reset();
-        timer.start();
+        overideTimer.stop();
+        overideTimer.reset();
+        overideTimer.start();
 
         timerTwo.stop();
         timerTwo.reset();
