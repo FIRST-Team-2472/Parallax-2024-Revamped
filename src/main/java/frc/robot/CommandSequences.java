@@ -275,7 +275,7 @@ public class CommandSequences {
     IntakeMotorSubsystem intakeMotorSubsystem , double robotAngle, double armAngle){
         return new SequentialCommandGroup(
             new ParallelCommandGroup(
-                new SwerveRotateToAngle(swerveSubsystem, new Rotation2d().fromDegrees(robotAngle)),
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(robotAngle)),
                 new SetArmPitchCmd(pitchMotorSubsystem, armAngle)
             ),
             new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9)
