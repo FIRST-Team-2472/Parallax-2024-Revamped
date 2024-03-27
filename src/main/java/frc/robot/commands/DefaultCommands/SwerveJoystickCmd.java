@@ -24,14 +24,16 @@ public class SwerveJoystickCmd extends Command {
 
     @Override
     public void initialize(){
-        swerveSubsystem.intializeJoystickRunFromField();
+        swerveSubsystem.initializeJoystickRunFromField();
     }
 
     @Override
     public void execute() {
         // get joystick values
-        double xSpeed = xSpdFunction.get();
-        double ySpeed = ySpdFunction.get();
+        double xSpeed = SwerveSubsystem.isOnRed() ? -xSpdFunction.get() : xSpdFunction.get();
+        double ySpeed = SwerveSubsystem.isOnRed() ? -ySpdFunction.get() : ySpdFunction.get();
+        // double xSpeed = xSpdFunction.get();
+        // double ySpeed = ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get() / 2;
 
         // deadband (area that doesnt actually result in an input)
@@ -39,7 +41,7 @@ public class SwerveJoystickCmd extends Command {
         ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? (!slowed.get() ? ySpeed : ySpeed * OperatorConstants.kSlowedSpeed) : 0.0;
         turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
 
-        swerveSubsystem.excuteJoystickRunFromField(xSpeed, ySpeed, turningSpeed);
+        swerveSubsystem.executeJoystickRunFromField(xSpeed, ySpeed, turningSpeed);
 
 
     }

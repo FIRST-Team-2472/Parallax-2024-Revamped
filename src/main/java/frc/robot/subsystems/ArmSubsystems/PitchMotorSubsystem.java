@@ -17,7 +17,7 @@ public class PitchMotorSubsystem extends SubsystemBase {
     private CANSparkMax pitchMotor = new CANSparkMax(PitchMotor.kPitchMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
     public AnalogEncoder pitchMotorEncoder = new AnalogEncoder(ArmMotorsConstants.PitchMotor.kPitchEncoderId);
-    ShuffleboardTab encoderTab = Shuffleboard.getTab("Absolute Encoder"); //Move this eventually
+    ShuffleboardTab encoderTab = Shuffleboard.getTab("Absolute Encoder"); // Move this eventually
     private GenericEntry internalEncoderPosition;
     private GenericEntry encoderVoltage;
     private GenericEntry encoderDeg;
@@ -26,13 +26,14 @@ public class PitchMotorSubsystem extends SubsystemBase {
 
     public PitchMotorSubsystem() {
 
-        // make sure all of them have the same settings in case we grabbed one with presets
+        // make sure all of them have the same settings in case we grabbed one with
+        // presets
         pitchMotor.restoreFactoryDefaults();
 
         // sets their constants
         pitchMotor.setIdleMode(com.revrobotics.CANSparkBase.IdleMode.kBrake);
         pitchMotor.setSmartCurrentLimit(39);
-        
+
         pitchMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) PitchMotor.kPitchEncoderReverseLimit);
         pitchMotor.setSoftLimit(SoftLimitDirection.kForward, (float) PitchMotor.kPitchEncoderForwardLimit);
 
@@ -66,13 +67,12 @@ public class PitchMotorSubsystem extends SubsystemBase {
         // `getDistance()` is the position of the encoder scaled by the distance per
         // rotation, and does have rollovers.
         encoderDeg.setDouble(getEncoderDeg());
-        
 
         internalEncoderPosition.setDouble(pitchMotor.getEncoder().getPosition());
     }
 
     double addBaseIdleForce(double motorSpeed) {
-        //clamps it between -1 and 1
+        // clamps it between -1 and 1
         return clamp(motorSpeed + baseIdleForce, -1.0, 1.0);
     }
 
@@ -86,9 +86,9 @@ public class PitchMotorSubsystem extends SubsystemBase {
 
     public void runPitchMotor(double motorSpeed, boolean withoutKP) {
         motorSpeed -= 0.15;
-        //shuffleboard
+        // shuffleboard
         pitchMotorSpeed.setDouble(motorSpeed);
-        //running it
+        // running it
         pitchMotor.set(motorSpeed);
     }
 
@@ -96,12 +96,12 @@ public class PitchMotorSubsystem extends SubsystemBase {
         return (pitchMotorEncoder.getDistance() + PitchMotor.kPitchEncoderOffset);
     }
 
-    public void resetEncoder(){
+    public void resetEncoder() {
         pitchMotorEncoder.reset();
     }
 
     public void runPitchMotorWithKP(double angleDeg) {
-
+        angleDeg = clamp(angleDeg, -10, 90);
         double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg));
         runPitchMotor(speed *= 0.1);
     }

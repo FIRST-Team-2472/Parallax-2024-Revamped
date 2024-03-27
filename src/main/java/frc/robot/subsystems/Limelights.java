@@ -1,4 +1,4 @@
-/* package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
@@ -9,10 +9,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmMotorsConstants.PitchMotor;
 import frc.robot.LimelightHelpers;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.ArmSubsystems.ArmMotorsSubsystem;
+import frc.robot.subsystems.ArmSubsystems.*;
 import frc.robot.subsystems.swerveExtras.FieldPose2d;
 import frc.robot.subsystems.swerveExtras.PosPose2d;
-import frc.robot.commands.ApriltagAimingCmd;
 import frc.robot.commands.SetArmPitchCmd;
 import frc.robot.commands.SwerveDriveToPointCmd;
 import frc.robot.commands.SwerveRotateToAngle;
@@ -20,19 +19,15 @@ import frc.robot.commands.SwerveRotateToAngle;
 public class Limelights extends SubsystemBase{
     private Pose3d tagPos = new Pose3d();
     private FieldPose2d fieldpose2d;
-    private double tx, ty, distanceFwd, distanceLR;
+    private double x, y,z, distanceFwd, distanceLR;
     private LimelightHelpers.LimelightResults llresults;
-    private SwerveSubsystem swerveSubsystem;
-    private ArmMotorsSubsystem armSubsystem;
-    private SwerveDriveToPointCmd swerveDriveToPointCmd;
-    private SwerveRotateToAngle swerveRotateToAngle;
+    private Pose3d targetPoseCameraSpace;
 
-    public Limelights(SwerveSubsystem swerveSubsystem, ArmMotorsSubsystem armSubsystem){
-        this.swerveSubsystem = swerveSubsystem;
-        this.armSubsystem = armSubsystem;
+    public Limelights(Pose3d targetPoseCameraSpace) {
+        this.targetPoseCameraSpace = targetPoseCameraSpace;
     }
       
-    public void scanAmpAprilTag(){
+    /*public void scanAmpAprilTag(){
       //if (llresults.targetingResults.targets_Fiducials.length > 0) {
         //tagPos = llresults.targetingResults.targets_Fiducials[0].getTargetPose_CameraSpace();
         //s = new FieldPose2d(tagPos.toPose2d().getX(), tagPos.toPose2d().getY(), tagPos.toPose2d().getRotation());
@@ -78,4 +73,11 @@ public class Limelights extends SubsystemBase{
     }
     
     
-} */
+    targetPoseCameraSpace = LimelightHelpers.getTargetPose3d_CameraSpace("limelight-shooter");
+    if (llr.targetingResults.targets_Fiducials.length > 0) {
+      x = targetPoseCameraSpace.getX();
+      y = targetPoseCameraSpace.getY();
+      z = targetPoseCameraSpace.getZ();
+    }
+} 
+*/
