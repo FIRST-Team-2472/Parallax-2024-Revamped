@@ -25,6 +25,10 @@ public class PosPose2d extends Pose2d {
         return new PositivePoint(getX(), getY());
     }
 
+    public Rotation2d getRotation2d(){
+        return getRotation();
+    }
+
     public FieldPose2d toFieldPose2d() {
         if (SwerveSubsystem.isOnRed()) {
             return new FieldPose2d(SensorConstants.sizeOfFieldMeters - getX(), getY(), getRotation());
