@@ -304,7 +304,7 @@ public class SwerveSubsystem extends SubsystemBase {
         if (fiducialCount >= 2) { // Make sure there are at least 2 AprilTags in sight for accuracy
             Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
             resetOdometry(botPose);
-            setHeading(botPose.getRotation().getDegrees());
+            setHeading(botPose.getRotation().getDegrees() + 180);
         }
 
         logOdometry();

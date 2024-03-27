@@ -85,7 +85,7 @@ public class AutoAimingCmd extends Command {
     }
 
     double flues(double x1, double y1, double x2, double y2) {
-        return -(Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI));
+        return (Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI));
     }
 
     /* public static double ngrdjfejsjflues(double x1, double y1, double x2, double y2) {
