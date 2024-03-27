@@ -19,7 +19,9 @@ public class PosPose2d{
     }
     
     public PosPose2d(double x2, double y2, Rotation2d rotation2d) {
-        //TODO Auto-generated constructor stub
+        y = y2;
+        x = x2;
+        angle = rotation2d;
     }
 
     public double getX(){

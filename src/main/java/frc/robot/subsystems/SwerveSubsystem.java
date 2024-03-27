@@ -239,7 +239,7 @@ public class SwerveSubsystem extends SubsystemBase{
                 xController.calculate(getPose().getX(), targetPosition.getX()), -1, 1);
         double ySpeed = MathUtil.clamp(
                 yController.calculate(getPose().getY(), targetPosition.getY()), -1, 1);
-
+        System.out.println("in execute drivetopoint: " + targetPosition.getRotation());
         Rotation2d angleDifference = getRotation2d().minus(targetPosition.getRotation());
         double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
                 0), -1, 1);

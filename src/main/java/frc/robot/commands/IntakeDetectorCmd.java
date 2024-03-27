@@ -33,19 +33,20 @@ public class IntakeDetectorCmd extends Command {
     public void initialize() {
         pitchSubsystem.runPitchMotor(0,false);
 
-        //tx = LimelightHelpers.getTX("limelight-intake");
+        tx = LimelightHelpers.getTX("limelight-intake");
+        System.out.println("tx: " + tx);
         //if (tx < 0.1 && tx > -0.1) tx = 0;
-        tx = 0;
         ty = -LimelightHelpers.getTY("limelight-intake") + IntakeLimelightConstants.kIntakeLimelightTYAngleOffset;
         distanceFromNote = IntakeLimelightConstants.kIntakeLimelightHeight / Math.tan(ty);
         STUPIDROBOTANGLE = swerveSubsystem.getRotation2d().getDegrees() + tx;
-        System.out.println(STUPIDROBOTANGLE); 
-        robotRotation2d = null;//swerveSubsystem.getRotation2d();//.plus(new Rotation2d(tx));
+        robotRotation2d = swerveSubsystem.getRotation2d().plus(Rotation2d.fromDegrees(tx));
+        System.out.println("In intake detector command: " + robotRotation2d); 
         otherDumbAngle = Math.abs(STUPIDROBOTANGLE) < 90 ? 90 - Math.abs(STUPIDROBOTANGLE) : Math.abs(STUPIDROBOTANGLE) - 90;
         xPosDifference = Math.sin(otherDumbAngle) * distanceFromNote;// may need slight offset
         yPosDifference = Math.cos(otherDumbAngle) * distanceFromNote;// may need slight offset
         robotXPos = swerveSubsystem.getPose().getX();
         robotYPos = swerveSubsystem.getPose().getY();
+        System.out.println("Robot's angle: " + STUPIDROBOTANGLE);
         if (STUPIDROBOTANGLE >= -1 && STUPIDROBOTANGLE <= 1){
             notePostion = new PosPose2d(robotXPos + distanceFromNote, robotYPos, robotRotation2d);
 
@@ -69,7 +70,12 @@ public class IntakeDetectorCmd extends Command {
 
         } else if (STUPIDROBOTANGLE > 1 && STUPIDROBOTANGLE < 89){
             notePostion = new PosPose2d(robotXPos + xPosDifference, robotYPos + yPosDifference, robotRotation2d);
+        } else {
+            System.out.println("Bad If Stament");
         }
+        System.out.println("what note postition thinks it is: " + notePostion.getAngle());
+        System.out.println("x: " + notePostion.getX());
+        System.out.println("y: " + notePostion.getY());
         driveNPickUpNote = commandSequences.driveNPickUpNote(swerveSubsystem, notePostion, intakeSubsystem);
         driveNPickUpNote.schedule(); 
     }
