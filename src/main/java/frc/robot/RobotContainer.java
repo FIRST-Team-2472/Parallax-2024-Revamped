@@ -106,6 +106,7 @@ public class RobotContainer {
  
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(0).onTrue(new InstantCommand(limelights :: scanAmpAprilTag));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(180).onTrue(new InstantCommand(limelights :: scanSpeakerAprilTag));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger().onTrue(new IntakeDetectorCmd(pitchMotorSubsystem, swerveSubsystem, intakeMotorSubsystem, commandSequences));
   }
 
   public Command getAutonomousCommand() {

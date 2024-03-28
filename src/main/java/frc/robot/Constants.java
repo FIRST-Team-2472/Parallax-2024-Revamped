@@ -139,6 +139,10 @@ public final class Constants {
     }
 
   }
+  public static class IntakeLimelightConstants {
+    public static final double kIntakeLimelightTYAngleOffset = 32;
+    public static final double kIntakeLimelightHeight = 0.1778; //height
+  }
 
   public static final class TargetPosConstants {
     // Motion constants for target position drive mode
