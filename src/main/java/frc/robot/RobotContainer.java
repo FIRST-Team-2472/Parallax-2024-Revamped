@@ -100,7 +100,7 @@ public class RobotContainer {
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
 
     new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, pitchMotorSubsystem.getEncoderDeg() > 30 ? 0.9 : 0.4, pitchMotorSubsystem.getEncoderDeg() > 30 ? 3500 : 0));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.4));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.4));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue(new AutoAimingCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem, commandSequences));
  
@@ -166,9 +166,7 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Heading", swerveSubsystem.getHeading());
     SmartDashboard.putString("Robot Location", swerveSubsystem.getPose().getTranslation().toString());
-    SmartDashboard.putNumber("frontLeft Encoder", swerveSubsystem.getFLAbsEncoder());
-    SmartDashboard.putNumber("frontRight Encoder", swerveSubsystem.getFRAbsEncoder());
-    SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
+    tDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
     SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
     SmartDashboard.putNumber("Shooter speed", shootingMotorSubsystem.getShooterSpeed());
     SmartDashboard.putNumber("Rotation", swerveSubsystem.getRotation2d().getDegrees());

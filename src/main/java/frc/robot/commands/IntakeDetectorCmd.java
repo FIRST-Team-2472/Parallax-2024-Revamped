@@ -73,7 +73,7 @@ public class IntakeDetectorCmd extends Command {
         } else {
             System.out.println("Bad If Stament");
         }
-        System.out.println("what note postition thinks it is: " + notePostion.getAngle());
+        System.out.println("what note postition thinks it is: " + notePostion.getRotation2d());
         System.out.println("x: " + notePostion.getX());
         System.out.println("y: " + notePostion.getY());
         driveNPickUpNote = commandSequences.driveNPickUpNote(swerveSubsystem, notePostion, intakeSubsystem);

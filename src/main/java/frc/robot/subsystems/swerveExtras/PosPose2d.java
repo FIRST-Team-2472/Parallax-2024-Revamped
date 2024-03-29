@@ -24,7 +24,7 @@ public class PosPose2d extends Pose2d {
     public PositivePoint getPositivePoint() {
         return new PositivePoint(getX(), getY());
     }
-    public Rotation2d geRotation2d(){
+    public Rotation2d getRotation2d(){
         return getRotation();
     }
     public FieldPose2d toFieldPose2d() {
