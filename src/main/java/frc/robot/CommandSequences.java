@@ -81,6 +81,14 @@ public class CommandSequences {
         shootingNearNodes[2] = simplePose(2.9, 4.08, -30);
     }
 
+    public Command test(SwerveSubsystem swerveSubsystem){
+
+        swerveSubsystem.resetOdometry(simplePose(1, 1, 0).toFieldPose2d());
+
+        return new SequentialCommandGroup(
+            new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2,2,0))
+        );
+    }
    
     public Command driveFromZone(SwerveSubsystem swerveSubsystem) {
 
@@ -296,8 +304,8 @@ public class CommandSequences {
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 .setKinematics(DriveConstants.kDriveKinematics);
 
-        Pose2d driveStartPoint = startPoint.toDrivePose2d();
-        Pose2d driveEndPoint = endPoint.toDrivePose2d();
+        Pose2d driveStartPoint = swerveSubsystem.getPose();
+        Pose2d driveEndPoint = endPoint.toFieldPose2d();
         List<Translation2d> driveMidPoints = new ArrayList<Translation2d>();
         for (int i = 0; i < midPoints.size(); i++)
             driveMidPoints.add(midPoints.get(i).toDrivePos());

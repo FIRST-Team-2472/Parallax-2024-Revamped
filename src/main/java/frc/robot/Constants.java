@@ -28,7 +28,7 @@ public final class Constants {
 
   public static final class SensorConstants {
     public static final int kPigeonID = 13;
-    public static final double sizeOfFieldMeters = 16;
+    public static final double sizeOfFieldMeters = 16.5;
     public static final int kPhotoElectricSensorID = 0;
   }
 
@@ -156,7 +156,7 @@ public final class Constants {
 
     public static final double kPDriveController = 1.9;
     public static final double kPAngleController = 0.4;
-    public static final double kAcceptableDistanceError = 0.04;
+    public static final double kAcceptableDistanceError = 0.12;
     public static final double kAcceptableAngleError = 0.5;
 }
   

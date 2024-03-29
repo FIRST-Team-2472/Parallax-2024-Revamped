@@ -23,7 +23,7 @@ public class SwerveDriveToPointCmd extends Command {
 
   public SwerveDriveToPointCmd(SwerveSubsystem m_SwerveSubsystem, PosPose2d targetPosition) {
     this.swerveSubsystem = m_SwerveSubsystem;
-    this.targetPosition = targetPosition.toDrivePose2d();
+    this.targetPosition = targetPosition.toFieldPose2d();
     
     timer = new Timer();
 
@@ -33,6 +33,8 @@ public class SwerveDriveToPointCmd extends Command {
   @Override
   public void initialize() {
     swerveSubsystem.initializeDriveToPointAndRotate();
+    System.out.println("robot pose" + swerveSubsystem.getPose().getX()+", "+ swerveSubsystem.getPose().getY());
+    System.out.println("target pose" + targetPosition.getX()+", "+ targetPosition.getY());
     timer.restart();
   }
 

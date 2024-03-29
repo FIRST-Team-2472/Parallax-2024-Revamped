@@ -136,7 +136,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public boolean isAtAngle(Rotation2d angle) {
-        return Math.abs(getRotation2d().minus(angle).getDegrees()) //
+        return Math.abs(odometer.getPoseMeters().getRotation().minus(angle).getDegrees()) //
                 <= TargetPosConstants.kAcceptableAngleError;
     }
 
@@ -188,7 +188,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getHeading());
+        return new Rotation2d().fromDegrees(getHeading());
     }
 
     public Pose2d getPose() {
@@ -227,9 +227,9 @@ public class SwerveSubsystem extends SubsystemBase {
         xLimiter.reset(getXSpeedFieldRel());
         yLimiter.reset(getYSpeedFieldRel());
 
-        xController.setPID(TargetPosConstants.kPDriveController, 0, 0);
+        xController.setPID(TargetPosConstants.kPDriveController, 0, 0.002);
         xController.reset();
-        yController.setPID(TargetPosConstants.kPDriveController, 0, 0);
+        yController.setPID(TargetPosConstants.kPDriveController, 0, 0.002);
         yController.reset();
         thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
         thetaController.reset();
@@ -241,7 +241,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double ySpeed = MathUtil.clamp(
                 yController.calculate(getPose().getY(), targetPosition.getY()), -1, 1);
 
-        Rotation2d angleDifference = getRotation2d().minus(targetPosition.getRotation());
+        Rotation2d angleDifference = odometer.getPoseMeters().getRotation().minus(targetPosition.getRotation());
         double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
                 0), -1, 1);
         turningSpeed *= TargetPosConstants.kMaxAngularSpeed;
@@ -288,6 +288,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
         SmartDashboard.putNumber("Heading", getHeading());
+        SmartDashboard.putNumber("odometry heading", odometer.getPoseMeters().getRotation().getDegrees());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("frontLeft Unfiltered Encoder", getFLAbsUnfilteredEncoder());
         SmartDashboard.putNumber("frontRight Unfiltered Encoder", getFRAbsUnfilteredEncoder());
