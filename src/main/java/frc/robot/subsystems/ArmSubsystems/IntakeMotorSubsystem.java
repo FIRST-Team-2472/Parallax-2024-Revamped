@@ -38,7 +38,7 @@ public class IntakeMotorSubsystem extends SubsystemBase {
     }
 
     public boolean getPhotoElectricSensor(){
-        return photoElectricSensor.get();
+        return !photoElectricSensor.get();
     }
     
 }
