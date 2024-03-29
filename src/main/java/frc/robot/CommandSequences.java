@@ -97,14 +97,18 @@ public class CommandSequences {
 
         System.out.println("Autos Happening");
         System.out.println(miscellaneousNodes[0].toString());
-        swerveSubsystem.resetOdometry(startingNodes[2]);
+
+        /**swerveSubsystem.resetOdometry(startingNodes[2]);
+         * This isn't working with new changes.
+         * We need to find a new Odometry Resetting Option
+        */
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(
                     new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), 
-                    generatePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]), 
+                    generatePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]),
                     new runIntake(intakeMotorSubsystem, 0, 1.7)),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
