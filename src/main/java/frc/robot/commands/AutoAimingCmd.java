@@ -1,8 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.CommandSequences;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AutoAimingConstants;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ArmSubsystems.*;
@@ -15,14 +17,13 @@ public class AutoAimingCmd extends Command {
     private IntakeMotorSubsystem intakeSubsystem;
     private SwerveSubsystem swerveSubsystem;
 
-    private CommandSequences commandSequences;
     private Command rotateNShoot;
     private Pose2d robotPos;
     private double distanceFromSpeaker;
 
     public AutoAimingCmd(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchSubsystem,
             ShootingMotorSubsystem shooterSubsystem,
-            IntakeMotorSubsystem intakeSubsystem, CommandSequences commandSequences) {
+            IntakeMotorSubsystem intakeSubsystem) {
 
         addRequirements(swerveSubsystem);
         addRequirements(pitchSubsystem);
@@ -33,7 +34,6 @@ public class AutoAimingCmd extends Command {
         this.intakeSubsystem = intakeSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.swerveSubsystem = swerveSubsystem;
-        this.commandSequences = commandSequences;
 
     }
 
@@ -41,9 +41,9 @@ public class AutoAimingCmd extends Command {
     public void initialize() {
         System.out.println("Distance Self-Test: " + getDistance(2.2, 5.6, 0.25, 5.6) + " == 1.95");
         System.out.println("Angle Equation Self-Test: " + distanceToAngle(1.15) + " == 80.858");
-
+        System.out.println(flues(distanceFromSpeaker, yawAngle, pitchAngle, distanceFromSpeaker));
         robotPos = swerveSubsystem.getPose();
-
+        
         if (isOnBlueSide(robotPos.getX())) {
             distanceFromSpeaker = getDistance(robotPos.getX(), robotPos.getY(),
                     AutoAimingConstants.blueSpeakerPos.getX(),
@@ -60,7 +60,7 @@ public class AutoAimingCmd extends Command {
 
         pitchAngle = distanceToAngle(distanceFromSpeaker);
 
-        rotateNShoot = commandSequences.RotateNShoot(swerveSubsystem, pitchSubsystem, shooterSubsystem, intakeSubsystem,
+        rotateNShoot = RotateNShoot(swerveSubsystem, pitchSubsystem, shooterSubsystem, intakeSubsystem,
                 yawAngle, pitchAngle);
 
         rotateNShoot.schedule();
@@ -87,6 +87,19 @@ public class AutoAimingCmd extends Command {
     double flues(double x1, double y1, double x2, double y2) {
         return (Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI));
     }
+
+    public Command RotateNShoot(SwerveSubsystem swerveSubsystem, 
+    PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shootingMotorSubsystem, 
+    IntakeMotorSubsystem intakeMotorSubsystem , double robotAngle, double armAngle){
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(robotAngle)),
+                new SetArmPitchCmd(pitchMotorSubsystem, armAngle)
+            ),
+            new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9)
+        );
+    }
+
 
     /* public static double ngrdjfejsjflues(double x1, double y1, double x2, double y2) {
         // Calculate the difference in x and y coordinates
