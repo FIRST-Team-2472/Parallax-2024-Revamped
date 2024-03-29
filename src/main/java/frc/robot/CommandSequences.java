@@ -51,7 +51,7 @@ public class CommandSequences {
         // In front of Note
         importantNodes[1] = simplePose(2.45, 4.10, 0);
         // Near front of Speaker
-        importantNodes[2] = simplePose(2.2, 5.57, 0);
+        importantNodes[2] = simplePose(2.9, 5.3, 0);
         // In from of amp
         importantNodes[3] = simplePose(1.84, 7.32, -130);
         //amp side of stage
@@ -89,7 +89,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[0]);
  
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[0], List.of(), startingNodes[4])
+                generatePath(swerveSubsystem, List.of(), startingNodes[4])
             );
     }
 
@@ -97,18 +97,18 @@ public class CommandSequences {
 
         System.out.println("Autos Happening");
         System.out.println(miscellaneousNodes[0].toString());
-        swerveSubsystem.resetOdometry(startingNodes[2]);
+        //swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(
                     new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle), 
-                    generatePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2]), 
+                    generatePath(swerveSubsystem, List.of(), importantNodes[2]), 
                     new runIntake(intakeMotorSubsystem, 0, 1.7)),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
-                generatePath(swerveSubsystem, importantNodes[2], List.of(), miscellaneousNodes[1])
+                generatePath(swerveSubsystem, List.of(), miscellaneousNodes[1])
         );
     }
 
@@ -132,7 +132,7 @@ public class CommandSequences {
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                generatePath(swerveSubsystem, startingNodes[1], List.of(miscellaneousNodes[2].getPositivePoint()), collectingNearNodes[0]),
+                generatePath(swerveSubsystem, List.of(miscellaneousNodes[2].getPositivePoint()), collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 2.2)
                 ),
                 new ParallelCommandGroup(
@@ -149,24 +149,24 @@ public class CommandSequences {
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                generatePath(swerveSubsystem, startingNodes[3], List.of(), importantNodes[1]),
-                generatePath(swerveSubsystem, importantNodes[1], List.of(), startingNodes[3]));
+                generatePath(swerveSubsystem, List.of(), importantNodes[1]),
+                generatePath(swerveSubsystem, List.of(), startingNodes[3]));
     }
 
     public Command oneInAmpOneFromSpeakerPositionOneCommand(SwerveSubsystem swerveSubsystem){
         swerveSubsystem.resetOdometry(startingNodes[0]);
 
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
-                generatePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]));
+                generatePath(swerveSubsystem, List.of(), collectingNearNodes[0]),
+                generatePath(swerveSubsystem, List.of(), importantNodes[3]));
     }
 
     public Command threeInSpeakerFromPositionOneCommand(SwerveSubsystem swerveSubsystem){
         swerveSubsystem.resetOdometry(startingNodes[0]);
 
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]),
-                generatePath(swerveSubsystem, collectingNearNodes[0], List.of(), importantNodes[3]));
+                generatePath(swerveSubsystem, List.of(), collectingNearNodes[0]),
+                generatePath(swerveSubsystem, List.of(), importantNodes[3]));
     }
 
         public Command underStage(SwerveSubsystem swerveSubsystem) {
@@ -176,7 +176,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[0]);
  
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[0], List.of(importantNodes[4].getPositivePoint()), importantNodes[5])
+                generatePath(swerveSubsystem, List.of(importantNodes[4].getPositivePoint()), importantNodes[5])
             );
         }
 
@@ -197,7 +197,7 @@ public class CommandSequences {
         return new SequentialCommandGroup(
             new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
             new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
-            generatePath(swerveSubsystem, startingNodes[3], List.of(), miscellaneousNodes[0])
+            generatePath(swerveSubsystem, List.of(), miscellaneousNodes[0])
         );
     }
 
@@ -206,7 +206,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
-            generatePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[2])
+            generatePath(swerveSubsystem, List.of(), importantNodes[2])
         );
     }
 
@@ -230,7 +230,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
-            generatePath(swerveSubsystem, startingNodes[2], List.of(), collectingNearNodes[0])
+            generatePath(swerveSubsystem, List.of(), collectingNearNodes[0])
         );
     }
 
@@ -239,7 +239,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[2]);
 
         return new SequentialCommandGroup(
-            generatePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[1])
+            generatePath(swerveSubsystem, List.of(), importantNodes[1])
         );
     }
 
@@ -248,7 +248,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[1]);
 
         return new SequentialCommandGroup(
-            generatePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0])
+            generatePath(swerveSubsystem, List.of(), collectingNearNodes[0])
         );
     }
 
@@ -257,7 +257,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[1]);
 
         return new SequentialCommandGroup(
-            generatePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[2])
+            generatePath(swerveSubsystem, List.of(), importantNodes[2])
         );
     }
 
@@ -266,7 +266,7 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[1]);
 
         return new SequentialCommandGroup(
-            generatePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[1])
+            generatePath(swerveSubsystem, List.of(), importantNodes[1])
         );
     }
 
@@ -283,7 +283,7 @@ public class CommandSequences {
     }
 
     // generates a path via points
-    private static Command generatePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint,
+    private static Command generatePath(SwerveSubsystem swerveSubsystem,
             List<PositivePoint> midPoints,
             PosPose2d endPoint) {
         // 1. Create trajectory settings
@@ -292,7 +292,7 @@ public class CommandSequences {
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 .setKinematics(DriveConstants.kDriveKinematics);
 
-        Pose2d driveStartPoint = startPoint.toDrivePose2d();
+        Pose2d driveStartPoint = new Pose2d(swerveSubsystem.getPose().getX(), swerveSubsystem.getPose().getY(), swerveSubsystem.getRotation2d());
         Pose2d driveEndPoint = endPoint.toDrivePose2d();
         List<Translation2d> driveMidPoints = new ArrayList<Translation2d>();
         for (int i = 0; i < midPoints.size(); i++)
