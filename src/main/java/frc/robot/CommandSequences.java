@@ -153,6 +153,7 @@ public class CommandSequences {
 
     public Command fourNoteFromPosTwo(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
             ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+                
         swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
 
         return new SequentialCommandGroup(

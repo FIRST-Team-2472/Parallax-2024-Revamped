@@ -24,7 +24,7 @@ public class AutoAiming extends Command {
     public static double getYaw(Pose2d robotPos) {
         double yawAngle = 0;
 
-        if (isOnBlueSide(robotPos.getX())) {
+        if (!SwerveSubsystem.isOnRed()) {
             yawAngle = flues(AutoAimingConstants.blueSpeakerPos.getX(),
                     AutoAimingConstants.blueSpeakerPos.getY(), robotPos.getX(), robotPos.getY());
         } else {
