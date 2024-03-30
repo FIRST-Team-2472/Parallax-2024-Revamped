@@ -166,7 +166,7 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Heading", swerveSubsystem.getHeading());
     SmartDashboard.putString("Robot Location", swerveSubsystem.getPose().getTranslation().toString());
-    tDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
+    SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
     SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
     SmartDashboard.putNumber("Shooter speed", shootingMotorSubsystem.getShooterSpeed());
     SmartDashboard.putNumber("Rotation", swerveSubsystem.getRotation2d().getDegrees());
