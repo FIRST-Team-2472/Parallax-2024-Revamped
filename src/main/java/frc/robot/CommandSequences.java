@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.AutoAimingConstants;
 import frc.robot.Constants.AutoConstants;
@@ -160,22 +161,28 @@ public class CommandSequences {
                 // should be changed to autoshooting once you fix the schedule issue
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
-                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 7, 30)),
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 6.9, 20)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 1, 2)),
+                        new runIntake(intakeMotorSubsystem, 0.5, 2)),
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
-                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 5.5, -90)),
+                        new SequentialCommandGroup(
+                                new WaitCommand(0.3),
+                                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 5.5, -90))
+                        ),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 1, 2)),
+                        new runIntake(intakeMotorSubsystem, 0, 2)),
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
-                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 4.08, -90)),
+                        new SequentialCommandGroup(
+                                new WaitCommand(0.3),
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 4.08, -90))
+                        ),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 1, 2)),
+                        new runIntake(intakeMotorSubsystem, 0, 2)),
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
     }
 
