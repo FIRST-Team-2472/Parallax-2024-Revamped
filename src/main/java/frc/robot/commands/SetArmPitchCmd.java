@@ -2,12 +2,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.AutoAiming;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
 
 public class SetArmPitchCmd extends Command {
     private PitchMotorSubsystem pitchMotorSubsystem;
+    SwerveSubsystem swerveSubsystem;
     private double angleDeg;
     private final Timer timer;
+    private boolean autoaiming;
 
     public SetArmPitchCmd(PitchMotorSubsystem pitchMotorSubsystem, double angleDeg) {
         this.angleDeg = angleDeg;
@@ -15,12 +19,19 @@ public class SetArmPitchCmd extends Command {
         this.pitchMotorSubsystem = pitchMotorSubsystem;
         addRequirements(pitchMotorSubsystem);
     }
+    public SetArmPitchCmd(PitchMotorSubsystem pitchMotorSubsystem, SwerveSubsystem swerveSubsystem) {
+        this(pitchMotorSubsystem, 0.0);
+        autoaiming = true;
+        this.swerveSubsystem = swerveSubsystem;
+    }   
 
     @Override
     public void initialize() {
         timer.stop();
         timer.reset();
         timer.start();
+        if(autoaiming)
+            angleDeg = AutoAiming.getPitch(swerveSubsystem.getPose());
     }
 
     @Override

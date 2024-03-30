@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoAimingConstants;
 
@@ -56,6 +57,7 @@ public class AutoAiming {
      * @param robotPos the robot's current position
      */
     public static AimPoint getAimPoint(Pose2d robotPos) {
+        SmartDashboard.putNumber("self test", getYaw(new Pose2d(12.785, 3.5, new Rotation2d())));
         return new AimPoint(getYaw(robotPos), getPitch(robotPos));
     }
 

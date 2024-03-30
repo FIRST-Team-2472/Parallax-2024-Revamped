@@ -158,25 +158,25 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 // should be changed to autoshooting once you fix the schedule issue
-                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem, AutoAiming.getAimPoint(swerveSubsystem.getPose())),
+                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 7, 30)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                         new runIntake(intakeMotorSubsystem, 1, 2)),
-                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem, AutoAiming.getAimPoint(swerveSubsystem.getPose())),
+                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 5.5, -90)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                         new runIntake(intakeMotorSubsystem, 1, 2)),
-                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem, AutoAiming.getAimPoint(swerveSubsystem.getPose())),
+                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 4.08, -90)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                         new runIntake(intakeMotorSubsystem, 1, 2)),
-                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem, AutoAiming.getAimPoint(swerveSubsystem.getPose())));
+                RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
     }
 
     public Command twoInSpeakerFromPositionThreeCommand(SwerveSubsystem swerveSubsystem,
@@ -302,11 +302,12 @@ public class CommandSequences {
 
     public Command RotateNShoot(SwerveSubsystem swerveSubsystem,
             PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shootingMotorSubsystem,
-            IntakeMotorSubsystem intakeMotorSubsystem, AimPoint aimPoint) {
+            IntakeMotorSubsystem intakeMotorSubsystem) {
+
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                        new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(aimPoint.getYawAngle())),
-                        new SetArmPitchCmd(pitchMotorSubsystem, aimPoint.getPitchAngle())),
+                        new SwerveRotateToAngle(swerveSubsystem)),
+                        new SetArmPitchCmd(pitchMotorSubsystem,  swerveSubsystem),
                 new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9));
     }
 
