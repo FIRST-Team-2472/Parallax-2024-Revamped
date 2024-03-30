@@ -161,23 +161,26 @@ public class CommandSequences {
                 // should be changed to autoshooting once you fix the schedule issue
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
-                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 6.9, 20)),
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 6.9, 60)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 0.5, 2)),
+                        new runIntake(intakeMotorSubsystem, 0.2, 3)),
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new WaitCommand(0.3),
-                                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 5.5, -90))
+                                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-90)),
+                                new ParallelCommandGroup(
+                                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 5.5, -90)),
+                                        new runIntake(intakeMotorSubsystem, 0, 1.5)
+                                )
                         ),
                         new SetArmPitchCmd(pitchMotorSubsystem,
-                                ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 0, 2)),
+                                ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle)
+                ),
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new WaitCommand(0.3),
+                                new SwerveRotateToAngle(swerveSubsystem,  Rotation2d.fromDegrees(-90)),
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 4.08, -90))
                         ),
                         new SetArmPitchCmd(pitchMotorSubsystem,
