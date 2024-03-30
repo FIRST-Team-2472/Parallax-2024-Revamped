@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystems.*;
 
 public class IntakeMotorCmd extends Command {
@@ -33,11 +34,11 @@ public class IntakeMotorCmd extends Command {
 
     @Override
     public void execute() {
-    
-        if(intakeMotorSubsystem.getPhotoElectricSensor()){
+        SmartDashboard.putBoolean("note sensor", intakeMotorSubsystem.getPhotoElectricSensor());
+         if(intakeMotorSubsystem.getPhotoElectricSensor()){
             sensed = true;
             timer.reset();
-        }
+        } 
         if(timer.hasElapsed(2)){
             sensed = false;
         }
