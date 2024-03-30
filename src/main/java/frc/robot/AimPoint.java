@@ -2,7 +2,7 @@ package frc.robot;
 
 public class AimPoint {
 
-    double yawAngle, pitchAngle;
+    private double yawAngle, pitchAngle;
 
     AimPoint(double yawAngle, double pitchAngle){
         this.yawAngle = yawAngle;

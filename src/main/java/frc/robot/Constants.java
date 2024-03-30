@@ -179,8 +179,8 @@ public static final class AutoAimingConstants{
     public static final int kLimeLightAngle = 35;
     public static final double kShooterAngle = 62.23;
 
-    public static final Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.25, 5.6), new Rotation2d());
-    public static final Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.25, 5.6), new Rotation2d());
+    public static final Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.25, 5.5), new Rotation2d());
+    public static final Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.25, 5.5), new Rotation2d());
 }
 
 }

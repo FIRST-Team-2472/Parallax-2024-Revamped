@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoAimingConstants;
 
 public class AutoAiming {
@@ -17,11 +17,13 @@ public class AutoAiming {
         double yawAngle = 0;
 
         if (isOnBlueSide(robotPos)) {
-            yawAngle = flues(AutoAimingConstants.blueSpeakerPos, robotPos);
+            yawAngle = flues(robotPos, AutoAimingConstants.blueSpeakerPos);
         } else {
-            yawAngle = flues(AutoAimingConstants.redSpeakerPos, robotPos);
+            yawAngle = flues(robotPos, AutoAimingConstants.redSpeakerPos);
         }
 
+        System.out.println("Desired Yaw: ---------------------------- " + yawAngle);
+        SmartDashboard.putNumber("Desired Yaw", yawAngle);
         return yawAngle;
     }
 
@@ -37,12 +39,14 @@ public class AutoAiming {
         double pitchAngle = 0;
 
         if (isOnBlueSide(robotPos)) {
-            distanceFromSpeaker = getDistance(robotPos, AutoAimingConstants.blueSpeakerPos);
+            distanceFromSpeaker = getDistance(AutoAimingConstants.blueSpeakerPos, robotPos);
         } else {
-            distanceFromSpeaker = getDistance(robotPos, AutoAimingConstants.redSpeakerPos);
+            distanceFromSpeaker = getDistance(AutoAimingConstants.redSpeakerPos, robotPos);
         }
 
         pitchAngle = distanceToAngle(distanceFromSpeaker);
+        System.out.println("Desired Pitch: ---------------------------- " + pitchAngle);
+        SmartDashboard.putNumber("Desired Pitch", pitchAngle);
         return pitchAngle;
     }
 
