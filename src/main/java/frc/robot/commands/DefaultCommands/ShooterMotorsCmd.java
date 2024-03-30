@@ -31,8 +31,6 @@ public class ShooterMotorsCmd extends Command {
         shooterMotorsSpeed = 0.0;
         shooterMotorsSpeed = reversed.get() ? -0.2 : shooterMotorsSpeed;
         shootingMotorSubsystem.runShooterMotors(shooterMotorsSpeed);
-        
-        SmartDashboard.putNumber("Shooter speed", shootingMotorSubsystem.getShooterSpeed());
         super.execute();
     }
 

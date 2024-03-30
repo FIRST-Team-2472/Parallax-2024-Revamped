@@ -134,14 +134,14 @@ public class CommandSequences {
     }
 
     public Command twoInSpeakerFromPositionOneCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
-        swerveSubsystem.resetOdometry(startingNodes[1]);
+        swerveSubsystem.resetOdometry(startingNodes[1].toFieldPose2d());
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                generatePath(swerveSubsystem, startingNodes[1], List.of(miscellaneousNodes[2].getPositivePoint()), collectingNearNodes[0]),
+                new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[0]),
                 new runIntake(intakeMotorSubsystem, 0, 2.2)
                 ),
                 new ParallelCommandGroup(
@@ -149,6 +149,33 @@ public class CommandSequences {
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle)),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)
                 );
+    }
+
+    public Command fourNoteFromPosFour(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
+        swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
+
+        return new SequentialCommandGroup(
+            // should be changed to autoshooting once you fix the schedule issue
+            new runShooter( shooterSubsystem, intakeMotorSubsystem, 0.7),
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 7, 30)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                new runIntake(intakeMotorSubsystem, 1, 2)
+            ),
+            new runShooter( shooterSubsystem, intakeMotorSubsystem, 0.7),
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 5.5, -90)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                new runIntake(intakeMotorSubsystem, 1, 2)
+            ),
+            new runShooter( shooterSubsystem, intakeMotorSubsystem, 0.7),
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.91, 4.08, -90)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                new runIntake(intakeMotorSubsystem, 1, 2)
+            ),
+            new runShooter( shooterSubsystem, intakeMotorSubsystem, 0.7)
+        );
     }
 
     public Command twoInSpeakerFromPositionThreeCommand(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){

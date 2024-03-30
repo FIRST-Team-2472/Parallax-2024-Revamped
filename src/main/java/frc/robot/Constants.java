@@ -157,7 +157,7 @@ public final class Constants {
     public static final double kPDriveController = 1.9;
     public static final double kPAngleController = 0.4;
     public static final double kAcceptableDistanceError = 0.12;
-    public static final double kAcceptableAngleError = 0.5;
+    public static final double kAcceptableAngleError = 1.5;
 }
   
 public static final class PnuematicsConstants{

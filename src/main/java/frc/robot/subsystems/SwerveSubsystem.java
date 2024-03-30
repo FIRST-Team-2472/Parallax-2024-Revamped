@@ -267,7 +267,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void executeRotateToAngle(Rotation2d targetPosition) {
-        Rotation2d angleDifference = getRotation2d().minus(targetPosition);
+        Rotation2d angleDifference = odometer.getPoseMeters().getRotation().minus(targetPosition);
         double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
                 0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
 

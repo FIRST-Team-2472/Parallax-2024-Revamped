@@ -73,7 +73,7 @@ public class AutoAimingCmd extends Command {
     }
 
     public double distanceToAngle(double distance) {
-        return 109 + -31.6 * distance + 6.73 * Math.pow(distance, 2) + -0.462 * Math.pow(distance, 3);
+        return 102 + -31.6 * distance + 6.73 * Math.pow(distance, 2) + -0.462 * Math.pow(distance, 3);
     }
 
     double getDistance(double x1, double y1, double x2, double y2) {
@@ -96,7 +96,7 @@ public class AutoAimingCmd extends Command {
                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(robotAngle)),
                 new SetArmPitchCmd(pitchMotorSubsystem, armAngle)
             ),
-            new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9)
+            new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 4000)
         );
     }
 
