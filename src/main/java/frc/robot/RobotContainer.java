@@ -3,14 +3,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.*;
-import frc.robot.Constants.ArmMotorsConstants.PitchMotor;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -26,7 +23,7 @@ import frc.robot.CommandSequences;
 public class RobotContainer {
   private final String placementtwo = "2 in speaker from position 2", 
   placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", 
-  testingPath =  "Drive from start", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move", 
+  testingPath =  "testing path", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move", 
   justMovePosition2tonote2 = "Just Move from front of speaker to note 2", justRunIntake = "Run the Intake", 
   shootFromFurtherAway = "Shoot from note position", justMovePosition2tonote1 = "Move to note 1 from the front of subwoofer",
   justMovePosition2tonote3 = "Move to note 3 from front of subwoofer", justMovePosition1tonote1 = "Move to note 1 from position 1",
@@ -58,9 +55,9 @@ public class RobotContainer {
     shootingMotorSubsystem.setDefaultCommand(new ShooterMotorsCmd(shootingMotorSubsystem, () -> xbox.getYButton()));
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
-      ()-> -leftJoystick.getY(),
+      ()-> leftJoystick.getY(),
       ()-> leftJoystick.getX(),
-      ()-> rightJoystick.getX(),
+      ()-> -rightJoystick.getX(),
       ()-> rightJoystick.getRawButton(1)
     ));
 
@@ -88,6 +85,7 @@ public class RobotContainer {
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
     driverBoard.addCamera("Limelight Stream Intake", "limelight_intake", "mjpg:http://limelight-intake.local:5800").withSize(4,4);
     driverBoard.addCamera("Limelight Stream Shooter", "limelight_shooter", "mjpg:http://limelight-shooter.local:5800").withSize(4,4);
+
   }
 
   private void configureBindings() {
@@ -101,8 +99,10 @@ public class RobotContainer {
     new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
 
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, pitchMotorSubsystem.getEncoderDeg() >30 ? 0.7 : 0.4));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, pitchMotorSubsystem.getEncoderDeg() > 30 ? 0.9 : 0.4, pitchMotorSubsystem.getEncoderDeg() > 30 ? 3500 : 0));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.4));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue( commandSequences.RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
  
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(0).onTrue(new InstantCommand(limelights :: scanAmpAprilTag));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).pov(180).onTrue(new InstantCommand(limelights :: scanSpeakerAprilTag));
@@ -115,16 +115,16 @@ public class RobotContainer {
       m_autoSelected = m_chooser.getSelected();
 
       if (m_autoSelected == testingPath)
-        return new ParallelCommandGroup(commandSequences.driveFromZone(swerveSubsystem));
+        return new ParallelCommandGroup(commandSequences.fourNoteFromPosTwo(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == placementtwo)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiontwoCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionTwoCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == placementthree)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositiononeCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionOneCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == path4)
-      return new ParallelCommandGroup(commandSequences.twoinspeakerfrompositionthreeCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionThreeCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == stagePath)
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
@@ -136,7 +136,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.justShootAndMove(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justMovePosition2tonote2)
-      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote2(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteTwoCommand(swerveSubsystem));
 
       if (m_autoSelected == justRunIntake)
       return new ParallelCommandGroup(commandSequences.justRunIntake(intakeMotorSubsystem));
@@ -145,16 +145,16 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.shootFromFurtherAway(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justMovePosition2tonote1)
-      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote1(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteOne(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition2tonote3)
-      return new ParallelCommandGroup(commandSequences.justMovePosition2tonote3(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteThreeCommand(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition1tonote1)
-      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote1(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionOneToNoteOneCommand(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition1tonote2)
-      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote2(swerveSubsystem));
+      return new ParallelCommandGroup(commandSequences.justMovePositionOneToNoteTwoCommand(swerveSubsystem));
 
       if (m_autoSelected == justMovePosition1tonote3)
       return new ParallelCommandGroup(commandSequences.justMovePosition1tonote3(swerveSubsystem));
@@ -171,6 +171,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("BackLeft Encoder", swerveSubsystem.getBLAbsEncoder());
     SmartDashboard.putNumber("BackRight Encoder", swerveSubsystem.getBRAbsEncoder());
     SmartDashboard.putNumber("Shooter speed", shootingMotorSubsystem.getShooterSpeed());
+    SmartDashboard.putNumber("Rotation", swerveSubsystem.getRotation2d().getDegrees());
     //SmartDashboard.putNumber("Arm Encoder", armSubsystem.getAbsoluteEncoder());
   }
 

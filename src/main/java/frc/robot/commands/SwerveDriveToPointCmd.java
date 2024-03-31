@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.swerveExtras.DrivePose2d;
 import frc.robot.subsystems.swerveExtras.PosPose2d;
 
 public class SwerveDriveToPointCmd extends Command {
@@ -11,10 +12,19 @@ public class SwerveDriveToPointCmd extends Command {
   private Pose2d targetPosition;
   private Timer timer;
 
+  public SwerveDriveToPointCmd(SwerveSubsystem m_SwerveSubsystem, DrivePose2d targetPosition) {
+    this.swerveSubsystem = m_SwerveSubsystem;
+    this.targetPosition = targetPosition;
+    
+    timer = new Timer();
+
+    addRequirements(m_SwerveSubsystem);
+  }
+
   public SwerveDriveToPointCmd(SwerveSubsystem m_SwerveSubsystem, PosPose2d targetPosition) {
     this.swerveSubsystem = m_SwerveSubsystem;
-    this.targetPosition = new Pose2d(targetPosition.getX(), targetPosition.getY(), targetPosition.getAngle());
-    System.out.println("in drivetopointcmd: " + targetPosition.getAngle());
+    this.targetPosition = targetPosition.toFieldPose2d();
+    
     timer = new Timer();
 
     addRequirements(m_SwerveSubsystem);
@@ -23,12 +33,14 @@ public class SwerveDriveToPointCmd extends Command {
   @Override
   public void initialize() {
     swerveSubsystem.initializeDriveToPointAndRotate();
+    System.out.println("robot pose" + swerveSubsystem.getPose().getX()+", "+ swerveSubsystem.getPose().getY());
+    System.out.println("target pose" + targetPosition.getX()+", "+ targetPosition.getY());
     timer.restart();
   }
 
   @Override
   public void execute() {
-    swerveSubsystem.excuteDriveToPointAndRotate(targetPosition);
+    swerveSubsystem.executeDriveToPointAndRotate(targetPosition);
   }
 
   @Override

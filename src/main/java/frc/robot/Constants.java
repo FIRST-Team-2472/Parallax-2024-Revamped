@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -27,7 +29,7 @@ public final class Constants {
   public static final class SensorConstants {
     public static final int kPigeonID = 13;
     public static final double sizeOfFieldMeters = 16.5;
-    public static final int kPhotoElectricSensorID = 2;
+    public static final int kPhotoElectricSensorID = 0;
   }
 
   public static final class OIConstants {
@@ -45,42 +47,42 @@ public final class Constants {
     public static final double kWheelBase = Units.inchesToMeters(23);
 
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     public static final int kFrontLeftDriveMotorPort = 55;
     public static final int kFrontLeftTurningMotorPort = 54; 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
-    public static final boolean kFrontLeftTurningEncoderReversed = true;
+    public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final int kFrontLeftDriveAbsoluteEncoderPort = 61;
     public static final double kFrontLeftDriveAbsoluteEncoderOffsetAng = 0.25;
-    public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = true;
+    public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
 
     public static final int kFrontRightDriveMotorPort = 53;
     public static final int kFrontRightTurningMotorPort = 51;
     public static final boolean kFrontRightDriveEncoderReversed = false;
-    public static final boolean kFrontRightTurningEncoderReversed = true;
+    public static final boolean kFrontRightTurningEncoderReversed = false;
     public static final int kFrontRightDriveAbsoluteEncoderPort = 62; //conflicts with other constants
     public static final double kFrontRightDriveAbsoluteEncoderOffsetAng = 0.46;
-    public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
+    public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
 
     public static final int kBackLeftDriveMotorPort = 43;
     public static final int kBackLeftTurningMotorPort = 50;
     public static final boolean kBackLeftDriveEncoderReversed = false;
-    public static final boolean kBackLeftTurningEncoderReversed = true;
+    public static final boolean kBackLeftTurningEncoderReversed = false;
     public static final int kBackLeftDriveAbsoluteEncoderPort = 60; //conflicts with other constants
     public static final double kBackLeftDriveAbsoluteEncoderOffsetAng = 0.03;
-    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
+    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
 
     public static final int kBackRightDriveMotorPort = 56;
     public static final int kBackRightTurningMotorPort = 57;
     public static final boolean kBackRightDriveEncoderReversed = false;
-    public static final boolean kBackRightTurningEncoderReversed = true;
+    public static final boolean kBackRightTurningEncoderReversed = false;
     public static final int kBackRightDriveAbsoluteEncoderPort = 59;
     public static final double kBackRightDriveAbsoluteEncoderOffsetAng = 0.35;
-    public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
+    public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 4;
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 7 * 2 * Math.PI;
@@ -93,8 +95,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants{
-    public static final double kMaxSpeedMetersPerSecond = 2.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1.5;
+    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
     public static final double kPThetaController = 1.5;
@@ -110,15 +112,15 @@ public final class Constants {
       public static final int kPitchMotorId = 58;
       public static final double kPitchMotorKP = 0.15;
       public static final int kPitchEncoderId = 0;
-      public static final double kPitchEncoderOffset = -156.05;
+      public static final double kPitchEncoderOffset = -154.15;
       public static final double kPitchInternalEncoderConversionFactor = -((4 / 9) * 100); // -44.4444...
       public static final double kPitchBaseIdleForce = 0.052;
       public static final double kPitchEncoderForwardLimit = 10;
       public static final double kPitchEncoderReverseLimit = -88;
-      public static final double kPitchMotorIntakePresetAngle = 90;
-      public static final double kPitchMotorSpeakerPresetAngle = 82.3;
-      public static final double kPitchMotorFarSpeakerPresetAngle = 68;
-      public static final double kPitchMotorAmpPresetAngle = -7.0;
+      public static final double kPitchMotorIntakePresetAngle = 90.5;
+      public static final double kPitchMotorSpeakerPresetAngle = 80.0;
+      public static final double kPitchMotorFarSpeakerPresetAngle = 60;
+      public static final double kPitchMotorAmpPresetAngle = -7;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;
     }
 
@@ -157,8 +159,8 @@ public final class Constants {
     public static final double kMinSpeedMetersPerSec = .2;
 
     public static final double kPDriveController = 1.9;
-    public static final double kPAngleController = 1.9;
-    public static final double kAcceptableDistanceError = 0.04;
+    public static final double kPAngleController = 0.4;
+    public static final double kAcceptableDistanceError = 0.12;
     public static final double kAcceptableAngleError = 1.5;
 }
   
@@ -176,6 +178,13 @@ public static final class PnuematicsConstants{
     
     public static final int kBigRightPnuematicInflateChannel = 2;
     public static final int kBigRightPnuematicDeflateChannel = 14;
+}
+public static final class AutoAimingConstants{
+    public static final int kLimeLightAngle = 35;
+    public static final double kShooterAngle = 62.23;
+
+    public static final Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.25, 5.5), new Rotation2d());
+    public static final Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.25, 5.5), new Rotation2d());
 }
 
 }

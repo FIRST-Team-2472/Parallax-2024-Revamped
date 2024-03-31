@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.BooleanSubscriber;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -24,48 +23,49 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.TargetPosConstants;
+import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.subsystems.swerveExtras.AccelerationLimiter;
-import frc.robot.subsystems.swerveExtras.PosPose2d;
 
-public class SwerveSubsystem extends SubsystemBase{
+public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(//
-        DriveConstants.kFrontLeftDriveMotorPort,
-        DriveConstants.kFrontLeftTurningMotorPort,
-        DriveConstants.kFrontLeftDriveEncoderReversed,
-        DriveConstants.kFrontLeftTurningEncoderReversed,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed );
+            DriveConstants.kFrontLeftDriveMotorPort,
+            DriveConstants.kFrontLeftTurningMotorPort,
+            DriveConstants.kFrontLeftDriveEncoderReversed,
+            DriveConstants.kFrontLeftTurningEncoderReversed,
+            DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
+            DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule frontRight = new SwerveModule(//
-        DriveConstants.kFrontRightDriveMotorPort,
-        DriveConstants.kFrontRightTurningMotorPort,
-        DriveConstants.kFrontRightDriveEncoderReversed,
-        DriveConstants.kFrontRightTurningEncoderReversed,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kFrontRightDriveAbsoluteEncoderReversed );
+            DriveConstants.kFrontRightDriveMotorPort,
+            DriveConstants.kFrontRightTurningMotorPort,
+            DriveConstants.kFrontRightDriveEncoderReversed,
+            DriveConstants.kFrontRightTurningEncoderReversed,
+            DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
+            DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
     private final SwerveModule backLeft = new SwerveModule(//
-        DriveConstants.kBackLeftDriveMotorPort,
-        DriveConstants.kBackLeftTurningMotorPort,
-        DriveConstants.kBackLeftDriveEncoderReversed,
-        DriveConstants.kBackLeftTurningEncoderReversed,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kBackLeftDriveAbsoluteEncoderReversed );
+            DriveConstants.kBackLeftDriveMotorPort,
+            DriveConstants.kBackLeftTurningMotorPort,
+            DriveConstants.kBackLeftDriveEncoderReversed,
+            DriveConstants.kBackLeftTurningEncoderReversed,
+            DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
+            DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
     private final SwerveModule backRight = new SwerveModule(//
-        DriveConstants.kBackRightDriveMotorPort,
-        DriveConstants.kBackRightTurningMotorPort,
-        DriveConstants.kBackRightDriveEncoderReversed,
-        DriveConstants.kBackRightTurningEncoderReversed,
-        DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-        DriveConstants.kBackRightDriveAbsoluteEncoderOffsetAng,
-        DriveConstants.kBackRightDriveAbsoluteEncoderReversed );
+            DriveConstants.kBackRightDriveMotorPort,
+            DriveConstants.kBackRightTurningMotorPort,
+            DriveConstants.kBackRightDriveEncoderReversed,
+            DriveConstants.kBackRightTurningEncoderReversed,
+            DriveConstants.kBackRightDriveAbsoluteEncoderPort,
+            DriveConstants.kBackRightDriveAbsoluteEncoderOffsetAng,
+            DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     private final AccelerationLimiter xLimiter, yLimiter, turningLimiter;
     private PIDController xController, yController, thetaController;
@@ -76,25 +76,23 @@ public class SwerveSubsystem extends SubsystemBase{
 
     private static BooleanSubscriber isOnRed;
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
-    private GenericEntry rotationShuffleBoard;
     private final String red = "Red", blue = "Blue";
 
-    public SwerveSubsystem(){
+    public SwerveSubsystem() {
 
         // Gets tabs from Shuffleboard
         ShuffleboardTab programmerBoard = Shuffleboard.getTab("Programmer Board");
         ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
 
-        // Gets the field infomation
+        // Gets the field information
         NetworkTable firstInfo = NetworkTableInstance.getDefault().getTable("FMSInfo");
         // Gets the team color from the field information
         isOnRed = firstInfo.getBooleanTopic("IsRedAlliance").subscribe(false);
 
-        // makes a team color choser
+        // makes a team color chooser
         colorChooser.addOption(red, red);
         colorChooser.addOption(blue, blue);
         driverBoard.add("Team Chooser", colorChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
-        rotationShuffleBoard = programmerBoard.add("Robot Rotation", getRotation2d().getDegrees()).getEntry();
 
         xLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -104,39 +102,41 @@ public class SwerveSubsystem extends SubsystemBase{
         yController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
         thetaController = new PIDController(TargetPosConstants.kPAngleController, 0, 0);
 
-
-        /* Maybe the cause of the autonomous not working. When we call generate path in command sequences the swerveSubsystem is 
-         called 1st and then it trys to zero the heading! This might be a big advancement
-        */
+        /*
+         * Maybe the cause of the autonomous not working. When we call generate path in
+         * command sequences the swerveSubsystem is
+         * called 1st and then it tries to zero the heading! This might be a big
+         * advancement
+         */
         new Thread(() -> {
-            try{
+            try {
                 Thread.sleep(1000);
                 zeroHeading();
-            }catch(Exception e){
+            } catch (Exception e) {
 
             }
         }).start();
     }
 
-    public void zeroHeading(){
+    public void zeroHeading() {
         gyro.setYaw(0);
     }
 
-    public void zeroHeading(double offset){
-        gyro.setYaw(offset);
+    public void setHeading(double yaw) {
+        gyro.setYaw(yaw);
     }
 
-    public double getHeading(){
-        return -gyro.getYaw().getValue();
+    public double getHeading() {
+        return gyro.getYaw().getValue();
     }
-    
+
     public boolean isAtPoint(Translation2d targetDrivePos) {
         return getPose().getTranslation().getDistance(targetDrivePos) //
                 <= TargetPosConstants.kAcceptableDistanceError; //
     }
 
     public boolean isAtAngle(Rotation2d angle) {
-        return Math.abs(getRotation2d().minus(angle).getDegrees()) //
+        return Math.abs(odometer.getPoseMeters().getRotation().minus(angle).getDegrees()) //
                 <= TargetPosConstants.kAcceptableAngleError;
     }
 
@@ -186,20 +186,20 @@ public class SwerveSubsystem extends SubsystemBase{
 
         return temp.omegaRadiansPerSecond;
     }
-    
-    public Rotation2d getRotation2d(){
-        return Rotation2d.fromDegrees(getHeading());
+
+    public Rotation2d getRotation2d() {
+        return new Rotation2d().fromDegrees(getHeading());
     }
 
-    public Pose2d getPose(){
+    public Pose2d getPose() {
         return odometer.getPoseMeters();
     }
-    
-    public void resetOdometry(PosPose2d pose){
-        odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), pose.getAngle()));
+
+    public void resetOdometry(Pose2d pose) {
+        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 
-    public void intializeJoystickRunFromField() {
+    public void initializeJoystickRunFromField() {
         xLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         turningLimiter.setLimit(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -209,7 +209,7 @@ public class SwerveSubsystem extends SubsystemBase{
         turningLimiter.reset(getRotationalSpeed());
     }
 
-    public void excuteJoystickRunFromField(double xSpeedPercent, double ySpeedPercent, double thetaSpeedPercent) {
+    public void executeJoystickRunFromField(double xSpeedPercent, double ySpeedPercent, double thetaSpeedPercent) {
         // 3. Make the driving smoother (limits acceleration)
         xSpeedPercent = xLimiter.calculate(xSpeedPercent * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
         ySpeedPercent = yLimiter.calculate(ySpeedPercent * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
@@ -221,26 +221,27 @@ public class SwerveSubsystem extends SubsystemBase{
 
     public void initializeDriveToPointAndRotate() {
         xLimiter.setLimit(TargetPosConstants.kForwardMaxAcceleration,
-        TargetPosConstants.kBackwardMaxAcceleration);
+                TargetPosConstants.kBackwardMaxAcceleration);
         yLimiter.setLimit(TargetPosConstants.kForwardMaxAcceleration,
-        TargetPosConstants.kBackwardMaxAcceleration);
+                TargetPosConstants.kBackwardMaxAcceleration);
         xLimiter.reset(getXSpeedFieldRel());
         yLimiter.reset(getYSpeedFieldRel());
 
-        xController.setPID(TargetPosConstants.kPDriveController, 0, 0);
+        xController.setPID(TargetPosConstants.kPDriveController, 0, 0.002);
         xController.reset();
-        yController.setPID(TargetPosConstants.kPDriveController, 0, 0);
+        yController.setPID(TargetPosConstants.kPDriveController, 0, 0.002);
         yController.reset();
         thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
         thetaController.reset();
     }
-    public void excuteDriveToPointAndRotate(Pose2d targetPosition) {
+
+    public void executeDriveToPointAndRotate(Pose2d targetPosition) {
         double xSpeed = MathUtil.clamp(
                 xController.calculate(getPose().getX(), targetPosition.getX()), -1, 1);
         double ySpeed = MathUtil.clamp(
                 yController.calculate(getPose().getY(), targetPosition.getY()), -1, 1);
-        System.out.println("in execute drivetopoint: " + targetPosition.getRotation());
-        Rotation2d angleDifference = getRotation2d().minus(targetPosition.getRotation());
+
+        Rotation2d angleDifference = odometer.getPoseMeters().getRotation().minus(targetPosition.getRotation());
         double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
                 0), -1, 1);
         turningSpeed *= TargetPosConstants.kMaxAngularSpeed;
@@ -253,15 +254,20 @@ public class SwerveSubsystem extends SubsystemBase{
         xSpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, xSpeed) * Math.abs(Math.cos(unitCircleAngle));
         ySpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, ySpeed) * Math.abs(Math.sin(unitCircleAngle));
 
+        if(isOnRed()){
+            xSpeed = -xSpeed;
+            ySpeed = -ySpeed;
+        }
         runModulesFieldRelative(xSpeed, ySpeed, turningSpeed);
     }
+
     public void initializeRotateToAngle() {
         thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
         thetaController.reset();
     }
 
-    public void excuteRotateToAngle(Rotation2d targetPosition) {
-        Rotation2d angleDifference = getRotation2d().minus(targetPosition);
+    public void executeRotateToAngle(Rotation2d targetPosition) {
+        Rotation2d angleDifference = odometer.getPoseMeters().getRotation().minus(targetPosition);
         double turningSpeed = MathUtil.clamp(thetaController.calculate(angleDifference.getRadians(),
                 0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
 
@@ -283,30 +289,42 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
-        rotationShuffleBoard.setDouble(getRotation2d().getDegrees());
         SmartDashboard.putNumber("Heading", getHeading());
+        SmartDashboard.putNumber("odometry heading", odometer.getPoseMeters().getRotation().getDegrees());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putNumber("frontLeft Unfiltered Encoder", getFLAbsUnfilteredEncoder());
+        SmartDashboard.putNumber("frontRight Unfiltered Encoder", getFRAbsUnfilteredEncoder());
+        SmartDashboard.putNumber("BackLeft Unfiltered Encoder", getBLAbsUnfilteredEncoder());
+        SmartDashboard.putNumber("BackRight Unfiltered Encoder", getBRAbsUnfilteredEncoder());
         SmartDashboard.putNumber("frontLeft Encoder", getFLAbsEncoder());
         SmartDashboard.putNumber("frontRight Encoder", getFRAbsEncoder());
         SmartDashboard.putNumber("BackLeft Encoder", getBLAbsEncoder());
         SmartDashboard.putNumber("BackRight Encoder", getBRAbsEncoder());
-        SmartDashboard.putNumber("Rotation", getRotation2d().getDegrees());
+
+        LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
+        int fiducialCount = llr.targetingResults.targets_Fiducials.length;
+
+        if (fiducialCount >= 2) { // Make sure there are at least 2 AprilTags in sight for accuracy
+            Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
+            resetOdometry(botPose);
+            setHeading(botPose.getRotation().getDegrees() + 180);
+        }
 
         logOdometry();
         logPigeonState();
         logSwerveStates();
     }
 
-    public void stopModules(){
+    public void stopModules() {
         frontLeft.stop();
         frontRight.stop();
         backLeft.stop();
         backRight.stop();
     }
 
-    public void setModuleStates(SwerveModuleState[] desiredStates){
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
         frontRight.setDesiredState(desiredStates[1]);
@@ -315,7 +333,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
         logSwerveDesiredStates(desiredStates);
     }
-    
+
     public SwerveModulePosition[] getModulePositions() {
         // Finds the position of each individual module based on the encoder values.
         SwerveModulePosition[] temp = { frontLeft.getPosition(), frontRight.getPosition(), backLeft.getPosition(),
@@ -325,7 +343,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     // used for anything that requires team color.
     // this is housed in swerve subsystem since it uses it the most
-    public boolean isOnRed() {
+    public static boolean isOnRed() {
         // gets the selected team color from the suffleboard
         String choices = colorChooser.getSelected();
         if (choices == "Red")
@@ -337,17 +355,32 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     // send over shuffleboard values
-    public double getFLAbsEncoder(){
+    public double getFLAbsUnfilteredEncoder() {
         return frontLeft.getUnfilteredPosition();
     }
-    public double getFRAbsEncoder(){
+    public double getFLAbsEncoder(){
+        return frontLeft.getAbsolutePosition();
+    }
+
+    public double getFRAbsUnfilteredEncoder() {
         return frontRight.getUnfilteredPosition();
     }
-    public double getBLAbsEncoder(){
+    public double getFRAbsEncoder(){
+        return frontRight.getAbsolutePosition();
+    }
+
+    public double getBLAbsUnfilteredEncoder() {
         return backLeft.getUnfilteredPosition();
     }
-    public double getBRAbsEncoder(){
+    public double getBLAbsEncoder(){
+        return backLeft.getAbsolutePosition();
+    }
+
+    public double getBRAbsUnfilteredEncoder() {
         return backRight.getUnfilteredPosition();
+    }
+    public double getBRAbsEncoder(){
+        return backRight.getAbsolutePosition();
     }
 
     /* -- LOGGING -- */
@@ -364,11 +397,13 @@ public class SwerveSubsystem extends SubsystemBase{
      * <value> can be of any rudimentary variable, Translation2d, Pose3d,
      * SwerveModuleState, and Mechanism2d. These are the values that will be logged.
      * All supported variable types are listed here:
-     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/DATA-FLOW.md#data-types
+     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/DATA-FLOW
+     * .md#data-types
      * 
      * Logging can also be done using the @AutoLogOutput annotation.
-     * More info here: 
-     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/RECORDING-OUTPUTS.md#autologoutput-annotation
+     * More info here:
+     * https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/RECORDING
+     * -OUTPUTS.md#autologoutput-annotation
      * 
      * 
      */

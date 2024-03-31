@@ -11,7 +11,7 @@ public class runShooter extends Command {
     private IntakeMotorSubsystem intakeSubsystem;
     private Timer overideTimer, timerTwo;
     private double speed;
-
+    private int rpm;
 
     public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem, double speed) {
         overideTimer = new Timer();
@@ -21,8 +21,13 @@ public class runShooter extends Command {
         this.speed = speed;
         addRequirements(shooterSubsystem);
         addRequirements(intakeSubsystem);
+        rpm = 3500;
     }
-
+     public runShooter(ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeSubsystem, double speed, int rpm) {
+        this(shooterSubsystem, intakeSubsystem, speed);
+        this.rpm = rpm;
+    }
+  
     @Override
     public void initialize() {
         overideTimer.stop();
@@ -32,14 +37,15 @@ public class runShooter extends Command {
         timerTwo.stop();
         timerTwo.reset();
         System.out.println("running");
-        System.out.println(""+overideTimer.get());
+        System.out.println("override timer: "+overideTimer.get());
+        System.out.println(""+ -1*rpm);
     }
 
     @Override
     public void execute() {
             shooterSubsystem.runShooterMotors(speed);
 
-        if (shooterSubsystem.getShooterSpeed() < -3500 || overideTimer.hasElapsed(1) || speed < 0.6) {
+        if (shooterSubsystem.getShooterSpeed() < -rpm || overideTimer.hasElapsed(2) || speed < 0.6) {
             if(timerTwo.get() != 0.0)
                 timerTwo.start();
             intakeSubsystem.runPushMotor(1);
@@ -52,12 +58,12 @@ public class runShooter extends Command {
        shooterSubsystem.runShooterMotors(0);
        intakeSubsystem.runPushMotor(0);
        intakeSubsystem.runIntakeMotors(0);
-       if (interrupted) System.out.println("interrupted");
+       System.out.println("interrupted");
     }
 
     @Override
     public boolean isFinished() {
 
-        return overideTimer.hasElapsed(1.5) || timerTwo.hasElapsed(0.3);
+        return overideTimer.hasElapsed(2.5) || timerTwo.hasElapsed(0.3);
     }
 }

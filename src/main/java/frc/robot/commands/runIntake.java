@@ -24,13 +24,15 @@ public class runIntake extends Command {
     @Override
     public void initialize() {
         timer.start();
+        System.out.println("intake command started");
     }
 
     @Override
     public void execute() {
         if(timer.hasElapsed(startingDelay)){
-        intakeSubsystem.runIntakeMotors(1);
-        intakeSubsystem.runPushMotor(1);
+            System.out.println("should be running motors");
+        intakeSubsystem.runIntakeMotors(0.6);
+        intakeSubsystem.runPushMotor(0.6);
         }
     }
 
@@ -38,10 +40,11 @@ public class runIntake extends Command {
     public void end(boolean interrupted) {
        intakeSubsystem.runIntakeMotors(0);
        intakeSubsystem.runPushMotor(0);
+       System.out.println("intake command ended, time: "+timer.get());
     }
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(endingDelay) || intakeSubsystem.getPhotoElectricSensor();
+        return timer.hasElapsed(endingDelay) || intakeSubsystem.getPhotoElectricSensor() == true;
     }
 }
