@@ -376,4 +376,50 @@ public class CommandSequences {
     public PosPose2d simplePose(double x, double y, double angleDegrees) {
         return new PosPose2d(x, y, Rotation2d.fromDegrees(angleDegrees));
     }
+
+    public Command fiveNoteFromPosition2(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
+
+        swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
+
+        return new SequentialCommandGroup(
+            RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+
+            new ParallelCommandGroup(
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                new runIntake(intakeMotorSubsystem, 0.2, 3),//may change
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.3, 5.52, 0))
+            ),
+            RotateNshoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+
+            new ParallelCommandGroup(
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(66)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle)
+            ),
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.65, 6.45, 66)),
+                new runIntake(intakeMotorSubsystem, 0.2, 3)//may change)
+            ),
+            RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+
+            new ParallelCommandGroup(
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                new runIntake(intakeMotorSubsystem, 0.2, 3),//may change
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(7.77, 7.35, 9.95))
+            ),
+            new SwerveDriveToPointCmd(swerveSubsystem, simplePose(5.85, 6.9, 16)),
+            RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+            
+            new ParallelCommandGroup(
+                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-24.5)),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle)
+            ),
+            new ParallelCommandGroup(
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(7.75, 6.05, -24.5)),
+                new runIntake(intakeMotorSubsystem, 0.2, 3)//may change)
+            ),
+            new SwerveDriveToPointCmd(swerveSubsystem, simplePose(5.86, 6.4, 9)),
+            RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)
+        );
+    }
+
 }
