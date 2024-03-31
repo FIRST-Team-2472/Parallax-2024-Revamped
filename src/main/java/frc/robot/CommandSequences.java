@@ -379,7 +379,7 @@ public class CommandSequences {
 
 
     public Command driveNPickUpNote(SwerveSubsystem swerveSubsystem, PosPose2d notePostion, IntakeMotorSubsystem intakeSubsystem) {
-        System.out.println("In driveNPickUpNote Command: " + notePostion.getAngle());
+        System.out.println("In driveNPickUpNote Command: " + notePostion.getRotation());
         return new SequentialCommandGroup(
             new ParallelCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, notePostion),
@@ -387,5 +387,6 @@ public class CommandSequences {
             )
         ); 
     }
+    
 
 }
