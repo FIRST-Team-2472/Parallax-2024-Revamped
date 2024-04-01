@@ -254,10 +254,9 @@ public class SwerveSubsystem extends SubsystemBase {
         xSpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, xSpeed) * Math.abs(Math.cos(unitCircleAngle));
         ySpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, ySpeed) * Math.abs(Math.sin(unitCircleAngle));
 
-        if(isOnRed()){
             xSpeed = -xSpeed;
             ySpeed = -ySpeed;
-        }
+        
         runModulesFieldRelative(xSpeed, ySpeed, turningSpeed);
     }
 
@@ -306,7 +305,8 @@ public class SwerveSubsystem extends SubsystemBase {
         LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
         int fiducialCount = llr.targetingResults.targets_Fiducials.length;
 
-        if (fiducialCount >= 2) { // Make sure there are at least 2 AprilTags in sight for accuracy
+
+        if (fiducialCount >= 2 && frontLeft.getDriveVelocity() < 0.2) { // Make sure there are at least 2 AprilTags in sight for accuracy
             Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
             resetOdometry(botPose);
             setHeading(botPose.getRotation().getDegrees() + 180);
