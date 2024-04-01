@@ -274,42 +274,43 @@ public class CommandSequences {
 
     public Command justMovePositionTwoToNoteOne(SwerveSubsystem swerveSubsystem) {
 
-        swerveSubsystem.resetOdometry(startingNodes[2]);
+        swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
 
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[2], List.of(), collectingNearNodes[0]));
+          new SwerveDriveToPointCmd(swerveSubsystem, shootingNearNodes[0])      
+        );
     }
 
     public Command justMovePositionTwoToNoteThreeCommand(SwerveSubsystem swerveSubsystem) {
 
-        swerveSubsystem.resetOdometry(startingNodes[2]);
+        swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
 
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[2], List.of(), importantNodes[1]));
+                new SwerveDriveToPointCmd(swerveSubsystem, importantNodes[1]));
     }
 
     public Command justMovePositionOneToNoteOneCommand(SwerveSubsystem swerveSubsystem) {
 
-        swerveSubsystem.resetOdometry(startingNodes[1]);
+        swerveSubsystem.resetOdometry(startingNodes[1].toFieldPose2d());
 
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[1], List.of(), collectingNearNodes[0]));
+                new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[0]));
     }
 
     public Command justMovePositionOneToNoteTwoCommand(SwerveSubsystem swerveSubsystem) {
 
-        swerveSubsystem.resetOdometry(startingNodes[1]);
+        swerveSubsystem.resetOdometry(startingNodes[1].toFieldPose2d());
 
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[2]));
+                new SwerveDriveToPointCmd(swerveSubsystem, importantNodes[2]));
     }
 
     public Command justMovePosition1tonote3(SwerveSubsystem swerveSubsystem) {
 
-        swerveSubsystem.resetOdometry(startingNodes[1]);
+        swerveSubsystem.resetOdometry(startingNodes[1].toFieldPose2d());
 
         return new SequentialCommandGroup(
-                generatePath(swerveSubsystem, startingNodes[1], List.of(), importantNodes[1]));
+                new SwerveDriveToPointCmd(swerveSubsystem, importantNodes[1]));
     }
 
     public Command RotateNShoot(SwerveSubsystem swerveSubsystem,
