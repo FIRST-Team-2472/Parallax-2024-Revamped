@@ -389,7 +389,7 @@ public class CommandSequences {
                 new runIntake(intakeMotorSubsystem, 0.2, 3),//may change
                 new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.3, 5.52, 0))
             ),
-            RotateNshoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+            RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
 
             new ParallelCommandGroup(
                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(66)),
