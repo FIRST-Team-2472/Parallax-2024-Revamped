@@ -11,6 +11,7 @@ import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
 import frc.robot.subsystems.ArmSubsystems.ShootingMotorSubsystem;
 
 public class FastAutoAimCmd extends Command{
+//rename this class if it is better than normal autoshooting
 
     SwerveSubsystem swerveSubsystem;
     PitchMotorSubsystem pitchMotorSubsystem;

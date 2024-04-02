@@ -23,12 +23,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.TargetPosConstants;
-import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.subsystems.swerveExtras.AccelerationLimiter;
+import frc.robot.subsystems.swerveExtras.LimelightHelpers;
+import frc.robot.subsystems.swerveExtras.SwerveModule;
+import frc.robot.subsystems.swerveExtras.LimelightHelpers.LimelightResults;
 
 public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(//
