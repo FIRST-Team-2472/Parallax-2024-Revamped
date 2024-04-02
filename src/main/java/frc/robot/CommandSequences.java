@@ -312,74 +312,6 @@ public class CommandSequences {
         return new SequentialCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, importantNodes[1]));
     }
-
-    public Command RotateNShoot(SwerveSubsystem swerveSubsystem,
-            PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shootingMotorSubsystem,
-            IntakeMotorSubsystem intakeMotorSubsystem) {
-
-        return new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                        new SetArmPitchCmd(pitchMotorSubsystem,  swerveSubsystem),
-                        new SwerveRotateToAngle(swerveSubsystem)),
-                new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9));
-    }
-
-    // generates a path via points
-    private static Command generatePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint,
-            List<PositivePoint> midPoints,
-            PosPose2d endPoint) {
-        // 1. Create trajectory settings
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                .setKinematics(DriveConstants.kDriveKinematics);
-
-        Pose2d driveStartPoint = swerveSubsystem.getPose();
-        Pose2d driveEndPoint = endPoint.toFieldPose2d();
-        List<Translation2d> driveMidPoints = new ArrayList<Translation2d>();
-        for (int i = 0; i < midPoints.size(); i++)
-            driveMidPoints.add(midPoints.get(i).toDrivePos());
-
-        // 2. Generate trajectory
-        // Generates trajectory. Need to feed start point, a series of inbetween points,
-        // and end point
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                driveStartPoint,
-                driveMidPoints,
-                driveEndPoint,
-                trajectoryConfig);
-
-        // 3. Define PID controllers for tracking trajectory
-        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-        ProfiledPIDController thetaController = new ProfiledPIDController(
-                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-        // 4. Construct command to follow trajectory
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectory,
-                // swerveSubsystm::getPose is same as () -> swerveSubsystem.getPose()
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::setModuleStates,
-                swerveSubsystem);
-
-        // 5. Add some init and wrap-up, and return everything
-        // creates a Command list that will reset the Odometry, then move the path, then
-        // stop
-        return new SequentialCommandGroup(
-                swerveControllerCommand,
-                new InstantCommand(() -> swerveSubsystem.stopModules()));
-    }
-
-    public PosPose2d simplePose(double x, double y, double angleDegrees) {
-        return new PosPose2d(x, y, Rotation2d.fromDegrees(angleDegrees));
-    }
-
     public Command fiveNoteFromPosition2(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
 
         swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
@@ -423,6 +355,73 @@ public class CommandSequences {
             new SwerveDriveToPointCmd(swerveSubsystem, simplePose(5.86, 6.4, 9)),
             RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)
         );
+    }
+
+    public Command RotateNShoot(SwerveSubsystem swerveSubsystem,
+            PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shootingMotorSubsystem,
+            IntakeMotorSubsystem intakeMotorSubsystem) {
+
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new SwerveRotateToAngle(swerveSubsystem)),
+                        new SetArmPitchCmd(pitchMotorSubsystem,  swerveSubsystem),
+                new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9));
+    }
+
+    // generates a path via points
+    private static Command generatePath(SwerveSubsystem swerveSubsystem, PosPose2d startPoint,
+            List<PositivePoint> midPoints,
+            PosPose2d endPoint) {
+        // 1. Create trajectory settings
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                .setKinematics(DriveConstants.kDriveKinematics);
+
+        Pose2d driveStartPoint = startPoint.toFieldPose2d();
+        Pose2d driveEndPoint = endPoint.toFieldPose2d();
+        List<Translation2d> driveMidPoints = new ArrayList<Translation2d>();
+        for (int i = 0; i < midPoints.size(); i++)
+            driveMidPoints.add(midPoints.get(i).toFieldPos());
+
+        // 2. Generate trajectory
+        // Generates trajectory. Need to feed start point, a series of inbetween points,
+        // and end point
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+                driveStartPoint,
+                driveMidPoints,
+                driveEndPoint,
+                trajectoryConfig);
+
+        // 3. Define PID controllers for tracking trajectory
+        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+        ProfiledPIDController thetaController = new ProfiledPIDController(
+                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        // 4. Construct command to follow trajectory
+        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                trajectory,
+                // swerveSubsystm::getPose is same as () -> swerveSubsystem.getPose()
+                swerveSubsystem::getPose,
+                DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveSubsystem::setModuleStates,
+                swerveSubsystem);
+
+        // 5. Add some init and wrap-up, and return everything
+        // creates a Command list that will reset the Odometry, then move the path, then
+        // stop
+        return new SequentialCommandGroup(
+                swerveControllerCommand,
+                new InstantCommand(() -> swerveSubsystem.stopModules()));
+    }
+
+    public PosPose2d simplePose(double x, double y, double angleDegrees) {
+        return new PosPose2d(x, y, Rotation2d.fromDegrees(angleDegrees));
     }
 
 }
