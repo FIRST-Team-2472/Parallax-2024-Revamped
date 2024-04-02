@@ -28,15 +28,30 @@ public class IntakeMotorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {}
 
+    /**
+     * Controls the speed the pushing or feeding motors are running
+     * 
+     * @param motorSpeed speed to run feeding motors at (between -1 & 1)
+     */
     public void runPushMotor(double motorSpeed) {
         pushMotor.set(motorSpeed);
     }
 
+    /**
+     * Controls the speed the intake motors are running
+     * 
+     * @param motorSpeed speed to run intake motors at (between -1 & 1)
+     */
     public void runIntakeMotors(double motorSpeed) {
         intakeTopMotor.set(motorSpeed);
         intakeBottomMotor.set(-motorSpeed);
     }
 
+    /**
+     * Gets whither the photo electric sensor on the intake chamber sees a not or not
+     * 
+     * @return whither the sensor sees a note
+     */
     public boolean getPhotoElectricSensor(){
         return !photoElectricSensor.get();
     }

@@ -27,11 +27,21 @@ public class ShootingMotorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Shooter speed", getShooterSpeed());
     }
 
+    /**
+     * Controls the speed the shooting motors (flywheels) are running
+     * 
+     * @param motorSpeed speed to run shooting motors at (between -1 & 1)
+     */
     public void runShooterMotors(double motorSpeed) {
         shooterTopMotor.set(-motorSpeed);
         shooterBottomMotor.set(motorSpeed);
     }
 
+    /**
+     * Gets the shooting motors' (flywheels') current speed
+     * 
+     * @return the shooting motors' speed
+     */
     public double getShooterSpeed(){
         return shooterTopMotor.getEncoder().getVelocity();
     }

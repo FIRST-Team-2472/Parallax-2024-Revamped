@@ -71,11 +71,24 @@ public class PitchMotorSubsystem extends SubsystemBase {
         internalEncoderPosition.setDouble(pitchMotor.getEncoder().getPosition());
     }
 
-    double addBaseIdleForce(double motorSpeed) {
+    /**
+     * Applies the force required to fight gravity to the motor speed
+     * This should not be used directly, but runPitchMotor(double motorSpeed)
+     * already adds this
+     * 
+     * @param motorSpeed
+     * @return motorSpeed + force to fight gravity
+     */
+    private double addBaseIdleForce(double motorSpeed) {
         // clamps it between -1 and 1
-        return clamp(motorSpeed + baseIdleForce, -1.0, 1.0);
+        return clamp(motorSpeed + this.baseIdleForce, -1.0, 1.0);
     }
 
+    /**
+     * Run the pitch motor, but apply the force to fight gravity at <i>the same time!</i>
+     * 
+     * @param motorSpeed speed to run the pitch motor at (between -1 & 1)
+     */
     public void runPitchMotor(double motorSpeed) {
         motorSpeed = addBaseIdleForce(motorSpeed);
 
@@ -84,6 +97,13 @@ public class PitchMotorSubsystem extends SubsystemBase {
         pitchMotor.set(motorSpeed);
     }
 
+    /**
+     * This <i>also</i> moves the pitch motor, but does <b>not apply the force to fight gravity</b>.
+     * This might even apply a downward force (for intaking)
+     * 
+     * @param motorSpeed speed to run the pitch motor at (between -1 & 1)
+     * @param withoutKP does not matter what it is, as this just differs it from the last method
+     */
     public void runPitchMotor(double motorSpeed, boolean withoutKP) {
         motorSpeed -= 0.15;
         // shuffleboard
@@ -92,20 +112,41 @@ public class PitchMotorSubsystem extends SubsystemBase {
         pitchMotor.set(motorSpeed);
     }
 
+    /**
+     * Gets the position of the <i>external, absolute</i> encoder in degrees
+     * 
+     * @return the encoder's rotation
+     */
     public double getEncoderDeg() {
         return (pitchMotorEncoder.getDistance() + PitchMotor.kPitchEncoderOffset);
     }
 
+    /**
+     * Resets the position of the <i>external, absolute</i> encoder
+     */
     public void resetEncoder() {
         pitchMotorEncoder.reset();
     }
 
+    /**
+     * Uses a PID Controller to move the arm (in the pitch way (up and down)) to a set angle
+     * 
+     * @param angleDeg the angle to move the arm to
+     */
     public void runPitchMotorWithKP(double angleDeg) {
-        angleDeg = clamp(angleDeg, -10, 90);
+        angleDeg = clamp(angleDeg, -10, 90); // Prevents the motor from moving out of range and breaking itself
         double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg));
         runPitchMotor(speed *= 0.1);
     }
 
+    /**
+     * A nifty little method to clamp a value between a min and max value
+     * 
+     * @param value the value to be clamped
+     * @param min the min to be clamped above
+     * @param max the max to be clamped below
+     * @return the value clamped between the max and min
+     */
     double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
