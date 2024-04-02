@@ -106,7 +106,7 @@ public class PitchMotorSubsystem extends SubsystemBase {
         runPitchMotor(speed *= 0.1);
     }
 
-    double clamp(double value, double min, double max) {
+    public static double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
 
