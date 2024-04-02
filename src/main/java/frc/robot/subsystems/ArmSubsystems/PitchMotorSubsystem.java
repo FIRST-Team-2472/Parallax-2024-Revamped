@@ -147,7 +147,7 @@ public class PitchMotorSubsystem extends SubsystemBase {
      * @param max the max to be clamped below
      * @return the value clamped between the max and min
      */
-    double clamp(double value, double min, double max) {
+    public static double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
 

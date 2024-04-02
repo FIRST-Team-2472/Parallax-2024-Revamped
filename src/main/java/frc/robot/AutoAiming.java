@@ -83,6 +83,17 @@ public class AutoAiming {
     public static double getDistance(Pose2d pos1, Pose2d pos2) {
         return Math.sqrt(Math.pow((pos2.getX() - pos1.getX()), 2) + Math.pow((pos2.getY() - pos1.getY()), 2));
     }
+    /**
+     * Calculates the distance between two 2D points
+     * 
+     * @param robotPose the position of the robot
+     * @param targetPose where the robot is driving to
+     * 
+     * @return The distance as a double
+     */
+    public static boolean isWithinDistance(Pose2d robotPose, Pose2d targetPose, double distance) {
+        return getDistance(robotPose, targetPose) < distance;
+    }
 
     /**
      * Returns wither or not we are currently on the blue side of the field
