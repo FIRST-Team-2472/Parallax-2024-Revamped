@@ -363,8 +363,8 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                        new SwerveRotateToAngle(swerveSubsystem)),
                         new SetArmPitchCmd(pitchMotorSubsystem,  swerveSubsystem),
+                        new SwerveRotateToAngle(swerveSubsystem)),
                 new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9));
     }
 
