@@ -16,6 +16,7 @@ import frc.robot.Constants.ArmMotorsConstants.*;
 public class PitchMotorSubsystem extends SubsystemBase {
     private CANSparkMax pitchMotor = new CANSparkMax(PitchMotor.kPitchMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
+    private PIDController fasterPitchPIDController = new PIDController(.12, .04, 0);
     public AnalogEncoder pitchMotorEncoder = new AnalogEncoder(ArmMotorsConstants.PitchMotor.kPitchEncoderId);
     ShuffleboardTab encoderTab = Shuffleboard.getTab("Absolute Encoder"); // Move this eventually
     private GenericEntry internalEncoderPosition;
@@ -136,6 +137,17 @@ public class PitchMotorSubsystem extends SubsystemBase {
     public void runPitchMotorWithKP(double angleDeg) {
         angleDeg = clamp(angleDeg, -10, 90); // Prevents the motor from moving out of range and breaking itself
         double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg));
+        runPitchMotor(speed *= 0.1);
+    }
+
+    /**
+     * A Tweaked version of the runPitchMotorWithKP method, but with lower P and higher I values
+     * 
+     * @param angleDeg the angle to move the arm to
+     */
+    public void runPitchMotorWithFasterKP(double angleDeg) {
+        angleDeg = clamp(angleDeg, -10, 90); // Prevents the motor from moving out of range and breaking itself
+        double speed = -(fasterPitchPIDController.calculate(getEncoderDeg(), angleDeg));
         runPitchMotor(speed *= 0.1);
     }
 

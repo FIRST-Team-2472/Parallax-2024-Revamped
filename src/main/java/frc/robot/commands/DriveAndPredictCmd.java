@@ -18,7 +18,7 @@ public class DriveAndPredictCmd extends Command {
     ShootingMotorSubsystem shootingMotorSubsystem;
     FieldPose2d targetPosition;
     AimPoint aimPoint;
-    Timer timer;
+    Timer timer, overrideTimer;
 
     /**
      * moves the robot to a target position and prepares to shoot by angling the
@@ -38,7 +38,7 @@ public class DriveAndPredictCmd extends Command {
         this.shootingMotorSubsystem = shootingMotorSubsystem;
         aimPoint = AutoAiming.getAimPoint(targetPosition);
         this.targetPosition = new FieldPose2d(targetPosition.toFieldPose2d().getX(),
-                targetPosition.toFieldPose2d().getY(), new Rotation2d().fromDegrees(aimPoint.getYawAngle()));
+                targetPosition.toFieldPose2d().getY(), Rotation2d.fromDegrees(aimPoint.getYawAngle()));
 
         timer = new Timer();
 
@@ -48,6 +48,7 @@ public class DriveAndPredictCmd extends Command {
     public void initialize() {
         swerveSubsystem.initializeDriveToPointAndRotate();
         timer.restart();
+        overrideTimer.restart();
     }
 
     @Override
@@ -67,7 +68,8 @@ public class DriveAndPredictCmd extends Command {
     public boolean isFinished() {
         // use this function if you overide the command to finsih it
         if (swerveSubsystem.isAtPoint(targetPosition.getTranslation())
-                && swerveSubsystem.isAtAngle(targetPosition.getRotation()))
+                && swerveSubsystem.isAtAngle(targetPosition.getRotation())
+                && (Math.abs(pitchMotorSubsystem.getEncoderDeg() - aimPoint.getPitchAngle()) < 0.5) || (overrideTimer.hasElapsed(3)))
             return timer.hasElapsed(.05);
         timer.restart();
         return false;
