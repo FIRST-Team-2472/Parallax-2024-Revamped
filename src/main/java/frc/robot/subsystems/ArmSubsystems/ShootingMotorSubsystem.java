@@ -11,7 +11,7 @@ import frc.robot.Constants.ArmMotorsConstants.*;
 public class ShootingMotorSubsystem extends SubsystemBase {
     private static CANSparkMax shooterTopMotor = new CANSparkMax(ShooterMotors.kTopShooterMotorId, MotorType.kBrushless);
     private CANSparkMax shooterBottomMotor = new CANSparkMax(ShooterMotors.kBottomShooterMotorId, MotorType.kBrushless);
-    private PIDController shooterPID = new PIDController(0.2, 0, 0);
+    private PIDController shooterPID = new PIDController(0.5, 0.2, 0);
 
     public ShootingMotorSubsystem() {
 
@@ -39,6 +39,7 @@ public class ShootingMotorSubsystem extends SubsystemBase {
     }
     
     public void runShooterMotorsWithKP(double targetRpm) {
+        SmartDashboard.putNumber("shooter pid", PitchMotorSubsystem.clamp(shooterPID.calculate(getShooterSpeed(), -targetRpm), 0, 1));
         runShooterMotors(PitchMotorSubsystem.clamp(shooterPID.calculate(getShooterSpeed(), -targetRpm), 0, 1));
     }
 

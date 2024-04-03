@@ -29,11 +29,18 @@ public class FastAutoAimCmd extends Command{
      * @param intakeMotorSubsystem   the intake motor subsystem
      */
     public FastAutoAimCmd(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, 
-    ShootingMotorSubsystem shootingMotorSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
+    ShootingMotorSubsystem shootingMotorSubsystem, 
+    IntakeMotorSubsystem intakeMotorSubsystem){
         this.swerveSubsystem = swerveSubsystem;
         this.intakeMotorSubsystem = intakeMotorSubsystem;
         this.pitchMotorSubsystem = pitchMotorSubsystem;
         this.shootingMotorSubsystem = shootingMotorSubsystem;
+        overideTimer = new Timer();
+        timerTwo = new Timer();
+        addRequirements(swerveSubsystem);
+        addRequirements(pitchMotorSubsystem);
+        addRequirements(shootingMotorSubsystem);
+        addRequirements(intakeMotorSubsystem);
     }
 
     @Override
