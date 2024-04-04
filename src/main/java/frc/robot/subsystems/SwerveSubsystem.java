@@ -79,6 +79,8 @@ public class SwerveSubsystem extends SubsystemBase {
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
     private final String red = "Red", blue = "Blue";
 
+    private boolean camsDisabled;
+
     public SwerveSubsystem() {
 
         // Gets tabs from Shuffleboard
@@ -98,6 +100,8 @@ public class SwerveSubsystem extends SubsystemBase {
         xLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         turningLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
+
+        camsDisabled = false;
 
         xController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
         yController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
@@ -307,7 +311,7 @@ public class SwerveSubsystem extends SubsystemBase {
         int fiducialCount = llr.targetingResults.targets_Fiducials.length;
 
 
-        if (fiducialCount >= 2 && frontLeft.getDriveVelocity() < 0.2) { // Make sure there are at least 2 AprilTags in sight for accuracy
+        if (!camsDisabled && fiducialCount >= 2 && frontLeft.getDriveVelocity() < 0.2) { // Make sure there are at least 2 AprilTags in sight for accuracy
             Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
             resetOdometry(botPose);
             setHeading(botPose.getRotation().getDegrees() + 180);
@@ -323,6 +327,10 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.stop();
         backLeft.stop();
         backRight.stop();
+    }
+
+    public void disableCams(){
+        camsDisabled = true;
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
