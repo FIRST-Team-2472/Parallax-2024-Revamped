@@ -28,7 +28,7 @@ public class RobotContainer {
   shootFromFurtherAway = "Shoot from note position", justMovePosition2tonote1 = "Move to note 1 from the front of subwoofer",
   justMovePosition2tonote3 = "Move to note 3 from front of subwoofer", justMovePosition1tonote1 = "Move to note 1 from position 1",
   justMovePosition1tonote2 = "Move to note 2 from position 1", justMovePosition1tonote3 = "Move to note 3 from position 1",  
-  fiveNoteFromPosition2 = "Five note auto collecting four notes closest to amp";
+  fiveNoteFromPosition2 = "Five note auto collecting four notes closest to amp", threeNoteMiddle = "Three notes starting center";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -70,6 +70,7 @@ public class RobotContainer {
     m_chooser.addOption(placementthree, placementthree);
     m_chooser.addOption(path4, path4);
     m_chooser.addOption(testingPath, testingPath);
+    m_chooser.addOption(threeNoteMiddle, threeNoteMiddle);
     m_chooser.addOption(stagePath, stagePath);
     m_chooser.addOption(justShoot, justShoot);
     m_chooser.addOption(justShootAndMove, justShootAndMove);
@@ -117,7 +118,10 @@ public class RobotContainer {
       m_autoSelected = m_chooser.getSelected();
 
       if (m_autoSelected == testingPath)
-        return new ParallelCommandGroup(commandSequences.fourNoteFromPosTwo(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+        return new ParallelCommandGroup(commandSequences.threeNoteFromPosTwo(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+
+      if(m_autoSelected == threeNoteMiddle)
+        return new ParallelCommandGroup(commandSequences.threeNoteFromPosTwo(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == placementtwo)
       return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionTwoCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));

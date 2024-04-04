@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.ArmMotorsConstants.*;
 
@@ -135,7 +136,7 @@ public class PitchMotorSubsystem extends SubsystemBase {
      * @param angleDeg the angle to move the arm to
      */
     public void runPitchMotorWithKP(double angleDeg) {
-        angleDeg = clamp(angleDeg, -10, 90); // Prevents the motor from moving out of range and breaking itself
+        angleDeg = clamp(angleDeg, -10, PitchMotor.kPitchMotorAmpPresetAngle); // Prevents the motor from moving out of range and breaking itself
         double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg));
         runPitchMotor(speed *= 0.1);
     }

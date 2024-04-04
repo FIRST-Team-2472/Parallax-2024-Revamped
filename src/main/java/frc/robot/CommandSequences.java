@@ -187,6 +187,36 @@ public class CommandSequences {
                 new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
     }
 
+    public Command threeNoteFromPosTwo(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
+            ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+                
+        swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
+
+        return new SequentialCommandGroup(
+                // should be changed to autoshooting once you fix the schedule issue
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new ParallelCommandGroup(
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.71, 6.82, 40)),
+                        new SetArmPitchCmd(pitchMotorSubsystem,
+                                ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                        new runIntake(intakeMotorSubsystem, 0.2, 3)),
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+
+                new ParallelCommandGroup(
+                        new SequentialCommandGroup(
+                                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-135)),
+                                new ParallelCommandGroup(
+                                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.1, 5.5, -90)),
+                                        new runIntake(intakeMotorSubsystem, 0, 1.5)
+                                )
+                        ),
+                        new SetArmPitchCmd(pitchMotorSubsystem,
+                                ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle)
+                ),
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)
+        );
+    }
+
     public Command twoInSpeakerFromPositionThreeCommand(SwerveSubsystem swerveSubsystem,
             PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem,
             IntakeMotorSubsystem intakeMotorSubsystem) {
