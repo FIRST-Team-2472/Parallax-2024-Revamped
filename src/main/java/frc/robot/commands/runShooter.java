@@ -45,7 +45,7 @@ public class runShooter extends Command {
     public void execute() {
             shooterSubsystem.runShooterMotors(speed);
 
-        if (shooterSubsystem.getShooterSpeed() < -rpm || overideTimer.hasElapsed(2) || speed < 0.6) {
+        if (shooterSubsystem.getShooterSpeed() < -rpm || overideTimer.hasElapsed(2)) {
             if(timerTwo.get() != 0.0)
                 timerTwo.start();
             intakeSubsystem.runPushMotor(1);

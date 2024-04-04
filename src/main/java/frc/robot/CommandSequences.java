@@ -86,7 +86,8 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(simplePose(1, 1, 0).toFieldPose2d());
 
         return new SequentialCommandGroup(
-                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2, 2, 0)));
+                new SwerveRotateToAngle(swerveSubsystem,  Rotation2d.fromDegrees(30))
+        );
     }
 
     public Command driveFromZone(SwerveSubsystem swerveSubsystem) {
@@ -196,10 +197,10 @@ public class CommandSequences {
                 // should be changed to autoshooting once you fix the schedule issue
                 new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
-                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.71, 6.82, 40)),
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.8, 6.92, 40)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 0.2, 3)),
+                        new runIntake(intakeMotorSubsystem, 0.2, 3.5)),
                 new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
 
                 new ParallelCommandGroup(
@@ -207,7 +208,7 @@ public class CommandSequences {
                                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-135)),
                                 new ParallelCommandGroup(
                                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.1, 5.5, -90)),
-                                        new runIntake(intakeMotorSubsystem, 0, 1.5)
+                                        new runIntake(intakeMotorSubsystem, 0, 2)
                                 )
                         ),
                         new SetArmPitchCmd(pitchMotorSubsystem,

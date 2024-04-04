@@ -69,7 +69,9 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     private final AccelerationLimiter xLimiter, yLimiter, turningLimiter;
-    private PIDController xController, yController, thetaController;
+    private PIDController xController, yController;
+
+    public PIDController thetaController;
 
     private final Pigeon2 gyro = new Pigeon2(SensorConstants.kPigeonID);
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
@@ -79,7 +81,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
     private final String red = "Red", blue = "Blue";
 
-    private boolean camsDisabled;
+    private boolean camsDisabled, constantAim;
 
     public SwerveSubsystem() {
 
@@ -102,10 +104,11 @@ public class SwerveSubsystem extends SubsystemBase {
         turningLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
 
         camsDisabled = false;
+        constantAim = false;
 
         xController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
         yController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
-        thetaController = new PIDController(TargetPosConstants.kPAngleController, 0, 0);
+        thetaController = new PIDController(TargetPosConstants.kPAngleController, 0.08, 0.02);
 
         /*
          * Maybe the cause of the autonomous not working. When we call generate path in
@@ -239,6 +242,15 @@ public class SwerveSubsystem extends SubsystemBase {
         thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
         thetaController.reset();
     }
+    public void constantAim(){
+        if(!constantAim)
+            constantAim = true;
+        else
+            constantAim = false;
+    }
+    public boolean getConstantAim(){
+        return constantAim;
+    }
 
     public void executeDriveToPointAndRotate(Pose2d targetPosition) {
         double xSpeed = MathUtil.clamp(
@@ -330,7 +342,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void disableCams(){
-        camsDisabled = true;
+        if(camsDisabled)
+            camsDisabled = false;
+        else
+            camsDisabled = true;
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {

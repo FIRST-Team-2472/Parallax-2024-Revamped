@@ -2,9 +2,13 @@ package frc.robot.commands.DefaultCommands;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.AutoAiming;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.TargetPosConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveJoystickCmd extends Command {
@@ -39,7 +43,17 @@ public class SwerveJoystickCmd extends Command {
         // deadband (area that doesnt actually result in an input)
         xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? (!slowed.get() ? xSpeed : xSpeed * OperatorConstants.kSlowedSpeed) : 0.0;
         ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? (!slowed.get() ? ySpeed : ySpeed * OperatorConstants.kSlowedSpeed) : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+
+        if(swerveSubsystem.getConstantAim() && AutoAiming.getSmartDistance(swerveSubsystem.getPose()) < 3){
+
+            Rotation2d angleDifference = swerveSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(AutoAiming.getYaw(swerveSubsystem.getPose())));
+            turningSpeed = MathUtil.clamp(swerveSubsystem.thetaController.calculate(angleDifference.getRadians(),
+                0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
+
+        turningSpeed += Math.copySign(TargetPosConstants.kMinAngularSpeedRadians, turningSpeed);
+        }else{
+            turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+        }
 
         swerveSubsystem.executeJoystickRunFromField(xSpeed, ySpeed, turningSpeed);
 

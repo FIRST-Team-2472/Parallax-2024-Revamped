@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.AutoAiming;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.ArmMotorsConstants.*;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class PitchMotorSubsystem extends SubsystemBase {
     private CANSparkMax pitchMotor = new CANSparkMax(PitchMotor.kPitchMotorId, MotorType.kBrushless);
@@ -25,12 +27,15 @@ public class PitchMotorSubsystem extends SubsystemBase {
     private GenericEntry encoderDeg;
     private GenericEntry pitchMotorSpeed;
     public double baseIdleForce;
+    public boolean constantAim;
 
     public PitchMotorSubsystem() {
 
         // make sure all of them have the same settings in case we grabbed one with
         // presets
         pitchMotor.restoreFactoryDefaults();
+
+        constantAim = false;
 
         // sets their constants
         pitchMotor.setIdleMode(com.revrobotics.CANSparkBase.IdleMode.kBrake);
@@ -71,6 +76,18 @@ public class PitchMotorSubsystem extends SubsystemBase {
         encoderDeg.setDouble(getEncoderDeg());
 
         internalEncoderPosition.setDouble(pitchMotor.getEncoder().getPosition());
+
+    }
+
+    public void constantAim(){
+        if(!constantAim)
+            constantAim = true;
+        else
+            constantAim = false;
+    }
+
+    public boolean getConstantAim(){
+        return constantAim;
     }
 
     /**
