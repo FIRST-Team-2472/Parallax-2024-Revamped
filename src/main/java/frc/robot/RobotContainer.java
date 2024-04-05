@@ -134,7 +134,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
 
       if (m_autoSelected == justShoot)
-      return new ParallelCommandGroup(commandSequences.justShoot(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.justShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justShootAndMove)
       return new ParallelCommandGroup(commandSequences.justShootAndMove(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
