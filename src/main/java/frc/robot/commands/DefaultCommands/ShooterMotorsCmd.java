@@ -6,6 +6,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.AutoAiming;
+import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSubsystems.*;
 
 public class ShooterMotorsCmd extends Command {
@@ -32,7 +35,7 @@ public class ShooterMotorsCmd extends Command {
     @Override
     public void execute() {
         //runs the shooter motor at 75% speed when we fire in speaker and 50% for the amp
-        if(shootingMotorSubsystem.getConstantAim() && AutoAiming.getSmartDistance(robotPose.get()) < 3){
+        if(shootingMotorSubsystem.getConstantAim() && AutoAiming.getSmartDistance(robotPose.get()) < OperatorConstants.autoAimDistance){
             shootingMotorSubsystem.runShooterMotorsWithKP(4000);
         }else{
             shooterMotorsSpeed = 0.0;

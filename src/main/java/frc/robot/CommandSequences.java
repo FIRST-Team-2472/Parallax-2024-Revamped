@@ -83,10 +83,10 @@ public class CommandSequences {
 
     public Command test(SwerveSubsystem swerveSubsystem) {
 
-        swerveSubsystem.resetOdometry(simplePose(1, 1, 0).toFieldPose2d());
+        swerveSubsystem.resetOdometry(simplePose(0, 0, 0).toFieldPose2d());
 
         return new SequentialCommandGroup(
-                new SwerveRotateToAngle(swerveSubsystem,  Rotation2d.fromDegrees(30))
+                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(0.33, 0.33, 0))
         );
     }
 

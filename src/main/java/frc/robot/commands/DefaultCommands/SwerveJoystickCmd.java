@@ -36,19 +36,16 @@ public class SwerveJoystickCmd extends Command {
         // get joystick values
         double xSpeed = SwerveSubsystem.isOnRed() ? -xSpdFunction.get() : xSpdFunction.get();
         double ySpeed = SwerveSubsystem.isOnRed() ? -ySpdFunction.get() : ySpdFunction.get();
-        // double xSpeed = xSpdFunction.get();
-        // double ySpeed = ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get() / 2;
 
         // deadband (area that doesnt actually result in an input)
         xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? (!slowed.get() ? xSpeed : xSpeed * OperatorConstants.kSlowedSpeed) : 0.0;
         ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? (!slowed.get() ? ySpeed : ySpeed * OperatorConstants.kSlowedSpeed) : 0.0;
 
-        if(swerveSubsystem.getConstantAim() && AutoAiming.getSmartDistance(swerveSubsystem.getPose()) < 3){
+        if(swerveSubsystem.getConstantAim() && AutoAiming.getSmartDistance(swerveSubsystem.getPose()) < OperatorConstants.autoAimDistance){
 
             Rotation2d angleDifference = swerveSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(AutoAiming.getYaw(swerveSubsystem.getPose())));
-            turningSpeed = MathUtil.clamp(swerveSubsystem.thetaController.calculate(angleDifference.getRadians(),
-                0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
+            turningSpeed = MathUtil.clamp(swerveSubsystem.thetaController.calculate(angleDifference.getRadians(),0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
 
         turningSpeed += Math.copySign(TargetPosConstants.kMinAngularSpeedRadians, turningSpeed);
         }else{

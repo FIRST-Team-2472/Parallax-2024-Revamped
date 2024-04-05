@@ -13,6 +13,7 @@ public final class Constants {
     public static final int kRightJoyPort = 2;
     public static final int kXboxControllerPort = 3;
     public static final double kSlowedSpeed = 0.3;
+    public static final double autoAimDistance = 3.5;
   }
 
   public static final class ModuleConstants {
@@ -33,7 +34,7 @@ public final class Constants {
   }
 
   public static final class OIConstants {
-    public static final double kDeadband = 0.2;
+    public static final double kDeadband = 0.1;
     public static final double kArmDeadband = 0.1;
     public static final int kLeftDriverYAxis = 1; //conflicts with other constants
     public static final int kLeftDriverXAxis = 0; //conflicts with other constants
@@ -112,7 +113,7 @@ public final class Constants {
       public static final int kPitchMotorId = 58;
       public static final double kPitchMotorKP = 0.15;
       public static final int kPitchEncoderId = 0;
-      public static final double kPitchEncoderOffset = -154.15;
+      public static final double kPitchEncoderOffset = -157;
       public static final double kPitchInternalEncoderConversionFactor = -((4 / 9) * 100); // -44.4444...
       public static final double kPitchBaseIdleForce = 0.052;
       public static final double kPitchEncoderForwardLimit = 10;

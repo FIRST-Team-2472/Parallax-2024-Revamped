@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.AutoAiming;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.ArmSubsystems.*;
@@ -39,7 +40,7 @@ public class PitchMotorCmd extends Command {
     @Override
     public void execute() {
         // constantly update the pitch motor input
-        if(armPitchSubsystem.getConstantAim() && AutoAiming.getSmartDistance(robotPose.get()) < 3){
+        if(armPitchSubsystem.getConstantAim() && AutoAiming.getSmartDistance(robotPose.get()) < OperatorConstants.autoAimDistance){
 
             double angleDeg = AutoAiming.getPitch(robotPose.get());
             armPitchSubsystem.runPitchMotorWithFasterKP(angleDeg);

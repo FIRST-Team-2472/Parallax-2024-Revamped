@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -17,6 +19,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -80,6 +84,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private static BooleanSubscriber isOnRed;
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
     private final String red = "Red", blue = "Blue";
+    private Pose2d lastSeenPosition;
 
     private boolean camsDisabled, constantAim;
 
@@ -270,9 +275,11 @@ public class SwerveSubsystem extends SubsystemBase {
         double unitCircleAngle = Math.atan2(ySpeed, xSpeed);
         xSpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, xSpeed) * Math.abs(Math.cos(unitCircleAngle));
         ySpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, ySpeed) * Math.abs(Math.sin(unitCircleAngle));
-
+        
+        if(isOnRed()){
             xSpeed = -xSpeed;
             ySpeed = -ySpeed;
+        }
         
         runModulesFieldRelative(xSpeed, ySpeed, turningSpeed);
     }
@@ -325,8 +332,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
         if (!camsDisabled && fiducialCount >= 2 && frontLeft.getDriveVelocity() < 0.2) { // Make sure there are at least 2 AprilTags in sight for accuracy
             Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
-            resetOdometry(botPose);
-            setHeading(botPose.getRotation().getDegrees() + 180);
+            
+            if(lastSeenPosition != null){
+
+                Rotation2d difference = lastSeenPosition.getRotation().minus(botPose.getRotation());
+
+                if(difference.getDegrees() < 2){
+                    resetOdometry(botPose);
+                    setHeading(botPose.getRotation().getDegrees() + 180);
+                }
+            }
+            lastSeenPosition = botPose;
         }
 
         logOdometry();
@@ -369,6 +385,13 @@ public class SwerveSubsystem extends SubsystemBase {
     // this is housed in swerve subsystem since it uses it the most
     public static boolean isOnRed() {
         // gets the selected team color from the suffleboard
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        if(ally.isPresent()){
+            if(ally.get() == Alliance.Red)
+                return true;
+            return false;
+        }
+
         String choices = colorChooser.getSelected();
         if (choices == "Red")
             return true;
