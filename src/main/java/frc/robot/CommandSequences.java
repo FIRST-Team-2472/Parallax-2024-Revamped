@@ -162,6 +162,31 @@ public class CommandSequences {
                 // should be changed to autoshooting once you fix the schedule issue
                 new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.52, 4.08, 0)),
+                        new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                        new runIntake(intakeMotorSubsystem, 0, 3)
+                ),
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new ParallelCommandGroup(
+                        new SequentialCommandGroup(
+                                new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-135)),
+                                new ParallelCommandGroup(
+                                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.1, 5.5, -90)),
+                                        new runIntake(intakeMotorSubsystem, 0, 3)
+                                )
+                        ),
+                        new SetArmPitchCmd(pitchMotorSubsystem,
+                                ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle)
+                ),
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new ParallelCommandGroup(
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.71, 6.9, -90)),
+                        new SetArmPitchCmd(pitchMotorSubsystem,
+                                ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                        new runIntake(intakeMotorSubsystem, 0.2, 3)),
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
+                /* new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new ParallelCommandGroup(
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.71, 6.9, 40)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
@@ -188,7 +213,7 @@ public class CommandSequences {
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                         new runIntake(intakeMotorSubsystem, 1.5, 4)),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)); */
     }
 
     public Command threeNoteFromPosTwo(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,

@@ -1,24 +1,34 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.*;
-import frc.robot.subsystems.ArmSubsystems.*;
-import frc.robot.commands.*;
-import frc.robot.commands.DefaultCommands.*;
-import frc.robot.CommandSequences;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.ArmMotorsConstants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ConstantAimToggleCmd;
+import frc.robot.commands.FastAutoAimCmd;
+import frc.robot.commands.OverrideCmd;
+import frc.robot.commands.SetArmPitchCmd;
+import frc.robot.commands.runShooter;
+import frc.robot.commands.DefaultCommands.IntakeMotorCmd;
+import frc.robot.commands.DefaultCommands.PitchMotorCmd;
+import frc.robot.commands.DefaultCommands.PnuematicsCmd;
+import frc.robot.commands.DefaultCommands.ShooterMotorsCmd;
+import frc.robot.commands.DefaultCommands.SwerveJoystickCmd;
+import frc.robot.subsystems.PnuematicsSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.ArmSubsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
+import frc.robot.subsystems.ArmSubsystems.ShootingMotorSubsystem;
 
 public class RobotContainer {
   private final String placementtwo = "2 in speaker from position 2", 
@@ -116,7 +126,7 @@ public class RobotContainer {
       m_autoSelected = m_chooser.getSelected();
 
       if (m_autoSelected == testingPath)
-        return new ParallelCommandGroup(commandSequences.test(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+        return new ParallelCommandGroup(commandSequences.fourNoteFromPosTwo(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if(m_autoSelected == threeNoteMiddle)
         return new ParallelCommandGroup(commandSequences.threeNoteFromPosTwo(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
