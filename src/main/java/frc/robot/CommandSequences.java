@@ -86,7 +86,8 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(simplePose(2, 5.55, 0).toFieldPose2d());
 
         return new SequentialCommandGroup(
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem)
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new runIntake(intakeMotorSubsystem, 0, 5, pitchMotorSubsystem)
         );
     }
 
@@ -117,7 +118,7 @@ public class CommandSequences {
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                                 new ParallelCommandGroup(
                                         new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1]),
-                                        new runIntake(intakeMotorSubsystem, 0, 2.3)
+                                        new runIntake(intakeMotorSubsystem, 0, 2.3, pitchMotorSubsystem)
                                 )
                         ),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
