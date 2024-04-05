@@ -82,7 +82,7 @@ public class AutoAiming {
      * @return The calculated pitch angle
      */
     public static double distanceToAngle(double distance) {
-        return 108 + -33 * distance + 6.75 * Math.pow(distance, 2) + -0.462 * Math.pow(distance, 3);
+        return 112 + -33 * distance + 6.75 * Math.pow(distance, 2) + -0.462 * Math.pow(distance, 3);
     }
 
     /**

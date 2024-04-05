@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import javax.swing.RepaintManager;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -57,14 +59,19 @@ public class FastAutoAimCmd extends Command{
 
     @Override
     public void execute() {
-        pitchMotorSubsystem.runPitchMotorWithFasterKP(aimPoint.getPitchAngle());
+        if(Math.abs(pitchMotorSubsystem.getEncoderDeg()- aimPoint.getPitchAngle()) > 0.5)
+            pitchMotorSubsystem.runPitchMotorWithFasterKP(aimPoint.getPitchAngle());
         swerveSubsystem.executeRotateToAngle(Rotation2d.fromDegrees(aimPoint.getYawAngle()));
 
         // depending on power consumption the shooter motor may need to be held back to start
         shootingMotorSubsystem.runShooterMotors(0.9);
 
-        if (shootingMotorSubsystem.getShooterSpeed() < -3500 && (Math.abs(pitchMotorSubsystem.getEncoderDeg() - aimPoint.getPitchAngle()) < 0.5) 
-        && swerveSubsystem.isAtAngle(Rotation2d.fromDegrees(aimPoint.getYawAngle()))
+        boolean temp = (Math.abs(pitchMotorSubsystem.getEncoderDeg() - aimPoint.getPitchAngle()) < 0.5);
+        System.out.println(temp);
+        System.out.println("angled = " + pitchMotorSubsystem.getEncoderDeg());
+        System.out.println("desired angle = " + aimPoint.getPitchAngle());
+
+        if ((shootingMotorSubsystem.getShooterSpeed() < -4000) && temp && (swerveSubsystem.isAtAngle(Rotation2d.fromDegrees(aimPoint.getYawAngle())))
         || overideTimer.hasElapsed(2)) {
             if(timerTwo.get() != 0.0)
                 timerTwo.start();

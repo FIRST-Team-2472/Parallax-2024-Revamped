@@ -41,7 +41,7 @@ public class CommandSequences {
         // by the source over the line
         miscellaneousNodes[0] = simplePose(3, 2, 0);
         // On top of note 2
-        miscellaneousNodes[1] = simplePose(2.91, 5.3, 0);
+        miscellaneousNodes[1] = simplePose(2.91, 5.4, 0);
         // On the way to note 1
         miscellaneousNodes[2] = simplePose(1.76, 7, 0);
         miscellaneousNodes[3] = simplePose(1, 1, 0);
@@ -81,12 +81,12 @@ public class CommandSequences {
         shootingNearNodes[2] = simplePose(2.9, 4.08, -30);
     }
 
-    public Command test(SwerveSubsystem swerveSubsystem) {
+    public Command test(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shootingMotorSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
 
-        swerveSubsystem.resetOdometry(simplePose(0, 0, 0).toFieldPose2d());
+        swerveSubsystem.resetOdometry(simplePose(2, 5.55, 0).toFieldPose2d());
 
         return new SequentialCommandGroup(
-                new SwerveDriveToPointCmd(swerveSubsystem, simplePose(0.33, 0.33, 0))
+                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem)
         );
     }
 
@@ -110,13 +110,16 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
 
         return new SequentialCommandGroup(
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle+.5),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
-                new ParallelCommandGroup(
-                        new SetArmPitchCmd(pitchMotorSubsystem,
+                                new SequentialCommandGroup(
+                                        new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1]),
-                        new runIntake(intakeMotorSubsystem, 0, 2.3)),
+                                new ParallelCommandGroup(
+                                        new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1]),
+                                        new runIntake(intakeMotorSubsystem, 0, 2.3)
+                                )
+                        ),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7));
     }
@@ -197,7 +200,7 @@ public class CommandSequences {
                 // should be changed to autoshooting once you fix the schedule issue
                 new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
-                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.8, 6.92, 40)),
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.8, 6.8, 40)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                         new runIntake(intakeMotorSubsystem, 0.2, 3.5)),
@@ -263,12 +266,13 @@ public class CommandSequences {
                         importantNodes[5]));
     }
 
-    public Command justShoot(PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem,
+    public Command justShoot(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem, ShootingMotorSubsystem shooterSubsystem,
             IntakeMotorSubsystem intakeMotorSubsystem) {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7));
+                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9, 4000)
+                );
     }
 
     public Command justShootAndMove(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,

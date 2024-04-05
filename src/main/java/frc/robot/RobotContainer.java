@@ -116,7 +116,7 @@ public class RobotContainer {
       m_autoSelected = m_chooser.getSelected();
 
       if (m_autoSelected == testingPath)
-        return new ParallelCommandGroup(commandSequences.test(swerveSubsystem));
+        return new ParallelCommandGroup(commandSequences.test(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if(m_autoSelected == threeNoteMiddle)
         return new ParallelCommandGroup(commandSequences.threeNoteFromPosTwo(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
@@ -134,7 +134,7 @@ public class RobotContainer {
       return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
 
       if (m_autoSelected == justShoot)
-      return new ParallelCommandGroup(commandSequences.justShoot(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      return new ParallelCommandGroup(commandSequences.justShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
 
       if (m_autoSelected == justShootAndMove)
       return new ParallelCommandGroup(commandSequences.justShootAndMove(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
