@@ -250,7 +250,7 @@ public class CommandSequences {
                                 )
                         )
                 ),
-                new SwerveRotateToAngle(swerveSubsystem, teamChangeAngle(0)),
+                new SwerveRotateToAngle(swerveSubsystem, teamChangeAngle(3)),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle+6),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9)
         );
