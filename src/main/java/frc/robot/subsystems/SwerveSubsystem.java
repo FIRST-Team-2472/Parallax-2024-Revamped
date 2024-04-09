@@ -88,6 +88,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private boolean camsDisabled, constantAim;
 
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
+
     public SwerveSubsystem() {
 
         // Gets tabs from Shuffleboard
@@ -161,6 +163,10 @@ public class SwerveSubsystem extends SubsystemBase {
         temp = ChassisSpeeds.fromFieldRelativeSpeeds(temp, getRotation2d());
 
         return temp.vyMetersPerSecond;
+    }
+
+    public ChassisSpeeds getChassisSpeedsRobotRelative() {
+        return ChassisSpeeds.fromRobotRelativeSpeeds(chassisSpeeds, getRotation2d());
     }
 
     public double getXSpeedFieldRel() {
@@ -301,8 +307,21 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private void runModulesFieldRelative(double xSpeed, double ySpeed, double turningSpeed) {
         // Converts robot speeds to speeds relative to field
-        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        this.chassisSpeeds = chassisSpeeds;
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 xSpeed, ySpeed, turningSpeed, getRotation2d());
+
+        // Convert chassis speeds to individual module states
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+
+        // Output each module states to wheels
+        setModuleStates(moduleStates);
+    }
+    public void runModulesRobotRelative(ChassisSpeeds chassisSpeeds) {
+        // Converts robot speeds to speeds relative to field
+        this.chassisSpeeds = chassisSpeeds;
+        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(
+                chassisSpeeds, getRotation2d());
 
         // Convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);

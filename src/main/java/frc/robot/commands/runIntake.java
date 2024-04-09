@@ -31,7 +31,7 @@ public class runIntake extends Command {
 
     @Override
     public void initialize() {
-        timer.start();
+        timer.restart();
         System.out.println("intake command started");
     }
 

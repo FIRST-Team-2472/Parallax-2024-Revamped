@@ -223,6 +223,19 @@ public class CommandSequences {
                 new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)); */
     }
 
+    public Command shootWaitNCrossTheLineAmpSide(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
+            ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem){
+                
+                swerveSubsystem.resetOdometry(startingNodes[1].toFieldPose2d());
+
+                return new SequentialCommandGroup(
+                        new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                        new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9),
+                        new WaitCommand(9),
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.2, 7, 0))
+                );
+            }
+
     public Command threeNoteFromPosTwo(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
             ShootingMotorSubsystem shooterSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
                 

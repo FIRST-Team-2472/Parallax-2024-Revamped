@@ -1,5 +1,9 @@
 package frc.robot;
 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -36,9 +40,9 @@ public final class Constants {
   public static final class OIConstants {
     public static final double kDeadband = 0.1;
     public static final double kArmDeadband = 0.1;
-    public static final int kLeftDriverYAxis = 1; //conflicts with other constants
-    public static final int kLeftDriverXAxis = 0; //conflicts with other constants
-    public static final int kRightDriverRotAxis = 0; //conflicts with other constants
+    public static final int kLeftDriverYAxis = 1; // conflicts with other constants
+    public static final int kLeftDriverXAxis = 0; // conflicts with other constants
+    public static final int kRightDriverRotAxis = 0; // conflicts with other constants
   }
 
   public static final class DriveConstants {
@@ -54,7 +58,7 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     public static final int kFrontLeftDriveMotorPort = 55;
-    public static final int kFrontLeftTurningMotorPort = 54; 
+    public static final int kFrontLeftTurningMotorPort = 54;
     public static final boolean kFrontLeftDriveEncoderReversed = false;
     public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final int kFrontLeftDriveAbsoluteEncoderPort = 61;
@@ -65,7 +69,7 @@ public final class Constants {
     public static final int kFrontRightTurningMotorPort = 51;
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kFrontRightTurningEncoderReversed = false;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 62; //conflicts with other constants
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 62; // conflicts with other constants
     public static final double kFrontRightDriveAbsoluteEncoderOffsetAng = 0.46;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
 
@@ -73,7 +77,7 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 50;
     public static final boolean kBackLeftDriveEncoderReversed = false;
     public static final boolean kBackLeftTurningEncoderReversed = false;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 60; //conflicts with other constants
+    public static final int kBackLeftDriveAbsoluteEncoderPort = 60; // conflicts with other constants
     public static final double kBackLeftDriveAbsoluteEncoderOffsetAng = 0.03;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
 
@@ -95,7 +99,7 @@ public final class Constants {
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = Math.PI * 2;
   }
 
-  public static final class AutoConstants{
+  public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 1;
     public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
     public static final double kPXController = 1.5;
@@ -105,6 +109,32 @@ public final class Constants {
         kMaxSpeedMetersPerSecond,
         kMaxAccelerationMetersPerSecondSquared);
     public static double kThetaController;
+
+    public static final double TRANSLATION_KP = .7;
+    public static final double TRANSLATION_KI = 0;
+    public static final double TRANSLATION_KD = 0;
+
+    public static final double ROTATION_KP = .7;
+    public static final double ROTATION_KI = 0;
+    public static final double ROTATION_KD = 0;
+
+    public static final double MAX_MODULE_SPEED = 4.5;
+    public static final double DRIVE_BASE_RADIUS_METERS = Math.hypot(DriveConstants.kTrackWidth,
+        DriveConstants.kWheelBase) / 2;
+
+    public static final HolonomicPathFollowerConfig HOLONOMIC_PATH_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
+        new PIDConstants(
+            TRANSLATION_KP,
+            TRANSLATION_KI,
+            TRANSLATION_KD), // Translation PID constants
+        new PIDConstants(
+            ROTATION_KP,
+            ROTATION_KI,
+            ROTATION_KD), // Rotation PID constants
+        MAX_MODULE_SPEED, // Max module speed, in m/s
+        DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters. Distance from robot center to furthest module.
+        new ReplanningConfig() // Default path replanning config. See the API for the options here
+    );
   }
 
   public static class ArmMotorsConstants {
@@ -159,9 +189,9 @@ public final class Constants {
     public static final double kPAngleController = 0.3;
     public static final double kAcceptableDistanceError = 0.12;
     public static final double kAcceptableAngleError = 1.5;
-}
-  
-public static final class PnuematicsConstants{
+  }
+
+  public static final class PnuematicsConstants {
     public static final int kCompressorid = 1;
 
     public static final int kBigLeftPnuematicInflateChannel = 0;
@@ -172,16 +202,17 @@ public static final class PnuematicsConstants{
 
     public static final int kSmallRightPnuematicInflateChannel = 3;
     public static final int kSmallRightPnuematicDeflateChannel = 15;
-    
+
     public static final int kBigRightPnuematicInflateChannel = 2;
     public static final int kBigRightPnuematicDeflateChannel = 14;
-}
-public static final class AutoAimingConstants{
+  }
+
+  public static final class AutoAimingConstants {
     public static final int kLimeLightAngle = 35;
     public static final double kShooterAngle = 62.23;
 
     public static final Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.0, 5.55), new Rotation2d());
     public static final Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.5, 5.55), new Rotation2d());
-}
+  }
 
 }
