@@ -8,8 +8,10 @@ import frc.robot.subsystems.ArmSubsystems.*;
 public class runIntake extends Command { 
 
     private IntakeMotorSubsystem intakeSubsystem;
+    private PitchMotorSubsystem pitchMotorSubsystem;
     private Timer timer;
     private double startingDelay, endingDelay;
+    private boolean downforce;
 
 
 
@@ -20,6 +22,12 @@ public class runIntake extends Command {
         this.endingDelay = endingDelay;
         addRequirements(intakeSubsystem);
     }
+    public runIntake(IntakeMotorSubsystem intakeSubsystem, double startingDelay, double endingDelay, PitchMotorSubsystem pitchMotorSubsystem) {
+        this(intakeSubsystem, startingDelay, endingDelay);
+        this.pitchMotorSubsystem = pitchMotorSubsystem;
+        addRequirements(pitchMotorSubsystem);
+        downforce = true;
+    }
 
     @Override
     public void initialize() {
@@ -29,6 +37,9 @@ public class runIntake extends Command {
 
     @Override
     public void execute() {
+        if(downforce){
+            pitchMotorSubsystem.runPitchMotor(0, true);
+        }
         if(timer.hasElapsed(startingDelay)){
             System.out.println("should be running motors");
         intakeSubsystem.runIntakeMotors(0.6);

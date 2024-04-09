@@ -36,7 +36,7 @@ public class SetArmPitchCmd extends Command {
 
     @Override
     public void execute() {
-        pitchMotorSubsystem.runPitchMotorWithKP(angleDeg);
+        pitchMotorSubsystem.runPitchMotorWithFasterKP(angleDeg);
     }
 
     @Override

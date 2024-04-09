@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -17,18 +19,21 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SensorConstants;
 import frc.robot.Constants.TargetPosConstants;
-import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.subsystems.swerveExtras.AccelerationLimiter;
+import frc.robot.subsystems.swerveExtras.LimelightHelpers;
+import frc.robot.subsystems.swerveExtras.SwerveModule;
+import frc.robot.subsystems.swerveExtras.LimelightHelpers.LimelightResults;
 
 public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(//
@@ -68,7 +73,9 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     private final AccelerationLimiter xLimiter, yLimiter, turningLimiter;
-    private PIDController xController, yController, thetaController;
+    private PIDController xController, yController;
+
+    public PIDController thetaController;
 
     private final Pigeon2 gyro = new Pigeon2(SensorConstants.kPigeonID);
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
@@ -77,6 +84,9 @@ public class SwerveSubsystem extends SubsystemBase {
     private static BooleanSubscriber isOnRed;
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
     private final String red = "Red", blue = "Blue";
+    private Pose2d lastSeenPosition;
+
+    private boolean camsDisabled, constantAim;
 
     public SwerveSubsystem() {
 
@@ -98,9 +108,12 @@ public class SwerveSubsystem extends SubsystemBase {
         yLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         turningLimiter = new AccelerationLimiter(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond);
 
+        camsDisabled = false;
+        constantAim = false;
+
         xController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
         yController = new PIDController(TargetPosConstants.kPDriveController, 0, 0);
-        thetaController = new PIDController(TargetPosConstants.kPAngleController, 0, 0);
+        thetaController = new PIDController(TargetPosConstants.kPAngleController, 0.08, 0.02);
 
         /*
          * Maybe the cause of the autonomous not working. When we call generate path in
@@ -234,6 +247,15 @@ public class SwerveSubsystem extends SubsystemBase {
         thetaController.setPID(TargetPosConstants.kPAngleController, 0, 0);
         thetaController.reset();
     }
+    public void constantAim(){
+        if(!constantAim)
+            constantAim = true;
+        else
+            constantAim = false;
+    }
+    public boolean getConstantAim(){
+        return constantAim;
+    }
 
     public void executeDriveToPointAndRotate(Pose2d targetPosition) {
         double xSpeed = MathUtil.clamp(
@@ -253,11 +275,12 @@ public class SwerveSubsystem extends SubsystemBase {
         double unitCircleAngle = Math.atan2(ySpeed, xSpeed);
         xSpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, xSpeed) * Math.abs(Math.cos(unitCircleAngle));
         ySpeed += Math.copySign(TargetPosConstants.kMinSpeedMetersPerSec, ySpeed) * Math.abs(Math.sin(unitCircleAngle));
-
-        if(isOnRed()){
-            xSpeed = -xSpeed;
-            ySpeed = -ySpeed;
-        }
+        
+   
+        xSpeed = -xSpeed;
+        ySpeed = -ySpeed;
+        
+        
         runModulesFieldRelative(xSpeed, ySpeed, turningSpeed);
     }
 
@@ -306,10 +329,20 @@ public class SwerveSubsystem extends SubsystemBase {
         LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
         int fiducialCount = llr.targetingResults.targets_Fiducials.length;
 
-        if (fiducialCount >= 2) { // Make sure there are at least 2 AprilTags in sight for accuracy
+
+        if (!camsDisabled && fiducialCount >= 2 && frontLeft.getDriveVelocity() < 0.2) { // Make sure there are at least 2 AprilTags in sight for accuracy
             Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
-            resetOdometry(botPose);
-            setHeading(botPose.getRotation().getDegrees() + 180);
+
+            if(lastSeenPosition != null){
+
+                Rotation2d difference = lastSeenPosition.getRotation().minus(botPose.getRotation());
+
+                if(difference.getDegrees() < 2){
+                    resetOdometry(botPose);
+                    setHeading(botPose.getRotation().getDegrees() + 180);
+                }
+            }
+            lastSeenPosition = botPose;
         }
 
         logOdometry();
@@ -322,6 +355,13 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.stop();
         backLeft.stop();
         backRight.stop();
+    }
+
+    public void disableCams(){
+        if(camsDisabled)
+            camsDisabled = false;
+        else
+            camsDisabled = true;
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -345,6 +385,13 @@ public class SwerveSubsystem extends SubsystemBase {
     // this is housed in swerve subsystem since it uses it the most
     public static boolean isOnRed() {
         // gets the selected team color from the suffleboard
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        if(ally.isPresent()){
+            if(ally.get() == Alliance.Red)
+                return true;
+            return false;
+        }
+
         String choices = colorChooser.getSelected();
         if (choices == "Red")
             return true;

@@ -10,12 +10,16 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.AutoAiming;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.ArmMotorsConstants.*;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class PitchMotorSubsystem extends SubsystemBase {
     private CANSparkMax pitchMotor = new CANSparkMax(PitchMotor.kPitchMotorId, MotorType.kBrushless);
     private PIDController pitchPIDController = new PIDController(PitchMotor.kPitchMotorKP, 0, 0);
+    private PIDController fasterPitchPIDController = new PIDController(.15, .1, 0);
     public AnalogEncoder pitchMotorEncoder = new AnalogEncoder(ArmMotorsConstants.PitchMotor.kPitchEncoderId);
     ShuffleboardTab encoderTab = Shuffleboard.getTab("Absolute Encoder"); // Move this eventually
     private GenericEntry internalEncoderPosition;
@@ -23,12 +27,15 @@ public class PitchMotorSubsystem extends SubsystemBase {
     private GenericEntry encoderDeg;
     private GenericEntry pitchMotorSpeed;
     public double baseIdleForce;
+    public boolean constantAim;
 
     public PitchMotorSubsystem() {
 
         // make sure all of them have the same settings in case we grabbed one with
         // presets
         pitchMotor.restoreFactoryDefaults();
+
+        constantAim = false;
 
         // sets their constants
         pitchMotor.setIdleMode(com.revrobotics.CANSparkBase.IdleMode.kBrake);
@@ -69,13 +76,38 @@ public class PitchMotorSubsystem extends SubsystemBase {
         encoderDeg.setDouble(getEncoderDeg());
 
         internalEncoderPosition.setDouble(pitchMotor.getEncoder().getPosition());
+
     }
 
-    double addBaseIdleForce(double motorSpeed) {
+    public void constantAim(){
+        if(!constantAim)
+            constantAim = true;
+        else
+            constantAim = false;
+    }
+
+    public boolean getConstantAim(){
+        return constantAim;
+    }
+
+    /**
+     * Applies the force required to fight gravity to the motor speed
+     * This should not be used directly, but runPitchMotor(double motorSpeed)
+     * already adds this
+     * 
+     * @param motorSpeed
+     * @return motorSpeed + force to fight gravity
+     */
+    private double addBaseIdleForce(double motorSpeed) {
         // clamps it between -1 and 1
-        return clamp(motorSpeed + baseIdleForce, -1.0, 1.0);
+        return clamp(motorSpeed + this.baseIdleForce, -1.0, 1.0);
     }
 
+    /**
+     * Run the pitch motor, but apply the force to fight gravity at <i>the same time!</i>
+     * 
+     * @param motorSpeed speed to run the pitch motor at (between -1 & 1)
+     */
     public void runPitchMotor(double motorSpeed) {
         motorSpeed = addBaseIdleForce(motorSpeed);
 
@@ -84,6 +116,13 @@ public class PitchMotorSubsystem extends SubsystemBase {
         pitchMotor.set(motorSpeed);
     }
 
+    /**
+     * This <i>also</i> moves the pitch motor, but does <b>not apply the force to fight gravity</b>.
+     * This might even apply a downward force (for intaking)
+     * 
+     * @param motorSpeed speed to run the pitch motor at (between -1 & 1)
+     * @param withoutKP does not matter what it is, as this just differs it from the last method
+     */
     public void runPitchMotor(double motorSpeed, boolean withoutKP) {
         motorSpeed -= 0.15;
         // shuffleboard
@@ -92,21 +131,53 @@ public class PitchMotorSubsystem extends SubsystemBase {
         pitchMotor.set(motorSpeed);
     }
 
+    /**
+     * Gets the position of the <i>external, absolute</i> encoder in degrees
+     * 
+     * @return the encoder's rotation
+     */
     public double getEncoderDeg() {
         return (pitchMotorEncoder.getDistance() + PitchMotor.kPitchEncoderOffset);
     }
 
+    /**
+     * Resets the position of the <i>external, absolute</i> encoder
+     */
     public void resetEncoder() {
         pitchMotorEncoder.reset();
     }
 
+    /**
+     * Uses a PID Controller to move the arm (in the pitch way (up and down)) to a set angle
+     * 
+     * @param angleDeg the angle to move the arm to
+     */
     public void runPitchMotorWithKP(double angleDeg) {
-        angleDeg = clamp(angleDeg, -10, 90);
+        angleDeg = clamp(angleDeg, -10, PitchMotor.kPitchMotorAmpPresetAngle); // Prevents the motor from moving out of range and breaking itself
         double speed = -(pitchPIDController.calculate(getEncoderDeg(), angleDeg));
         runPitchMotor(speed *= 0.1);
     }
 
-    double clamp(double value, double min, double max) {
+    /**
+     * A Tweaked version of the runPitchMotorWithKP method, but with lower P and higher I values
+     * 
+     * @param angleDeg the angle to move the arm to
+     */
+    public void runPitchMotorWithFasterKP(double angleDeg) {
+        angleDeg = clamp(angleDeg, -10, 90); // Prevents the motor from moving out of range and breaking itself
+        double speed = -(fasterPitchPIDController.calculate(getEncoderDeg(), angleDeg));
+        runPitchMotor(speed *= 0.1);
+    }
+
+    /**
+     * A nifty little method to clamp a value between a min and max value
+     * 
+     * @param value the value to be clamped
+     * @param min the min to be clamped above
+     * @param max the max to be clamped below
+     * @return the value clamped between the max and min
+     */
+    public static double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
 

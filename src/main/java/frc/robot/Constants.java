@@ -13,6 +13,7 @@ public final class Constants {
     public static final int kRightJoyPort = 2;
     public static final int kXboxControllerPort = 3;
     public static final double kSlowedSpeed = 0.3;
+    public static final double autoAimDistance = 3.5;
   }
 
   public static final class ModuleConstants {
@@ -33,7 +34,7 @@ public final class Constants {
   }
 
   public static final class OIConstants {
-    public static final double kDeadband = 0.2;
+    public static final double kDeadband = 0.1;
     public static final double kArmDeadband = 0.1;
     public static final int kLeftDriverYAxis = 1; //conflicts with other constants
     public static final int kLeftDriverXAxis = 0; //conflicts with other constants
@@ -85,7 +86,7 @@ public final class Constants {
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 4;
-    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 7 * 2 * Math.PI;
+    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 7 * 3 * Math.PI;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
@@ -112,12 +113,12 @@ public final class Constants {
       public static final int kPitchMotorId = 58;
       public static final double kPitchMotorKP = 0.15;
       public static final int kPitchEncoderId = 0;
-      public static final double kPitchEncoderOffset = -154.15;
+      public static final double kPitchEncoderOffset = -157;
       public static final double kPitchInternalEncoderConversionFactor = -((4 / 9) * 100); // -44.4444...
       public static final double kPitchBaseIdleForce = 0.052;
       public static final double kPitchEncoderForwardLimit = 10;
       public static final double kPitchEncoderReverseLimit = -88;
-      public static final double kPitchMotorIntakePresetAngle = 90.5;
+      public static final double kPitchMotorIntakePresetAngle = 105;
       public static final double kPitchMotorSpeakerPresetAngle = 80.0;
       public static final double kPitchMotorFarSpeakerPresetAngle = 60;
       public static final double kPitchMotorAmpPresetAngle = -7;
@@ -159,7 +160,7 @@ public final class Constants {
     public static final double kMinSpeedMetersPerSec = .2;
 
     public static final double kPDriveController = 1.9;
-    public static final double kPAngleController = 0.4;
+    public static final double kPAngleController = 0.3;
     public static final double kAcceptableDistanceError = 0.12;
     public static final double kAcceptableAngleError = 1.5;
 }
@@ -183,8 +184,8 @@ public static final class AutoAimingConstants{
     public static final int kLimeLightAngle = 35;
     public static final double kShooterAngle = 62.23;
 
-    public static final Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.25, 5.5), new Rotation2d());
-    public static final Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.25, 5.5), new Rotation2d());
+    public static final Pose2d blueSpeakerPos = new Pose2d(new Translation2d(0.0, 5.55), new Rotation2d());
+    public static final Pose2d redSpeakerPos = new Pose2d(new Translation2d(16.5, 5.55), new Rotation2d());
 }
 
 }

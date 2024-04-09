@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoAimingConstants;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class AutoAiming {
 
@@ -26,6 +27,18 @@ public class AutoAiming {
         System.out.println("Desired Yaw: ---------------------------- " + yawAngle);
         SmartDashboard.putNumber("Desired Yaw", yawAngle);
         return yawAngle;
+    }
+    /**
+     *  returns the distance to the speaker and deterimes which speaker to measure for you
+     * 
+     * @param robotPos the robots current position
+     * @return the distance to the speaker
+     */
+    public static double getSmartDistance(Pose2d robotPos){
+        if(SwerveSubsystem.isOnRed())
+            return getDistance(robotPos, AutoAimingConstants.redSpeakerPos);
+        return getDistance(robotPos, AutoAimingConstants.blueSpeakerPos);
+        
     }
 
     /**
@@ -69,7 +82,7 @@ public class AutoAiming {
      * @return The calculated pitch angle
      */
     public static double distanceToAngle(double distance) {
-        return 102 + -31.6 * distance + 6.73 * Math.pow(distance, 2) + -0.462 * Math.pow(distance, 3);
+        return 112 + -33 * distance + 6.75 * Math.pow(distance, 2) + -0.462 * Math.pow(distance, 3);
     }
 
     /**
@@ -82,6 +95,17 @@ public class AutoAiming {
      */
     public static double getDistance(Pose2d pos1, Pose2d pos2) {
         return Math.sqrt(Math.pow((pos2.getX() - pos1.getX()), 2) + Math.pow((pos2.getY() - pos1.getY()), 2));
+    }
+    /**
+     * Calculates the distance between two 2D points
+     * 
+     * @param robotPose the position of the robot
+     * @param targetPose where the robot is driving to
+     * 
+     * @return The distance as a double
+     */
+    public static boolean isWithinDistance(Pose2d robotPose, Pose2d targetPose, double distance) {
+        return getDistance(robotPose, targetPose) < distance;
     }
 
     /**

@@ -46,14 +46,14 @@ public class IntakeMotorCmd extends Command {
         //runs the push motor until it hit the sensor
         pushMotorSpeed = 0.0;
         pushMotorSpeed = reversed.get() ? -.2 : pushMotorSpeed;
-        pushMotorSpeed = intakeMotorsRunning.get() && !sensed ? 0.6 : pushMotorSpeed;
+        pushMotorSpeed = intakeMotorsRunning.get() && !sensed ? 1 : pushMotorSpeed;
         intakeMotorSubsystem.runPushMotor(pushMotorSpeed);
 
 
         //runs the intake motors until the sensor is triggered
         intakeMotorsSpeed = 0.0;
         intakeMotorsSpeed = reversed.get() ? -0.2 : intakeMotorsSpeed;
-        intakeMotorsSpeed = intakeMotorsRunning.get() && !sensed ? 0.6 : intakeMotorsSpeed;
+        intakeMotorsSpeed = intakeMotorsRunning.get() && !sensed ? 1 : intakeMotorsSpeed;
         intakeMotorSubsystem.runIntakeMotors(intakeMotorsSpeed);
         
         super.execute();
