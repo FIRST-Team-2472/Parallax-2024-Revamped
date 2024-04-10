@@ -143,13 +143,13 @@ public final class Constants {
       public static final int kPitchMotorId = 58;
       public static final double kPitchMotorKP = 0.15;
       public static final int kPitchEncoderId = 0;
-      public static final double kPitchEncoderOffset = -157;
+      public static final double kPitchEncoderOffset = -164;
       public static final double kPitchInternalEncoderConversionFactor = -((4 / 9) * 100); // -44.4444...
       public static final double kPitchBaseIdleForce = 0.052;
       public static final double kPitchEncoderForwardLimit = 10;
       public static final double kPitchEncoderReverseLimit = -88;
-      public static final double kPitchMotorIntakePresetAngle = 105;
-      public static final double kPitchMotorSpeakerPresetAngle = 80.0;
+      public static final double kPitchMotorIntakePresetAngle = 90.5;
+      public static final double kPitchMotorSpeakerPresetAngle = 78.0;
       public static final double kPitchMotorFarSpeakerPresetAngle = 60;
       public static final double kPitchMotorAmpPresetAngle = -7;
       public static final double kPitchMotorStandbyPresetAngle = 0.0;
@@ -189,25 +189,24 @@ public final class Constants {
     public static final double kPAngleController = 0.3;
     public static final double kAcceptableDistanceError = 0.12;
     public static final double kAcceptableAngleError = 1.5;
-  }
-
-  public static final class PnuematicsConstants {
+}
+  
+public static final class PneumaticsConstants{
     public static final int kCompressorid = 1;
 
-    public static final int kBigLeftPnuematicInflateChannel = 0;
-    public static final int kBigLeftPnuematicDeflateChannel = 12;
+    public static final int kBigLeftPneumaticInflateChannel = 0;
+    public static final int kBigLeftPneumaticDeflateChannel = 12;
 
-    public static final int kSmallLeftPnuematicInflateChannel = 1;
-    public static final int kSmallLeftPnuematicDeflateChannel = 13;
+    public static final int kSmallLeftPneumaticInflateChannel = 1;
+    public static final int kSmallLeftPneumaticDeflateChannel = 13;
 
-    public static final int kSmallRightPnuematicInflateChannel = 3;
-    public static final int kSmallRightPnuematicDeflateChannel = 15;
-
-    public static final int kBigRightPnuematicInflateChannel = 2;
-    public static final int kBigRightPnuematicDeflateChannel = 14;
-  }
-
-  public static final class AutoAimingConstants {
+    public static final int kSmallRightPneumaticInflateChannel = 3;
+    public static final int kSmallRightPneumaticDeflateChannel = 15;
+    
+    public static final int kBigRightPneumaticInflateChannel = 2;
+    public static final int kBigRightPneumaticDeflateChannel = 14;
+}
+public static final class AutoAimingConstants{
     public static final int kLimeLightAngle = 35;
     public static final double kShooterAngle = 62.23;
 

@@ -9,29 +9,29 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class SwerveRotateToAngle extends Command {
   private SwerveSubsystem swerveSubsystem;
   private Rotation2d targetAngle;
-  private Timer timer, overide;
-  private boolean undefinedAngle;
+  private Timer timer, override;
+  private boolean autoAiming;
 
   public SwerveRotateToAngle(SwerveSubsystem m_SwerveSubsystem, Rotation2d targetAngle) {
     this.swerveSubsystem = m_SwerveSubsystem;
     this.targetAngle = targetAngle;
     
     timer = new Timer();
-    overide = new Timer();
+    override = new Timer();
 
     addRequirements(m_SwerveSubsystem);
   }
   public SwerveRotateToAngle(SwerveSubsystem m_SwerveSubsystem) {
     this(m_SwerveSubsystem, new Rotation2d());
-    undefinedAngle = true;
+    autoAiming = true;
   }
 
   @Override
   public void initialize() {
     swerveSubsystem.initializeRotateToAngle();
     timer.restart();
-    overide.restart();
-    if(undefinedAngle)
+    override.restart();
+    if(autoAiming)
       targetAngle =  Rotation2d.fromDegrees(AutoAiming.getYaw(swerveSubsystem.getPose()));
   }
 
@@ -47,10 +47,10 @@ public class SwerveRotateToAngle extends Command {
 
   @Override
   public boolean isFinished() {
-    if (overide.hasElapsed(3))
+    if (override.hasElapsed(3))
       return true;
     
-    // use this function if you overide the command to finsih it
+    // use this function if you override the command to finish it
     if ( swerveSubsystem.isAtAngle(targetAngle))
       return timer.hasElapsed(.2);
     timer.restart();

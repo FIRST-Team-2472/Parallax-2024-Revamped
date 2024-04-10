@@ -21,17 +21,17 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ConstantAimToggleCmd;
 import frc.robot.commands.FastAutoAimCmd;
+import frc.robot.commands.IntakeNoteCmd;
 import frc.robot.commands.OverrideCmd;
 import frc.robot.commands.SetArmPitchCmd;
 import frc.robot.commands.SwerveRotateToAngle;
-import frc.robot.commands.runIntake;
-import frc.robot.commands.runShooter;
+import frc.robot.commands.ShootNoteCmd;
 import frc.robot.commands.DefaultCommands.IntakeMotorCmd;
 import frc.robot.commands.DefaultCommands.PitchMotorCmd;
-import frc.robot.commands.DefaultCommands.PnuematicsCmd;
+import frc.robot.commands.DefaultCommands.PneumaticsCmd;
 import frc.robot.commands.DefaultCommands.ShooterMotorsCmd;
 import frc.robot.commands.DefaultCommands.SwerveJoystickCmd;
-import frc.robot.subsystems.PnuematicsSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.ArmSubsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
@@ -47,7 +47,7 @@ public class RobotContainer {
 
   private final CommandSequences commandSequences = new CommandSequences();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final PnuematicsSubsystem pnuematicsSubsystem = new PnuematicsSubsystem();
+  private final PneumaticsSubsystem pneumaticsSubsystem = new PneumaticsSubsystem();
 
 
   private final IntakeMotorSubsystem intakeMotorSubsystem = new IntakeMotorSubsystem();
@@ -74,7 +74,7 @@ public class RobotContainer {
       ()-> rightJoystick.getRawButton(1)
     ));
 
-    pnuematicsSubsystem.setDefaultCommand(new PnuematicsCmd(pnuematicsSubsystem));
+    pneumaticsSubsystem.setDefaultCommand(new PneumaticsCmd(pneumaticsSubsystem));
     
     configureBindings();
 
@@ -92,9 +92,9 @@ public class RobotContainer {
     driverBoard.addCamera("Limelight Stream Shooter", "limelight_shooter", "mjpg:http://limelight-shooter.local:5800").withSize(4,4);
 
     //warning a name change will break auto paths because pathplanner will not update it
-    NamedCommands.registerCommand("runIntake", new runIntake(intakeMotorSubsystem, 0, 5, pitchMotorSubsystem));
-    NamedCommands.registerCommand("Shoot", new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, .9 ));
-    NamedCommands.registerCommand("autoShoot", new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+    NamedCommands.registerCommand("runIntake", new IntakeNoteCmd(intakeMotorSubsystem, 0, 5));
+    NamedCommands.registerCommand("Shoot", new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, .9 ));
+    NamedCommands.registerCommand("autoShoot", new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
     NamedCommands.registerCommand("angle to speaker", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     NamedCommands.registerCommand("rotate to 270", new SwerveRotateToAngle(swerveSubsystem, CommandSequences.teamChangeAngle((270))));
 
@@ -118,17 +118,17 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 3).onTrue(new OverrideCmd(swerveSubsystem, intakeMotorSubsystem, pitchMotorSubsystem, shootingMotorSubsystem));
     new JoystickButton(rightJoystick, 13).onTrue(new InstantCommand(swerveSubsystem :: disableCams));
 
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftBumper().onTrue(new InstantCommand(pnuematicsSubsystem :: toggleSmallpnuematics));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightBumper().onTrue(new InstantCommand(pnuematicsSubsystem :: toggleBigpnuematics));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftBumper().onTrue(new InstantCommand(pneumaticsSubsystem :: toggleSmallpneumatics));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightBumper().onTrue(new InstantCommand(pneumaticsSubsystem :: toggleBigpneumatics));
 
     new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
 
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 4000));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.4, 0));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 4000));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, 0.4, 0));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue( new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue(new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).back().onTrue(new ConstantAimToggleCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem));
   }
 

@@ -111,26 +111,23 @@ public class CommandSequences {
         swerveSubsystem.resetOdometry(startingNodes[2].toFieldPose2d());
 
         return new SequentialCommandGroup(
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle+5),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9),
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(
                         new runIntake(intakeMotorSubsystem, 0, 3.2, pitchMotorSubsystem),
                         new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1])
                 ),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem)
         ); 
                 /* new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle+.5),
                 new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
                                 new SequentialCommandGroup(
                                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                                new ParallelCommandGroup(
-                                        new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1]),
-                                        new runIntake(intakeMotorSubsystem, 0, 2.3, pitchMotorSubsystem)
-                                )
-                        ),
+                        new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1]),
+                        new IntakeNoteCmd(intakeMotorSubsystem, 0, 2.3)),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7)); */
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.7));
     }
 
     public Command boo(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
@@ -142,7 +139,7 @@ public class CommandSequences {
         return new ParallelCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, importantNodes[3]),
                 new SetArmPitchCmd(pitchMotorSubsystem, PitchMotor.kPitchMotorAmpPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, .4));
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, .4));
     }
 
     public Command twoInSpeakerFromPositionOneCommand(SwerveSubsystem swerveSubsystem,
@@ -150,13 +147,14 @@ public class CommandSequences {
             IntakeMotorSubsystem intakeMotorSubsystem) {
         swerveSubsystem.resetOdometry(startingNodes[1].toFieldPose2d());
 
-        return new SequentialCommandGroup(                new SetArmPitchCmd(pitchMotorSubsystem, 77),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
+        return new SequentialCommandGroup(
+                new SetArmPitchCmd(pitchMotorSubsystem, 77),
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                         new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[0]),
-                        new runIntake(intakeMotorSubsystem, .5, 3.2)
+                        new IntakeNoteCmd(intakeMotorSubsystem, .5, 3.2)
                 ),
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
     }
@@ -168,50 +166,51 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 // should be changed to autoshooting once you fix the schedule issue
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.52, 4.08, 0)),
-                        new runIntake(intakeMotorSubsystem, 0, 3, pitchMotorSubsystem)
+                        new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                        new IntakeNoteCmd(intakeMotorSubsystem, 0, 3)
                 ),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-135)),
                                 new ParallelCommandGroup(
                                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.1, 5.5, -90)),
-                                        new runIntake(intakeMotorSubsystem, 0, 3)
+                                        new IntakeNoteCmd(intakeMotorSubsystem, 0, 3)
                                 )
                         ),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle)
                 ),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.71, 6.9, -90)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 0.2, 3)),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
-                /* new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                        new IntakeNoteCmd(intakeMotorSubsystem, 0.2, 3)),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem));
+                /* new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.71, 6.9, 40)),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 0.2, 3)),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                        new IntakeNoteCmd(intakeMotorSubsystem, 0.2, 3)),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-135)),
                                 new ParallelCommandGroup(
                                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.1, 5.5, -90)),
-                                        new runIntake(intakeMotorSubsystem, 0, 1.5)
+                                        new IntakeNoteCmd(intakeMotorSubsystem, 0, 1.5)
                                 )
                         ),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle)
                 ),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new SwerveRotateToAngle(swerveSubsystem,  Rotation2d.fromDegrees(-90)),
@@ -219,8 +218,8 @@ public class CommandSequences {
                         ),
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                        new runIntake(intakeMotorSubsystem, 1.5, 4)),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)); */
+                        new IntakeNoteCmd(intakeMotorSubsystem, 1.5, 4)),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem)); */
     }
 
     public Command shootWaitNCrossTheLineAmpSide(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
@@ -230,7 +229,7 @@ public class CommandSequences {
 
                 return new SequentialCommandGroup(
                         new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                        new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9),
+                        new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.9),
                         new WaitCommand(9),
                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.2, 7, 0))
                 );
@@ -243,13 +242,13 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 // should be changed to autoshooting once you fix the schedule issue
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
                 new ParallelCommandGroup(
-                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.8, 6.8, 40)),
-                        new runIntake(intakeMotorSubsystem, 0.2, 3.5, pitchMotorSubsystem)
-                ),
-                new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
+                        new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.8, 6.92, 40)),
+                        new SetArmPitchCmd(pitchMotorSubsystem,
+                                ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
+                        new IntakeNoteCmd(intakeMotorSubsystem, 0.2, 3.5)),
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem),
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -259,13 +258,11 @@ public class CommandSequences {
                                 ),
                                 new ParallelCommandGroup(
                                         new SwerveDriveToPointCmd(swerveSubsystem, simplePose(3.1, 5.5, -90)),
-                                        new runIntake(intakeMotorSubsystem, 0, 2, pitchMotorSubsystem)
+                                        new IntakeNoteCmd(intakeMotorSubsystem, 0, 2)
                                 )
                         )
                 ),
-                new SwerveRotateToAngle(swerveSubsystem, teamChangeAngle(3)),
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle+6),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9)
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem)
         );
     }
 
@@ -276,13 +273,13 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem,77),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                 new ParallelCommandGroup(
                         new SetArmPitchCmd(pitchMotorSubsystem,
                                 ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
                         new SwerveDriveToPointCmd(swerveSubsystem, collectingNearNodes[2]),
-                        new runIntake(intakeMotorSubsystem, .5, 3.2)
+                        new IntakeNoteCmd(intakeMotorSubsystem, .5, 3.2)
                 ),
                 RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem));
     }
@@ -318,9 +315,7 @@ public class CommandSequences {
             IntakeMotorSubsystem intakeMotorSubsystem) {
 
         return new SequentialCommandGroup(
-                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.9, 4000)
-                );
+                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem));
     }
 
     public Command justShootAndMove(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
@@ -330,8 +325,8 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7),
-                new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[0]));
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.7),
+                generatePath(swerveSubsystem, startingNodes[3], List.of(), miscellaneousNodes[0]));
     }
 
     public Command justMovePositionTwoToNoteTwoCommand(SwerveSubsystem swerveSubsystem) {
@@ -345,7 +340,7 @@ public class CommandSequences {
     public Command justRunIntake(IntakeMotorSubsystem intakeMotorSubsystem) {
 
         return new SequentialCommandGroup(
-                new runIntake(intakeMotorSubsystem, 0, 0.6));
+                new IntakeNoteCmd(intakeMotorSubsystem, 0, 0.6));
     }
 
     public Command shootFromFurtherAway(PitchMotorSubsystem pitchMotorSubsystem,
@@ -353,7 +348,7 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorFarSpeakerPresetAngle),
-                new runShooter(shooterSubsystem, intakeMotorSubsystem, 0.7));
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.7));
     }
 
     public Command justMovePositionTwoToNoteOne(SwerveSubsystem swerveSubsystem) {
@@ -405,7 +400,7 @@ public class CommandSequences {
 
             new ParallelCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                new runIntake(intakeMotorSubsystem, 0.2, 3),//may change
+                new IntakeNoteCmd(intakeMotorSubsystem, 0.2, 3),//may change
                 new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.3, 5.52, 0))
             ),
             RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
@@ -416,13 +411,13 @@ public class CommandSequences {
             ),
             new ParallelCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, simplePose(2.65, 6.45, 66)),
-                new runIntake(intakeMotorSubsystem, 0.2, 3)//may change)
+                new IntakeNoteCmd(intakeMotorSubsystem, 0.2, 3)//may change)
             ),
             RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem),
 
             new ParallelCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle),
-                new runIntake(intakeMotorSubsystem, 0.2, 3),//may change
+                new IntakeNoteCmd(intakeMotorSubsystem, 0.2, 3),//may change
                 new SwerveDriveToPointCmd(swerveSubsystem, simplePose(7.77, 7.35, 9.95))
             ),
             new SwerveDriveToPointCmd(swerveSubsystem, simplePose(5.85, 6.9, 16)),
@@ -434,7 +429,7 @@ public class CommandSequences {
             ),
             new ParallelCommandGroup(
                 new SwerveDriveToPointCmd(swerveSubsystem, simplePose(7.75, 6.05, -24.5)),
-                new runIntake(intakeMotorSubsystem, 0.2, 3)//may change)
+                new IntakeNoteCmd(intakeMotorSubsystem, 0.2, 3)//may change)
             ),
             new SwerveDriveToPointCmd(swerveSubsystem, simplePose(5.86, 6.4, 9)),
             RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shooterSubsystem, intakeMotorSubsystem)
@@ -449,7 +444,7 @@ public class CommandSequences {
                 new ParallelCommandGroup(
                         new SetArmPitchCmd(pitchMotorSubsystem,  swerveSubsystem),
                         new SwerveRotateToAngle(swerveSubsystem)),
-                new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 4000));
+                new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 4000));
     }
 
     // generates a path via points
