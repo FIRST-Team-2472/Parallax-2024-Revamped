@@ -38,16 +38,8 @@ import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
 import frc.robot.subsystems.ArmSubsystems.ShootingMotorSubsystem;
 
 public class RobotContainer {
-  private final String placementtwo = "2 in speaker from position 2", 
-  placementthree = "2 in speaker from position 1", path4 =  "2 in Speaker from Position 3", 
-  testingPath =  "the auto to use final round 1", justShoot = "Just Shoot", stagePath = "Under Stage", justShootAndMove = "Shoot and Move", 
-  justMovePosition2tonote2 = "Just Move from front of speaker to note 2", justRunIntake = "Run the Intake", 
-  shootFromFurtherAway = "Shoot from note position", justMovePosition2tonote1 = "Move to note 1 from the front of subwoofer",
-  justMovePosition2tonote3 = "Move to note 3 from front of subwoofer", justMovePosition1tonote1 = "Move to note 1 from position 1",
-  justMovePosition1tonote2 = "Move to note 2 from position 1", justMovePosition1tonote3 = "Move to note 3 from position 1",  
-  fiveNoteFromPosition2 = "Five note auto collecting four notes closest to amp", threeNoteMiddle = "Three notes starting center", 
-  SPtwoNtwoNone = "PP: Three Note Auto from position 2 to note 2 to note 1", SPtwoNtwo = "PP: two note in speaker from position 2 to note 2",
-  SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2";
+  private final String SPtwoNtwoNone = "PP: Three Note Auto from position 2 to note 2 to note 1", SPtwoNtwo = "PP: two note in speaker from position 2 to note 2",
+  SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2", SPtwoNthreeNtwoNoneNfour = "PP: 4 in speaker from position 2 + collect one more";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -85,26 +77,11 @@ public class RobotContainer {
     
     configureBindings();
 
-    m_chooser.addOption(placementtwo, placementtwo);
-    m_chooser.addOption(placementthree, placementthree);
-    m_chooser.addOption(path4, path4);
-    m_chooser.addOption(testingPath, testingPath);
-    m_chooser.addOption(threeNoteMiddle, threeNoteMiddle);
-    m_chooser.addOption(stagePath, stagePath);
-    m_chooser.addOption(justShoot, justShoot);
-    m_chooser.addOption(justShootAndMove, justShootAndMove);
-    m_chooser.addOption(justMovePosition2tonote2, justMovePosition2tonote2);
-    m_chooser.addOption(justRunIntake, justRunIntake);
-    m_chooser.addOption(shootFromFurtherAway, shootFromFurtherAway);
-    m_chooser.addOption(justMovePosition2tonote1, justMovePosition2tonote1);
-    m_chooser.addOption(justMovePosition2tonote3, justMovePosition2tonote3);
-    m_chooser.addOption(justMovePosition1tonote1, justMovePosition1tonote1);
-    m_chooser.addOption(justMovePosition1tonote2, justMovePosition1tonote2);
-    m_chooser.addOption(justMovePosition1tonote3, justMovePosition1tonote3);
-    m_chooser.addOption(fiveNoteFromPosition2, fiveNoteFromPosition2);
+
     m_chooser.addOption(SPtwoNtwoNone, SPtwoNtwoNone);
     m_chooser.addOption(SPtwoNtwo, SPtwoNtwo);
     m_chooser.addOption(SPtwoNoneNtwoNthree, SPtwoNoneNtwoNthree);
+    m_chooser.addOption(SPtwoNthreeNtwoNoneNfour, SPtwoNthreeNtwoNoneNfour);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -166,50 +143,8 @@ public class RobotContainer {
       if(m_autoSelected == SPtwoNoneNtwoNthree)
         return AutoBuilder.buildAuto(SPtwoNoneNtwoNthree);
 
-      if (m_autoSelected == placementtwo)
-      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionTwoCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
-
-      if (m_autoSelected == placementthree)
-      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionOneCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
-
-      if (m_autoSelected == path4)
-      return new ParallelCommandGroup(commandSequences.twoInSpeakerFromPositionThreeCommand(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
-
-      if (m_autoSelected == stagePath)
-      return new ParallelCommandGroup(commandSequences.underStage(swerveSubsystem));
-
-      if (m_autoSelected == justShoot)
-      return new ParallelCommandGroup(commandSequences.justShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
-
-      if (m_autoSelected == justShootAndMove)
-      return new ParallelCommandGroup(commandSequences.justShootAndMove(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
-
-      if (m_autoSelected == justMovePosition2tonote2)
-      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteTwoCommand(swerveSubsystem));
-
-      if (m_autoSelected == justRunIntake)
-      return new ParallelCommandGroup(commandSequences.justRunIntake(intakeMotorSubsystem));
-
-      if (m_autoSelected == shootFromFurtherAway)
-      return new ParallelCommandGroup(commandSequences.shootFromFurtherAway(pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
-
-      if (m_autoSelected == justMovePosition2tonote1)
-      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteOne(swerveSubsystem));
-
-      if (m_autoSelected == justMovePosition2tonote3)
-      return new ParallelCommandGroup(commandSequences.justMovePositionTwoToNoteThreeCommand(swerveSubsystem));
-
-      if (m_autoSelected == justMovePosition1tonote1)
-      return new ParallelCommandGroup(commandSequences.justMovePositionOneToNoteOneCommand(swerveSubsystem));
-
-      if (m_autoSelected == justMovePosition1tonote2)
-      return new ParallelCommandGroup(commandSequences.justMovePositionOneToNoteTwoCommand(swerveSubsystem));
-
-      if (m_autoSelected == justMovePosition1tonote3)
-      return new ParallelCommandGroup(commandSequences.justMovePosition1tonote3(swerveSubsystem));
-
-      if (m_autoSelected == fiveNoteFromPosition2)
-      return new ParallelCommandGroup(commandSequences.fiveNoteFromPosition2(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+      if(m_autoSelected == SPtwoNthreeNtwoNoneNfour)
+        return AutoBuilder.buildAuto(SPtwoNthreeNtwoNoneNfour);
 
     return null;
   }
