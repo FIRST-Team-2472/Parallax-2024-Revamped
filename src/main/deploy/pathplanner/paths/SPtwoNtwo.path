@@ -12,20 +12,20 @@
         "y": 5.525086266457521
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Speaker Position 2"
     },
     {
       "anchor": {
-        "x": 2.91,
-        "y": 5.525086266457521
+        "x": 2.912506594243959,
+        "y": 5.545221859674489
       },
       "prevControl": {
-        "x": 1.9100000000000001,
-        "y": 5.525086266457521
+        "x": 1.912506594243959,
+        "y": 5.545221859674489
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note Position 2"
     }
   ],
   "rotationTargets": [],

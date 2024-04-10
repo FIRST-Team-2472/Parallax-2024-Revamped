@@ -40,7 +40,7 @@ import frc.robot.subsystems.ArmSubsystems.ShootingMotorSubsystem;
 public class RobotContainer {
   private final String SPtwoNtwoNone = "PP: Three Note Auto from position 2 to note 2 to note 1", SPtwoNtwo = "PP: two note in speaker from position 2 to note 2",
   SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2", SPtwoNthreeNtwoNoneNfour = "PP: 4 in speaker from position 2 + collect one more",
-  SPtwoNoneNfour = "PP: 3 in speaker from position 2";
+  SPtwoNoneNfour = "PP: 3 in speaker from position 2 Note 1 - 4", SPtwoNtwoNfour = "PP: 3 in speaker from position 2 - Note 2 - 4";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -84,6 +84,7 @@ public class RobotContainer {
     m_chooser.addOption(SPtwoNoneNtwoNthree, SPtwoNoneNtwoNthree);
     m_chooser.addOption(SPtwoNthreeNtwoNoneNfour, SPtwoNthreeNtwoNoneNfour);
     m_chooser.addOption(SPtwoNoneNfour, SPtwoNoneNfour);
+    m_chooser.addOption(SPtwoNtwoNfour, SPtwoNtwoNfour);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -95,7 +96,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, .9 ));
     NamedCommands.registerCommand("autoShoot", new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
     NamedCommands.registerCommand("angle to speaker", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
-    NamedCommands.registerCommand("rotate to -90", new SwerveRotateToAngle(swerveSubsystem, Rotation2d.fromDegrees(-90)));
+    NamedCommands.registerCommand("rotate to -90", new SwerveRotateToAngle(swerveSubsystem, CommandSequences.teamChangeAngle(-90)));
 
     AutoBuilder.configureHolonomic(
             () -> swerveSubsystem.getPose(), // Robot pose supplier for auot (correct range -180-180)
@@ -150,6 +151,9 @@ public class RobotContainer {
       
       if(m_autoSelected == SPtwoNoneNfour)
         return AutoBuilder.buildAuto(SPtwoNoneNfour);
+      
+      if(m_autoSelected == SPtwoNtwoNfour)
+        return AutoBuilder.buildAuto(SPtwoNtwoNfour);
 
     return null;
   }

@@ -105,6 +105,12 @@
               }
             ]
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoShoot"
+          }
         }
       ]
     }

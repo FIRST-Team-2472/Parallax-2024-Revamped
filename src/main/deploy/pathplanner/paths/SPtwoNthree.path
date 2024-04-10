@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5015337722983153,
-        "y": 5.555088802485298
+        "x": 1.4813981790813457,
+        "y": 5.525086266457521
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.679138742892872,
-        "y": 4.785467263242219
+        "x": 1.6590031496759023,
+        "y": 4.7554647272144415
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Speaker Position 2"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note Position 3"
     }
   ],
   "rotationTargets": [],

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.299857368945508,
-        "y": 7.459408764971376
+        "x": 8.289990426134699,
+        "y": 7.449541822160567
       },
       "prevControl": null,
       "nextControl": {
-        "x": 9.299857368945503,
+        "x": 8.28012348332389,
         "y": 7.459408764971376
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note Position 4"
     },
     {
       "anchor": {
-        "x": 2.8927727086223416,
-        "y": 6.9660616244309415
+        "x": 2.912506594243959,
+        "y": 6.985795510052559
       },
       "prevControl": {
-        "x": 1.8927727086223416,
-        "y": 6.9660616244309415
+        "x": 1.912506594243959,
+        "y": 6.985795510052559
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note Position 1"
     }
   ],
   "rotationTargets": [],
