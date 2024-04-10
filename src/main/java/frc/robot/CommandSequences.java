@@ -87,7 +87,7 @@ public class CommandSequences {
 
         return new SequentialCommandGroup(
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
-                new runIntake(intakeMotorSubsystem, 0, 5, pitchMotorSubsystem)
+                new IntakeNoteCmd(intakeMotorSubsystem, pitchMotorSubsystem, 0, 5)
         );
     }
 
@@ -114,7 +114,7 @@ public class CommandSequences {
                 new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
                 new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.7),
                 new ParallelCommandGroup(
-                        new runIntake(intakeMotorSubsystem, 0, 3.2, pitchMotorSubsystem),
+                        new IntakeNoteCmd(intakeMotorSubsystem, pitchMotorSubsystem, 0, 3.2),
                         new SwerveDriveToPointCmd(swerveSubsystem, miscellaneousNodes[1])
                 ),
                 new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem)
