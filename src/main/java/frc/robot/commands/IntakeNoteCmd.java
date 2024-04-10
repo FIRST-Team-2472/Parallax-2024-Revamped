@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystems.*;
 
-public class runIntake extends Command { 
+public class IntakeNoteCmd extends Command { 
 
     private IntakeMotorSubsystem intakeSubsystem;
     private Timer timer;
@@ -13,7 +13,7 @@ public class runIntake extends Command {
 
 
 
-    public runIntake(IntakeMotorSubsystem intakeSubsystem, double startingDelay, double endingDelay) {
+    public IntakeNoteCmd(IntakeMotorSubsystem intakeSubsystem, double startingDelay, double endingDelay) {
         timer = new Timer();
         this.intakeSubsystem = intakeSubsystem;
         this.startingDelay = startingDelay;

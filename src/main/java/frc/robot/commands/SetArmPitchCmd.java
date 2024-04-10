@@ -19,6 +19,7 @@ public class SetArmPitchCmd extends Command {
         this.pitchMotorSubsystem = pitchMotorSubsystem;
         addRequirements(pitchMotorSubsystem);
     }
+    
     public SetArmPitchCmd(PitchMotorSubsystem pitchMotorSubsystem, SwerveSubsystem swerveSubsystem) {
         this(pitchMotorSubsystem, 0.0);
         autoaiming = true;
