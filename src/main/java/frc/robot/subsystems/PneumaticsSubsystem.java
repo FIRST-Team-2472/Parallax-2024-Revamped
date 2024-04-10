@@ -4,33 +4,33 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.PnuematicsConstants;
+import frc.robot.Constants.PneumaticsConstants;
 
-public class PnuematicsSubsystem extends SubsystemBase {
+public class PneumaticsSubsystem extends SubsystemBase {
 
-	Compressor compressor = new Compressor(PnuematicsConstants.kCompressorid, PneumaticsModuleType.REVPH);
+	Compressor compressor = new Compressor(PneumaticsConstants.kCompressorid, PneumaticsModuleType.REVPH);
 
 	boolean bigLeftExtended;
 	DoubleSolenoid doubleSolenoidBigLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-			PnuematicsConstants.kBigLeftPnuematicInflateChannel,
-			PnuematicsConstants.kBigLeftPnuematicDeflateChannel);
+			PneumaticsConstants.kBigLeftPneumaticInflateChannel,
+			PneumaticsConstants.kBigLeftPneumaticDeflateChannel);
 
 	boolean smallLeftExtended;
 	DoubleSolenoid doubleSolenoidSmallLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-			PnuematicsConstants.kSmallLeftPnuematicInflateChannel,
-			PnuematicsConstants.kSmallLeftPnuematicDeflateChannel);
+			PneumaticsConstants.kSmallLeftPneumaticInflateChannel,
+			PneumaticsConstants.kSmallLeftPneumaticDeflateChannel);
 
 	boolean bigRightExtended;
 	DoubleSolenoid doubleSolenoidBigRight = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-			PnuematicsConstants.kBigRightPnuematicInflateChannel,
-			PnuematicsConstants.kBigRightPnuematicDeflateChannel);
+			PneumaticsConstants.kBigRightPneumaticInflateChannel,
+			PneumaticsConstants.kBigRightPneumaticDeflateChannel);
 
 	boolean smallRightExtended;
 	DoubleSolenoid doubleSolenoidSmallRight = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-			PnuematicsConstants.kSmallRightPnuematicInflateChannel,
-			PnuematicsConstants.kSmallRightPnuematicDeflateChannel);
+			PneumaticsConstants.kSmallRightPneumaticInflateChannel,
+			PneumaticsConstants.kSmallRightPneumaticDeflateChannel);
 
-	public PnuematicsSubsystem() {
+	public PneumaticsSubsystem() {
 		doubleSolenoidBigLeft.set(DoubleSolenoid.Value.kReverse);
 		doubleSolenoidBigRight.set(DoubleSolenoid.Value.kReverse);
 		doubleSolenoidSmallLeft.set(DoubleSolenoid.Value.kReverse);
@@ -42,7 +42,10 @@ public class PnuematicsSubsystem extends SubsystemBase {
 		smallLeftExtended = false;
 	}
 
-	public void toggleSmallpnuematics() {
+	/**
+	 * Toggles whither the smaller cylinders are extended or not.
+	 */
+	public void toggleSmallpneumatics() {
 		if (!bigLeftExtended) {
 			toggleSmallLeftPneumatic();
 		}
@@ -51,7 +54,7 @@ public class PnuematicsSubsystem extends SubsystemBase {
 		}
 	}
 
-	public void toggleBigpnuematics() {
+	public void toggleBigpneumatics() {
 		if (smallLeftExtended) {
 			toggleBigLeftPneumatic();
 		}
@@ -80,19 +83,19 @@ public class PnuematicsSubsystem extends SubsystemBase {
 		smallRightExtended = smallRightExtended ? false : true;
 	}
 
-	public boolean getBigLeftPnuematic() {
+	public boolean getBigLeftPneumatic() {
 		return bigLeftExtended;
 	}
 
-	public boolean getSmallLeftPnuematic() {
+	public boolean getSmallLeftPneumatic() {
 		return smallLeftExtended;
 	}
 
-	public boolean getBigRightPnuematic() {
+	public boolean getBigRightPneumatic() {
 		return bigRightExtended;
 	}
 
-	public boolean getSmallRightPnuematic() {
+	public boolean getSmallRightPneumatic() {
 		return smallRightExtended;
 	}
 }
