@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "pathOne"
+                  "pathName": "StwoNtwo"
                 }
               },
               {
@@ -61,7 +61,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "pathTwo"
+                  "pathName": "NtwoNone"
                 }
               }
             ]
