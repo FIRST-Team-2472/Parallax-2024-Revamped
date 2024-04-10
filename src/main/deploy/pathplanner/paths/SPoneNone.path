@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9026396514331507,
-        "y": 7.025263281295794
+        "x": 0.7417791758660457,
+        "y": 6.847658310701237
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9026396514331507,
-        "y": 7.005529395674177
+        "x": 0.7319122330552369,
+        "y": 6.837791367890429
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9026396514331507,
-        "y": 5.555088802485298
+        "x": 1.8271428850550027,
+        "y": 6.985795510052559
       },
       "prevControl": {
-        "x": 2.9026396514331507,
-        "y": 5.577151957340369
+        "x": 0.7516461186768542,
+        "y": 7.271936851566012
+      },
+      "nextControl": {
+        "x": 1.960636178882577,
+        "y": 6.950278945639718
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8927727086223416,
+        "y": 6.985795510052559
+      },
+      "prevControl": {
+        "x": 2.912506594243959,
+        "y": 6.9956624528633675
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": 0.8951737102110731,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Note to note paths",
+  "folder": "Speaker to notes paths",
   "previewStartingState": {
-    "rotation": -91.21887523513135,
+    "rotation": 60.85192815428691,
     "velocity": 0
   },
   "useDefaultConstraints": true
