@@ -96,7 +96,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, .9 ));
     NamedCommands.registerCommand("autoShoot", new FastAutoAimCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
     NamedCommands.registerCommand("angle to speaker", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
-    NamedCommands.registerCommand("rotate to -90", new SwerveRotateToAngle(swerveSubsystem, CommandSequences.teamChangeAngle(-90)));
+    NamedCommands.registerCommand("rotate to 270", new SwerveRotateToAngle(swerveSubsystem, CommandSequences.teamChangeAngle((270))));
 
     AutoBuilder.configureHolonomic(
             () -> swerveSubsystem.getPose(), // Robot pose supplier for auot (correct range -180-180)
@@ -138,22 +138,22 @@ public class RobotContainer {
       m_autoSelected = m_chooser.getSelected();
 
       if(m_autoSelected == SPtwoNtwoNone)
-        return AutoBuilder.buildAuto(SPtwoNtwoNone);
+        return AutoBuilder.buildAuto("SPtwoNtwoNone");
 
       if (m_autoSelected == SPtwoNtwo)
-        return AutoBuilder.buildAuto(SPtwoNtwo);
+        return AutoBuilder.buildAuto("SPtwoNtwo");
 
       if(m_autoSelected == SPtwoNoneNtwoNthree)
-        return AutoBuilder.buildAuto(SPtwoNoneNtwoNthree);
+        return AutoBuilder.buildAuto("SPtwoNoneNtwoNthree");
 
       if(m_autoSelected == SPtwoNthreeNtwoNoneNfour)
-        return AutoBuilder.buildAuto(SPtwoNthreeNtwoNoneNfour);
+        return AutoBuilder.buildAuto("SPtwoNthreeNtwoNoneNfour");
       
       if(m_autoSelected == SPtwoNoneNfour)
-        return AutoBuilder.buildAuto(SPtwoNoneNfour);
+        return AutoBuilder.buildAuto("SPtwoNoneNfour");
       
       if(m_autoSelected == SPtwoNtwoNfour)
-        return AutoBuilder.buildAuto(SPtwoNtwoNfour);
+        return AutoBuilder.buildAuto("SPtwoNtwoNfour");
 
     return null;
   }
