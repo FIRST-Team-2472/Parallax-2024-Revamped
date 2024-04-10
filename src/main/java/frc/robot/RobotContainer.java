@@ -39,7 +39,8 @@ import frc.robot.subsystems.ArmSubsystems.ShootingMotorSubsystem;
 
 public class RobotContainer {
   private final String SPtwoNtwoNone = "PP: Three Note Auto from position 2 to note 2 to note 1", SPtwoNtwo = "PP: two note in speaker from position 2 to note 2",
-  SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2", SPtwoNthreeNtwoNoneNfour = "PP: 4 in speaker from position 2 + collect one more";
+  SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2", SPtwoNthreeNtwoNoneNfour = "PP: 4 in speaker from position 2 + collect one more",
+  SPtwoNoneNfour = "PP: 3 in speaker from position 2";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -82,6 +83,7 @@ public class RobotContainer {
     m_chooser.addOption(SPtwoNtwo, SPtwoNtwo);
     m_chooser.addOption(SPtwoNoneNtwoNthree, SPtwoNoneNtwoNthree);
     m_chooser.addOption(SPtwoNthreeNtwoNoneNfour, SPtwoNthreeNtwoNoneNfour);
+    m_chooser.addOption(SPtwoNoneNfour, SPtwoNoneNfour);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -145,6 +147,9 @@ public class RobotContainer {
 
       if(m_autoSelected == SPtwoNthreeNtwoNoneNfour)
         return AutoBuilder.buildAuto(SPtwoNthreeNtwoNoneNfour);
+      
+      if(m_autoSelected == SPtwoNoneNfour)
+        return AutoBuilder.buildAuto(SPtwoNoneNfour);
 
     return null;
   }
