@@ -11,7 +11,7 @@ public class SetArmPitchCmd extends Command {
     SwerveSubsystem swerveSubsystem;
     private double angleDeg;
     private final Timer timer;
-    private boolean autoaiming;
+    private boolean autoAiming;
 
     public SetArmPitchCmd(PitchMotorSubsystem pitchMotorSubsystem, double angleDeg) {
         this.angleDeg = angleDeg;
@@ -22,7 +22,7 @@ public class SetArmPitchCmd extends Command {
     
     public SetArmPitchCmd(PitchMotorSubsystem pitchMotorSubsystem, SwerveSubsystem swerveSubsystem) {
         this(pitchMotorSubsystem, 0.0);
-        autoaiming = true;
+        autoAiming = true;
         this.swerveSubsystem = swerveSubsystem;
     }   
 
@@ -31,7 +31,7 @@ public class SetArmPitchCmd extends Command {
         timer.stop();
         timer.reset();
         timer.start();
-        if(autoaiming)
+        if(autoAiming)
             angleDeg = AutoAiming.getPitch(swerveSubsystem.getPose());
     }
 
