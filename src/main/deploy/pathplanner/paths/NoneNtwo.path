@@ -12,7 +12,7 @@
         "y": 6.966061624430942
       },
       "isLocked": false,
-      "linkedName": "Note Position 1"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -28,13 +28,7 @@
       "linkedName": "Note Position 2"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.0,
-      "rotationDegrees": -90.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -51,7 +45,7 @@
   "reversed": false,
   "folder": "Note to note paths",
   "previewStartingState": {
-    "rotation": -91.21887523513135,
+    "rotation": 48.094058058917106,
     "velocity": 0
   },
   "useDefaultConstraints": true
