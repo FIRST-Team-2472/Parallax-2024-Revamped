@@ -20,7 +20,9 @@ public class PosPose2d extends Pose2d {
     public PosPose2d(PositivePoint posPoint, Rotation2d angle) {
         super(posPoint, angle);
     }
-
+    public Rotation2d getAngle(){
+        return getAngle();
+    }
     public PositivePoint getPositivePoint() {
         return new PositivePoint(getX(), getY());
     }

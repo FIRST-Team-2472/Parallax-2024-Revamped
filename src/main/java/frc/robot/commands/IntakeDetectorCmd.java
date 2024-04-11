@@ -3,11 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.CommandSequences;
-import frc.robot.LimelightHelpers;
 import frc.robot.Constants.IntakeLimelightConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.ArmSubsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
+import frc.robot.subsystems.swerveExtras.LimelightHelpers;
 import frc.robot.subsystems.swerveExtras.PosPose2d;
 
 public class IntakeDetectorCmd extends Command {

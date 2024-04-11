@@ -16,6 +16,7 @@ import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ConstantAimToggleCmd;
 import frc.robot.commands.FastAutoAimCmd;
+import frc.robot.commands.IntakeDetectorCmd;
 import frc.robot.commands.OverrideCmd;
 import frc.robot.commands.SetArmPitchCmd;
 import frc.robot.commands.runShooter;
@@ -114,7 +115,7 @@ public class RobotContainer {
     new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
 
     new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 4000));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.4, 0));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new runShooter(shootingMotorSubsystem, intakeMotorSubsystem, 0.4, 0));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue( commandSequences.RotateNShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
  
