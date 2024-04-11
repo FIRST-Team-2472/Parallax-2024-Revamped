@@ -43,6 +43,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SetArm to intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -63,12 +69,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetArm to intake"
                 }
               }
             ]
