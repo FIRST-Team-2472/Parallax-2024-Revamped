@@ -42,7 +42,8 @@ public class RobotContainer {
   SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2", SPtwoNthreeNtwoNoneNfour = "PP: 4 in speaker from position 2 + collect one more",
   SPtwoNoneNfour = "PP: 3 in speaker from position 2 Note 1 - 4", SPtwoNtwoNfour = "PP: 3 in speaker from position 2 - Note 2 - 4",
   SPoneNoneNfourRSPone = "PP: 3 in speaker from position 1 - Note 1 - 4", SPthreeNeightNseven = "PP: 3 in speaker from position 3 - Note 8 - 7",
-  SPthreeNfourNfive = "PP: 3 in speaker from position 3 - Note 4 - 5", SPthreeNfiveNfour = "PP: 3 in speaker from position 3 - Note 5 - 4";
+  SPthreeNfourNfive = "PP: 3 in speaker from position 3 - Note 4 - 5", SPthreeNfiveNfour = "PP: 3 in speaker from position 3 - Note 5 - 4",
+  SPthreeNthree = "PP: 2 in speaker from position 3", SPoneNone = "PP: 2 in speaker from position one";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -91,6 +92,9 @@ public class RobotContainer {
     m_chooser.addOption(SPthreeNeightNseven, SPthreeNeightNseven);
     m_chooser.addOption(SPthreeNfourNfive, SPthreeNfourNfive);
     m_chooser.addOption(SPthreeNfiveNfour, SPthreeNfiveNfour);
+    m_chooser.addOption(SPthreeNthree, SPthreeNthree);
+    m_chooser.addOption(SPoneNone, SPoneNone);
+    
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -173,6 +177,12 @@ public class RobotContainer {
 
       if(m_autoSelected == SPthreeNfiveNfour)
         return AutoBuilder.buildAuto("SPthreeNfiveNfour");
+
+      if(m_autoSelected == SPthreeNthree)
+        return AutoBuilder.buildAuto("SPthreeNthree");
+
+      if(m_autoSelected == SPoneNone)
+        return AutoBuilder.buildAuto("SPoneNone");
 
     return null;
   }
