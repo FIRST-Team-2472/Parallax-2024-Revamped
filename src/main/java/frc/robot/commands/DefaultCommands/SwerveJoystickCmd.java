@@ -34,8 +34,8 @@ public class SwerveJoystickCmd extends Command {
     @Override
     public void execute() {
         // get joystick values
-        double xSpeed = SwerveSubsystem.isOnRed() ? -xSpdFunction.get() : xSpdFunction.get();
-        double ySpeed = SwerveSubsystem.isOnRed() ? -ySpdFunction.get() : ySpdFunction.get();
+        double xSpeed = !SwerveSubsystem.isOnRed() ? -xSpdFunction.get() : xSpdFunction.get();
+        double ySpeed = !SwerveSubsystem.isOnRed() ? -ySpdFunction.get() : ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get() / 2;
 
         // deadband (area that doesnt actually result in an input)
