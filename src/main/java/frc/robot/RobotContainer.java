@@ -41,9 +41,9 @@ public class RobotContainer {
   private final String SPtwoNtwoNone = "PP: Three Note Auto from position 2 to note 2 to note 1", SPtwoNtwo = "PP: two note in speaker from position 2 to note 2",
   SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2", SPtwoNthreeNtwoNoneNfour = "PP: 4 in speaker from position 2 + collect one more",
   SPtwoNoneNfour = "PP: 3 in speaker from position 2 Note 1 - 4", SPtwoNtwoNfour = "PP: 3 in speaker from position 2 - Note 2 - 4",
-  SPoneNoneNfourRSPone = "PP: 3 in speaker from position 1 - Note 1 - 4", SPthreeNeightNseven = "PP: 3 in speaker from position 3 - Note 8 - 7",
+  SPoneNoneNfourRSPone = "PP: 3 in speaker from position 1 - Note 1 - 4", SPthreeNthreeNeightNseven = "PP: 3 in speaker from position 3 - Note 8 - 7",
   SPthreeNfourNfive = "PP: 3 in speaker from position 3 - Note 4 - 5", SPthreeNfiveNfour = "PP: 3 in speaker from position 3 - Note 5 - 4",
-  SPthreeNthree = "PP: 2 in speaker from position 3", SPoneNone = "PP: 2 in speaker from position one";
+  SPthreeNthree = "PP: 2 in speaker from position 3", SPoneNone = "PP: 2 in speaker from position one", SPthreeNeightNseven = "PP: 3 in speaker from position three Note 8 - 7";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -89,11 +89,12 @@ public class RobotContainer {
     m_chooser.addOption(SPtwoNoneNfour, SPtwoNoneNfour);
     m_chooser.addOption(SPtwoNtwoNfour, SPtwoNtwoNfour);
     m_chooser.addOption(SPoneNoneNfourRSPone, SPoneNoneNfourRSPone);
-    m_chooser.addOption(SPthreeNeightNseven, SPthreeNeightNseven);
+    m_chooser.addOption(SPthreeNthreeNeightNseven, SPthreeNthreeNeightNseven);
     m_chooser.addOption(SPthreeNfourNfive, SPthreeNfourNfive);
     m_chooser.addOption(SPthreeNfiveNfour, SPthreeNfiveNfour);
     m_chooser.addOption(SPthreeNthree, SPthreeNthree);
     m_chooser.addOption(SPoneNone, SPoneNone);
+    m_chooser.addOption(SPthreeNeightNseven, SPthreeNeightNseven);
     
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
@@ -102,7 +103,7 @@ public class RobotContainer {
     driverBoard.addCamera("Limelight Stream Shooter", "limelight_shooter", "mjpg:http://limelight-shooter.local:5800").withSize(4,4);
 
     //warning a name change will break auto paths because pathplanner will not update it
-    NamedCommands.registerCommand("runIntake", new IntakeNoteCmd(intakeMotorSubsystem, 0, 8));
+    NamedCommands.registerCommand("runIntake", new IntakeNoteCmd(intakeMotorSubsystem, pitchMotorSubsystem, 0, 8));
     NamedCommands.registerCommand("Shoot", new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, .9 ));
     NamedCommands.registerCommand("autoShoot", new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
     NamedCommands.registerCommand("angle to speaker", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
@@ -122,6 +123,7 @@ public class RobotContainer {
 
             swerveSubsystem // Reference to this subsystem to set requirements
         );
+        System.out.println("team " + SwerveSubsystem.isOnRed());
   }
 
   private void configureBindings() {
@@ -170,7 +172,7 @@ public class RobotContainer {
         return AutoBuilder.buildAuto("SPoneNoneNfourRSPone");
       
       if(m_autoSelected == SPthreeNeightNseven)
-        return AutoBuilder.buildAuto("SPthreeNeightNseven");
+        return AutoBuilder.buildAuto("SPthreeNthreeNeightNseven");
 
       if(m_autoSelected == SPthreeNfourNfive)
         return AutoBuilder.buildAuto("SPthreeNfourNfive");
@@ -183,6 +185,9 @@ public class RobotContainer {
 
       if(m_autoSelected == SPoneNone)
         return AutoBuilder.buildAuto("SPoneNone");
+
+      if(m_autoSelected == SPthreeNeightNseven)
+        return AutoBuilder.buildAuto("SPthreeNeightNseven");
 
     return null;
   }

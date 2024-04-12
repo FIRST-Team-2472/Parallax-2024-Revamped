@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5015337722983153,
-      "y": 5.525487974052871
+      "x": 0.75,
+      "y": 4.23
     },
-    "rotation": 0.9045950337327137
+    "rotation": -58.13464174426874
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SPtwoNone"
+                  "pathName": "SPthreeNthree"
                 }
               },
               {
@@ -47,25 +47,24 @@
           "data": {
             "commands": [
               {
-                "type": "race",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NoneNtwo"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "runIntake"
-                      }
-                    }
-                  ]
+                  "name": "runIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NthreeNeight"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NeightRSPtwo"
           }
         },
         {
@@ -79,25 +78,24 @@
           "data": {
             "commands": [
               {
-                "type": "race",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "NtwoNthree"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "runIntake"
-                      }
-                    }
-                  ]
+                  "name": "runIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RSPtwoNseven"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NsevenRSPtwo"
           }
         },
         {

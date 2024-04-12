@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 4.23
+    },
+    "rotation": -61.039593865163525
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -18,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SPthreeNthree"
+                  "pathName": "SPthreeNeight"
                 }
               },
               {
@@ -34,25 +40,6 @@
           "type": "named",
           "data": {
             "name": "autoShoot"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "runIntake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NthreeNeight"
-                }
-              }
-            ]
           }
         },
         {
@@ -84,18 +71,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NsevenRSPtwo"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "autoShoot"
           }
         }
       ]

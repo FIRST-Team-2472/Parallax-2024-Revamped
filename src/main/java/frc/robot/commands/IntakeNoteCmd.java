@@ -29,7 +29,7 @@ public class IntakeNoteCmd extends Command {
 
     @Override
     public void initialize() {
-        timer.start();
+        timer.restart();
         System.out.println("intake command started");
     }
 
@@ -41,7 +41,7 @@ public class IntakeNoteCmd extends Command {
                 pitchMotorSubsystem
                         .runPitchMotorWithFasterKP(ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
             } else {
-                pitchMotorSubsystem.runPitchMotor(endingDelay, true);
+                pitchMotorSubsystem.runPitchMotor(0, true);
             }
         }
         if (timer.hasElapsed(startingDelay)) {

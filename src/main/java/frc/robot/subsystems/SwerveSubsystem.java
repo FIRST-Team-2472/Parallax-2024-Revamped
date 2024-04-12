@@ -81,7 +81,6 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0), getModulePositions());
 
-    private static BooleanSubscriber isOnRed;
     private static final SendableChooser<String> colorChooser = new SendableChooser<>();
     private final String red = "Red", blue = "Blue";
     private Pose2d lastSeenPosition;
@@ -99,7 +98,6 @@ public class SwerveSubsystem extends SubsystemBase {
         // Gets the field information
         NetworkTable firstInfo = NetworkTableInstance.getDefault().getTable("FMSInfo");
         // Gets the team color from the field information
-        isOnRed = firstInfo.getBooleanTopic("IsRedAlliance").subscribe(false);
 
         // makes a team color chooser
         colorChooser.addOption(red, red);
@@ -348,8 +346,7 @@ public class SwerveSubsystem extends SubsystemBase {
         LimelightResults llr = LimelightHelpers.getLatestResults("limelight-shooter");
         int fiducialCount = llr.targetingResults.targets_Fiducials.length;
 
-
-        if (!camsDisabled && fiducialCount >= 2 && frontLeft.getDriveVelocity() < 0.2) { // Make sure there are at least 2 AprilTags in sight for accuracy
+        if (!DriverStation.isAutonomous() && !camsDisabled && fiducialCount >= 2 && frontLeft.getDriveVelocity() < 0.2) { // Make sure there are at least 2 AprilTags in sight for accuracy
             Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-shooter");
 
             if(lastSeenPosition != null){
@@ -358,7 +355,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
                 if(difference.getDegrees() < 2){
                     resetOdometry(botPose);
-                    setHeading(botPose.getRotation().getDegrees() + 180);
+                    if(isOnRed())
+                        setHeading(botPose.getRotation().getDegrees()+180);
+                    else 
+                        setHeading(botPose.getRotation().getDegrees());
                 }
             }
             lastSeenPosition = botPose;
@@ -412,12 +412,8 @@ public class SwerveSubsystem extends SubsystemBase {
         }
 
         String choices = colorChooser.getSelected();
-        if (choices == "Red")
-            return true;
-        if (choices == "Blue")
-            return false;
+        return choices == "Red";
         // if no team selected on suffleboard, it will default to the field info
-        return isOnRed.get();
     }
 
     // send over shuffleboard values
