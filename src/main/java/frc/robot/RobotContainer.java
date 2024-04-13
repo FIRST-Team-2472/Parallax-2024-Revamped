@@ -23,6 +23,7 @@ import frc.robot.commands.ConstantAimToggleCmd;
 import frc.robot.commands.FastAutoAimCmd;
 import frc.robot.commands.IntakeNoteCmd;
 import frc.robot.commands.OverrideCmd;
+import frc.robot.commands.ResetHeadingCmd;
 import frc.robot.commands.SetArmPitchCmd;
 import frc.robot.commands.SwerveRotateToAngle;
 import frc.robot.commands.ShootNoteCmd;
@@ -110,6 +111,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("angle to speaker", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     NamedCommands.registerCommand("rotate to 270", new SwerveRotateToAngle(swerveSubsystem, CommandSequences.teamChangeAngle((270))));
     NamedCommands.registerCommand("SetArm to intake", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
+    NamedCommands.registerCommand("reset heading", new ResetHeadingCmd(swerveSubsystem));
 
     AutoBuilder.configureHolonomic(
             () -> swerveSubsystem.getPose(), // Robot pose supplier for auot (correct range -180-180)

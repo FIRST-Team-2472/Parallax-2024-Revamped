@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 1.3322198538696362,
+    "rotation": 1.5765500551837293,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Speaker to notes paths",
   "previewStartingState": {
-    "rotation": 1.123687232918383,
+    "rotation": 0.8787914659787375,
     "velocity": 0
   },
   "useDefaultConstraints": true
