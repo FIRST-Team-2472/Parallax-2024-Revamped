@@ -45,7 +45,7 @@ public class RobotContainer {
   SPoneNoneNfourRSPone = "3 in speaker Speaker one Notes 1 - 4", SPthreeNthreeNeightNseven = "3 in speaker Speaker 3 Notes 3 - 8 - 7",
   SPthreeNfourNfive = "3 in speaker Speaker 3 Notes 4 - 5", SPthreeNfiveNfour = "3 in speaker Speaker 3 Notes 5 - 4",
   SPthreeNthree = "2 in speaker Speaker 3 Note 3", SPoneNone = "2 in speaker Speaker 1 Note 1", 
-  SPthreeNeightNseven = "3 in speaker Speaker 3 Notes 8 - 7";
+  SPthreeNeightNseven = "3 in speaker Speaker 3 Notes 8 - 7", SpThreeNThreeNEight = "3 in speaker out of the way stage side";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -97,6 +97,7 @@ public class RobotContainer {
     m_chooser.addOption(SPthreeNthree, SPthreeNthree);
     m_chooser.addOption(SPoneNone, SPoneNone);
     m_chooser.addOption(SPthreeNeightNseven, SPthreeNeightNseven);
+    m_chooser.addOption(SpThreeNThreeNEight, SpThreeNThreeNEight);
     
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
@@ -155,6 +156,9 @@ public class RobotContainer {
 
       if(m_autoSelected == SPtwoNtwoNone)
         return AutoBuilder.buildAuto("SPtwoNtwoNone");
+
+      if(m_autoSelected == SpThreeNThreeNEight)
+        return AutoBuilder.buildAuto("Test");
 
       if (m_autoSelected == SPtwoNtwo)
         return AutoBuilder.buildAuto("SPtwoNtwo");

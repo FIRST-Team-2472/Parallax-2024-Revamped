@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7516461186768542,
-        "y": 4.232918465836932
+        "x": 0.698068368146915,
+        "y": 4.250869774004179
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7284734569469153,
-        "y": 3.3646274984857665
+        "x": 1.6748957064169763,
+        "y": 3.382578806653013
       },
       "isLocked": false,
       "linkedName": "Speaker Position 3"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Speaker to notes paths",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
