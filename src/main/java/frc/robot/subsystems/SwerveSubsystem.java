@@ -215,10 +215,6 @@ public class SwerveSubsystem extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
-    public void resetOdometryAndHeading(Pose2d pose) {
-        setHeading(pose.getRotation().getDegrees());
-        odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
-    }
 
     public void initializeJoystickRunFromField() {
         xLimiter.setLimit(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
