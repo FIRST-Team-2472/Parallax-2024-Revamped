@@ -38,12 +38,13 @@ import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
 import frc.robot.subsystems.ArmSubsystems.ShootingMotorSubsystem;
 
 public class RobotContainer {
-  private final String SPtwoNtwoNone = "PP: Three Note Auto from position 2 to note 2 to note 1", SPtwoNtwo = "PP: two note in speaker from position 2 to note 2",
-  SPtwoNoneNtwoNthree = "PP: 4 in speaker from position 2", SPtwoNthreeNtwoNoneNfour = "PP: 4 in speaker from position 2 + collect one more",
-  SPtwoNoneNfour = "PP: 3 in speaker from position 2 Note 1 - 4", SPtwoNtwoNfour = "PP: 3 in speaker from position 2 - Note 2 - 4",
-  SPoneNoneNfourRSPone = "PP: 3 in speaker from position 1 - Note 1 - 4", SPthreeNthreeNeightNseven = "PP: 3 in speaker from position 3 - Note 8 - 7",
-  SPthreeNfourNfive = "PP: 3 in speaker from position 3 - Note 4 - 5", SPthreeNfiveNfour = "PP: 3 in speaker from position 3 - Note 5 - 4",
-  SPthreeNthree = "PP: 2 in speaker from position 3", SPoneNone = "PP: 2 in speaker from position one", SPthreeNeightNseven = "PP: 3 in speaker from position three Note 8 - 7";
+  private final String SPtwoNtwoNone = "3 notes in speaker Speaker 2 Note 2 - 1", SPtwoNtwo = "2 notes in speaker Seaker 2 Note 2 - TESTED",
+  SPtwoNoneNtwoNthree = "4 notes in speaker from Speaker 2 Notes 1 - 2 - 3", SPtwoNthreeNtwoNoneNfour = "4 in speaker Speaker 2 Notes 3 - 2 - 1 - 4",
+  SPtwoNoneNfour = "3 in speaker Speaker 2 Notes 2 - 1 pick up 4", SPtwoNtwoNfour = "3 in speaker Speaker 2 Notes 2 - 4",
+  SPoneNoneNfourRSPone = "3 in speaker Speaker one Notes 1 - 4", SPthreeNthreeNeightNseven = "3 in speaker Speaker 3 Notes 3 - 8 - 7",
+  SPthreeNfourNfive = "3 in speaker Speaker 3 Notes 4 - 5", SPthreeNfiveNfour = "3 in speaker Speaker 3 Notes 5 - 4",
+  SPthreeNthree = "2 in speaker Speaker 3 Note 3", SPoneNone = "2 in speaker Speaker 1 Note 1", 
+  SPthreeNeightNseven = "3 in speaker Speaker 3 Notes 8 - 7";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();

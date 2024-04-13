@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.AutoAiming;
+import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -55,8 +56,13 @@ public class PitchMotorCmd extends Command {
 
             if (!intakeButton.get())
                 armPitchSubsystem.runPitchMotor(pitchMotorSpeed);
-            else
-                armPitchSubsystem.runPitchMotor(pitchMotorSpeed, true);
+            else{
+                if(armPitchSubsystem.getEncoderDeg() > 5){
+                    armPitchSubsystem.runPitchMotorWithFasterKP(ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
+                }else{
+                    armPitchSubsystem.runPitchMotor(pitchMotorSpeed, true);
+                }
+            }
 
         }
         super.execute();

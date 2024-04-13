@@ -3,6 +3,7 @@ package frc.robot.commands.DefaultCommands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.AutoAiming;
@@ -16,6 +17,8 @@ public class SwerveJoystickCmd extends Command {
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Supplier<Boolean> slowed;
+    private PIDController turningController;
+
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
     Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction, Supplier<Boolean> slowed) {
         this.swerveSubsystem = swerveSubsystem;
@@ -23,7 +26,10 @@ public class SwerveJoystickCmd extends Command {
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.slowed = slowed;
+
         addRequirements(swerveSubsystem);
+
+        turningController = new PIDController(0.03, 0.1, 0);
     }
 
     @Override
@@ -34,8 +40,8 @@ public class SwerveJoystickCmd extends Command {
     @Override
     public void execute() {
         // get joystick values
-        double xSpeed = !SwerveSubsystem.isOnRed() ? -xSpdFunction.get() : xSpdFunction.get();
-        double ySpeed = !SwerveSubsystem.isOnRed() ? -ySpdFunction.get() : ySpdFunction.get();
+        double xSpeed = SwerveSubsystem.isOnRed() ? -xSpdFunction.get() : xSpdFunction.get();
+        double ySpeed = SwerveSubsystem.isOnRed() ? -ySpdFunction.get() : ySpdFunction.get();
         double turningSpeed = turningSpdFunction.get() / 2;
 
         // deadband (area that doesnt actually result in an input)
@@ -45,9 +51,9 @@ public class SwerveJoystickCmd extends Command {
         if(swerveSubsystem.getConstantAim() && AutoAiming.getSmartDistance(swerveSubsystem.getPose()) < OperatorConstants.autoAimDistance){
 
             Rotation2d angleDifference = swerveSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(AutoAiming.getYaw(swerveSubsystem.getPose())));
-            turningSpeed = MathUtil.clamp(swerveSubsystem.thetaController.calculate(angleDifference.getRadians(),0), -1, 1) * TargetPosConstants.kMaxAngularSpeed;
+            turningSpeed = MathUtil.clamp(turningController.calculate(angleDifference.getRadians(),0), -1, 1) * TargetPosConstants.kMaxAngularSpeed/2;
 
-        turningSpeed += Math.copySign(TargetPosConstants.kMinAngularSpeedRadians, turningSpeed);
+        //turningSpeed += Math.copySign(TargetPosConstants.kMinAngularSpeedRadians, turningSpeed);
         }else{
             turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
         }

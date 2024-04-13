@@ -47,8 +47,9 @@ public class ShootNoteCmd extends Command {
         shooterSubsystem.runShooterMotors(speed);
 
         if (shooterSubsystem.getShooterSpeed() < -rpm || overideTimer.hasElapsed(2)) {
-            if (timerTwo.get() != 0.0)
-                timerTwo.start();
+            
+            timerTwo.start();
+
             intakeSubsystem.runPushMotor(1);
             intakeSubsystem.runIntakeMotors(1);
         }

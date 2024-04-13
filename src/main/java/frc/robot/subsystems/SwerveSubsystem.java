@@ -355,10 +355,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
                 if(difference.getDegrees() < 2){
                     resetOdometry(botPose);
-                    if(isOnRed())
                         setHeading(botPose.getRotation().getDegrees()+180);
-                    else 
-                        setHeading(botPose.getRotation().getDegrees());
                 }
             }
             lastSeenPosition = botPose;
