@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.473460375846179,
-        "y": 5.456752946299002
+        "x": 2.0442156268927936,
+        "y": 5.564955745296107
       },
       "isLocked": false,
       "linkedName": "Note Position 2"
     },
     {
       "anchor": {
-        "x": 2.882905765811533,
+        "x": 2.912506594243959,
         "y": 6.985795510052559
       },
       "prevControl": {
-        "x": 1.2431353615887908,
-        "y": 6.494908828533648
+        "x": 0.20896426408237592,
+        "y": 7.291670737187628
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 25.76932762433867,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
