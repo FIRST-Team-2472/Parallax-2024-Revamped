@@ -39,13 +39,13 @@ import frc.robot.subsystems.ArmSubsystems.PitchMotorSubsystem;
 import frc.robot.subsystems.ArmSubsystems.ShootingMotorSubsystem;
 
 public class RobotContainer {
-  private final String SPtwoNtwoNone = "3 notes in speaker Speaker 2 Note 2 - 1", SPtwoNtwo = "2 notes in speaker Seaker 2 Note 2 - TESTED",
+  private final String SPtwoNtwoNone = "3 notes in speaker Speaker 2 Note 2 - 1 - TESTED", SPtwoNtwo = "2 notes in speaker Seaker 2 Note 2 - TESTED",
   SPtwoNoneNtwoNthree = "4 notes in speaker from Speaker 2 Notes 1 - 2 - 3", SPtwoNthreeNtwoNoneNfour = "4 in speaker Speaker 2 Notes 3 - 2 - 1 - 4",
   SPtwoNoneNfour = "3 in speaker Speaker 2 Notes 2 - 1 pick up 4", SPtwoNtwoNfour = "3 in speaker Speaker 2 Notes 2 - 4",
   SPoneNoneNfourRSPone = "3 in speaker Speaker one Notes 1 - 4", SPthreeNthreeNeightNseven = "3 in speaker Speaker 3 Notes 3 - 8 - 7",
   SPthreeNfourNfive = "3 in speaker Speaker 3 Notes 4 - 5", SPthreeNfiveNfour = "3 in speaker Speaker 3 Notes 5 - 4",
   SPthreeNthree = "2 in speaker Speaker 3 Note 3", SPoneNone = "2 in speaker Speaker 1 Note 1", 
-  SPthreeNeightNseven = "3 in speaker Speaker 3 Notes 8 - 7", SpThreeNThreeNEight = "3 in speaker out of the way stage side";
+  SPthreeNeightNseven = "3 in speaker Speaker 3 Notes 8 - 7", SpThreeNThreeNEight = "3 in speaker out of the way stage side", test = "test";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -98,6 +98,7 @@ public class RobotContainer {
     m_chooser.addOption(SPoneNone, SPoneNone);
     m_chooser.addOption(SPthreeNeightNseven, SPthreeNeightNseven);
     m_chooser.addOption(SpThreeNThreeNEight, SpThreeNThreeNEight);
+    m_chooser.addOption(test, test);
     
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
@@ -112,7 +113,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("angle to speaker", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle));
     NamedCommands.registerCommand("rotate to 270", new SwerveRotateToAngle(swerveSubsystem, CommandSequences.teamChangeAngle((270))));
     NamedCommands.registerCommand("SetArm to intake", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
-    NamedCommands.registerCommand("reset heading", new ResetHeadingCmd(swerveSubsystem));
+    NamedCommands.registerCommand("reset heading", new ResetHeadingCmd(swerveSubsystem, 0));
+    NamedCommands.registerCommand("Set Heading 60", new ResetHeadingCmd(swerveSubsystem, -303));
+    NamedCommands.registerCommand("Set Heading -60", new ResetHeadingCmd(swerveSubsystem, 303));
 
     AutoBuilder.configureHolonomic(
             () -> swerveSubsystem.getPose(), // Robot pose supplier for auot (correct range -180-180)
@@ -154,11 +157,14 @@ public class RobotContainer {
        
       m_autoSelected = m_chooser.getSelected();
 
+      if(m_autoSelected == test)
+        return AutoBuilder.buildAuto("test");
+
       if(m_autoSelected == SPtwoNtwoNone)
         return AutoBuilder.buildAuto("SPtwoNtwoNone");
 
       if(m_autoSelected == SpThreeNThreeNEight)
-        return AutoBuilder.buildAuto("Test");
+        return AutoBuilder.buildAuto("SPthreeNthreeNeight");
 
       if (m_autoSelected == SPtwoNtwo)
         return AutoBuilder.buildAuto("SPtwoNtwo");

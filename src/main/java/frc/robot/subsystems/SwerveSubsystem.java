@@ -361,7 +361,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     else
                         setHeading(botPose.getRotation().getDegrees());
             }
-            
+
             lastSeenPosition = botPose;
         }
 

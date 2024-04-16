@@ -8,6 +8,12 @@
         {
           "type": "named",
           "data": {
+            "name": "Set Heading 60"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "autoShoot"
           }
         },

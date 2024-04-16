@@ -1,12 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.CommandSequences;
 import frc.robot.subsystems.SwerveSubsystem;
 
 
 public class ResetHeadingCmd extends Command{
 
     SwerveSubsystem swerveSubsystem;
+    int degrees;
 
     
     /**
@@ -18,15 +20,17 @@ public class ResetHeadingCmd extends Command{
      * @param shootingMotorSubsystem the shooting motor subsystem
      */
 
-    public ResetHeadingCmd(SwerveSubsystem swerveSubsystem){
+    public ResetHeadingCmd(SwerveSubsystem swerveSubsystem, int degrees){
         this.swerveSubsystem = swerveSubsystem;
+        this.degrees = degrees;
 
         addRequirements(swerveSubsystem);
     }
 
     @Override
     public void initialize(){
-        swerveSubsystem.zeroHeading();
+        if(SwerveSubsystem.isOnRed())
+            swerveSubsystem.setHeading(CommandSequences.teamChangeAngle(degrees).getDegrees());
     }
 
     @Override

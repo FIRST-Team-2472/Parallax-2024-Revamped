@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.48,
-      "y": 5.53
+      "x": 0.7516461186768542,
+      "y": 4.232918465836932
     },
-    "rotation": 0.0
+    "rotation": -60.01836063115067
   },
   "command": {
     "type": "sequential",
@@ -14,19 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "reset heading"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "angle to speaker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "name": "autoShoot"
           }
         },
         {
@@ -36,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SPtwoNtwo"
+                  "pathName": "SPthreeNthree"
                 }
               },
               {
@@ -59,18 +47,24 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "NthreeNeight"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "runIntake"
                 }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NtwoNone"
-                }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NeightRSPtwo"
           }
         },
         {

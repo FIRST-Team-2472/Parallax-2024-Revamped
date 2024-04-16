@@ -2,75 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7516461186768542,
-      "y": 4.232918465836932
+      "x": 2,
+      "y": 2
     },
-    "rotation": -60.01836063115067
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "autoShoot"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "SPthreeNthree"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "runIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "autoShoot"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "NthreeNeight"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "runIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "NeightRSPtwo"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "autoShoot"
+            "waitTime": 45.0
           }
         }
       ]
