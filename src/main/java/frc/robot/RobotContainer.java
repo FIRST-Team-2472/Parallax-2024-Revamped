@@ -114,8 +114,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("rotate to 270", new SwerveRotateToAngle(swerveSubsystem, CommandSequences.teamChangeAngle((270))));
     NamedCommands.registerCommand("SetArm to intake", new SetArmPitchCmd(pitchMotorSubsystem, Constants.ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
     NamedCommands.registerCommand("reset heading", new ResetHeadingCmd(swerveSubsystem, 0));
-    NamedCommands.registerCommand("Set Heading 60", new ResetHeadingCmd(swerveSubsystem, -303));
-    NamedCommands.registerCommand("Set Heading -60", new ResetHeadingCmd(swerveSubsystem, 303));
+    NamedCommands.registerCommand("Set Heading 60", new ResetHeadingCmd(swerveSubsystem, 60));
+    NamedCommands.registerCommand("Set Heading -60", new ResetHeadingCmd(swerveSubsystem, -60));
 
     AutoBuilder.configureHolonomic(
             () -> swerveSubsystem.getPose(), // Robot pose supplier for auot (correct range -180-180)
