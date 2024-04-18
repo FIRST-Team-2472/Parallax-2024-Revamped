@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmMotorsConstants;
@@ -27,6 +28,7 @@ import frc.robot.commands.ResetHeadingCmd;
 import frc.robot.commands.SetArmPitchCmd;
 import frc.robot.commands.SwerveRotateToAngle;
 import frc.robot.commands.ShootNoteCmd;
+import frc.robot.commands.SmallPnuematicsCmd;
 import frc.robot.commands.DefaultCommands.IntakeMotorCmd;
 import frc.robot.commands.DefaultCommands.PitchMotorCmd;
 import frc.robot.commands.DefaultCommands.PneumaticsCmd;
@@ -45,7 +47,8 @@ public class RobotContainer {
   SPoneNoneNfourRSPone = "3 in speaker Speaker one Notes 1 - 4", SPthreeNthreeNeightNseven = "3 in speaker Speaker 3 Notes 3 - 8 - 7",
   SPthreeNfourNfive = "3 in speaker Speaker 3 Notes 4 - 5", SPthreeNfiveNfour = "3 in speaker Speaker 3 Notes 5 - 4",
   SPthreeNthree = "2 in speaker Speaker 3 Note 3", SPoneNone = "2 in speaker Speaker 1 Note 1", 
-  SPthreeNeightNseven = "3 in speaker Speaker 3 Notes 8 - 7", SpThreeNThreeNEight = "3 in speaker out of the way stage side", test = "test";
+  SPthreeNeightNseven = "3 in speaker Speaker 3 Notes 8 - 7", SpThreeNThreeNEight = "3 in speaker out of the way stage side", test = "test",
+  justShoot = "just shoot";
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -99,6 +102,7 @@ public class RobotContainer {
     m_chooser.addOption(SPthreeNeightNseven, SPthreeNeightNseven);
     m_chooser.addOption(SpThreeNThreeNEight, SpThreeNThreeNEight);
     m_chooser.addOption(test, test);
+    m_chooser.addOption(justShoot, justShoot);
     
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
@@ -138,7 +142,7 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 3).onTrue(new OverrideCmd(swerveSubsystem, intakeMotorSubsystem, pitchMotorSubsystem, shootingMotorSubsystem));
     new JoystickButton(rightJoystick, 13).onTrue(new InstantCommand(swerveSubsystem :: disableCams));
 
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftBumper().onTrue(new InstantCommand(pneumaticsSubsystem :: toggleSmallpneumatics));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).leftBumper().onTrue(new SmallPnuematicsCmd(pneumaticsSubsystem));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).rightBumper().onTrue(new InstantCommand(pneumaticsSubsystem :: toggleBigpneumatics));
 
     new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
@@ -201,6 +205,11 @@ public class RobotContainer {
 
       if(m_autoSelected == SPthreeNeightNseven)
         return AutoBuilder.buildAuto("SPthreeNeightNseven");
+
+      if(m_autoSelected == justShoot)
+        return new SequentialCommandGroup(
+          commandSequences.justShoot(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem, intakeMotorSubsystem)
+        );
 
     return null;
   }

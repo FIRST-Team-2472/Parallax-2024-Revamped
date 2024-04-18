@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PneumaticsConstants;
 
@@ -10,25 +11,26 @@ public class PneumaticsSubsystem extends SubsystemBase {
 
 	Compressor compressor = new Compressor(PneumaticsConstants.kCompressorid, PneumaticsModuleType.REVPH);
 
-	boolean bigLeftExtended;
-	DoubleSolenoid doubleSolenoidBigLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+	public boolean bigLeftExtended;
+	public DoubleSolenoid doubleSolenoidBigLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH,
 			PneumaticsConstants.kBigLeftPneumaticInflateChannel,
 			PneumaticsConstants.kBigLeftPneumaticDeflateChannel);
 
-	boolean smallLeftExtended;
-	DoubleSolenoid doubleSolenoidSmallLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+	public boolean smallLeftExtended;
+	public DoubleSolenoid doubleSolenoidSmallLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH,
 			PneumaticsConstants.kSmallLeftPneumaticInflateChannel,
 			PneumaticsConstants.kSmallLeftPneumaticDeflateChannel);
 
-	boolean bigRightExtended;
-	DoubleSolenoid doubleSolenoidBigRight = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+	public boolean bigRightExtended;
+	public DoubleSolenoid doubleSolenoidBigRight = new DoubleSolenoid(PneumaticsModuleType.REVPH,
 			PneumaticsConstants.kBigRightPneumaticInflateChannel,
 			PneumaticsConstants.kBigRightPneumaticDeflateChannel);
 
-	boolean smallRightExtended;
-	DoubleSolenoid doubleSolenoidSmallRight = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+	public boolean smallRightExtended;
+	public DoubleSolenoid doubleSolenoidSmallRight = new DoubleSolenoid(PneumaticsModuleType.REVPH,
 			PneumaticsConstants.kSmallRightPneumaticInflateChannel,
 			PneumaticsConstants.kSmallRightPneumaticDeflateChannel);
+
 
 	public PneumaticsSubsystem() {
 		doubleSolenoidBigLeft.set(DoubleSolenoid.Value.kReverse);
