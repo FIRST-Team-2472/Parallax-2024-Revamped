@@ -46,7 +46,7 @@ public class ShootNoteCmd extends Command {
     public void execute() {
         shooterSubsystem.runShooterMotors(speed);
 
-        if (shooterSubsystem.getShooterSpeed() < -rpm || overideTimer.hasElapsed(2)) {
+        if (shooterSubsystem.getShooterSpeed() < -rpm || overideTimer.hasElapsed(2.5)) {
             
             timerTwo.start();
 
@@ -65,6 +65,6 @@ public class ShootNoteCmd extends Command {
 
     @Override
     public boolean isFinished() {
-        return overideTimer.hasElapsed(2.5) || timerTwo.hasElapsed(0.3);
+        return overideTimer.hasElapsed(3) || timerTwo.hasElapsed(0.6);
     }
 }
