@@ -407,9 +407,7 @@ public class SwerveSubsystem extends SubsystemBase {
         // gets the selected team color from the suffleboard
         Optional<Alliance> ally = DriverStation.getAlliance();
         if(ally.isPresent()){
-            if(ally.get() == Alliance.Red)
-                return true;
-            return false;
+            return ally.get() == Alliance.Red;
         }
 
         String choices = colorChooser.getSelected();
