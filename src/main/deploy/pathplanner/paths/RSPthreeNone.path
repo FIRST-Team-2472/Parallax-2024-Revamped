@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.0572389649330654,
+        "y": 6.245043439371664
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.867840885808999,
+        "y": 6.966413118576873
+      },
+      "isLocked": false,
+      "linkedName": "Random Spot 3"
+    },
+    {
+      "anchor": {
+        "x": 2.912506594243959,
+        "y": 6.985795510052559
+      },
+      "prevControl": {
+        "x": 1.3038434219362085,
+        "y": 7.029079503451627
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Note Position 1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 1.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Note to note paths",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

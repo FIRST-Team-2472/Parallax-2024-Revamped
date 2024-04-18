@@ -315,7 +315,9 @@ public class CommandSequences {
             IntakeMotorSubsystem intakeMotorSubsystem) {
 
         return new SequentialCommandGroup(
-                new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shooterSubsystem, intakeMotorSubsystem));
+                new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorSpeakerPresetAngle),
+                new ShootNoteCmd(shooterSubsystem, intakeMotorSubsystem, 0.9)
+        );
     }
 
     public Command justShootAndMove(SwerveSubsystem swerveSubsystem, PitchMotorSubsystem pitchMotorSubsystem,
