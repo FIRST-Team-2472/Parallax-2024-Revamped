@@ -14,12 +14,6 @@
         {
           "type": "named",
           "data": {
-            "name": "reset heading"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "autoShoot"
           }
         },

@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 2.912506594243959,
-        "y": 6.985795510052559
+        "y": 7.183134366268733
       },
       "prevControl": null,
       "nextControl": {
         "x": 3.918934760946446,
-        "y": 7.350872394052481
+        "y": 7.548211250268655
       },
       "isLocked": false,
       "linkedName": "Note Position 1"

@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 2.912506594243959,
-        "y": 5.6
+        "y": 5.525086266457521
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.9645026211172016,
-        "y": 5.587752651332275
+        "y": 5.5128389177897965
       },
       "isLocked": false,
       "linkedName": "Note Position 2"
     },
     {
       "anchor": {
-        "x": 2.0572389649330654,
-        "y": 6.245043439371664
+        "x": 1.5508684863523587,
+        "y": 5.545221859674489
       },
       "prevControl": {
-        "x": 2.014062450516759,
-        "y": 6.2457496925171965
+        "x": 1.5076919719360524,
+        "y": 5.545928112820021
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -48,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
