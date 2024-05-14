@@ -122,7 +122,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Set Heading -60", new ResetHeadingCmd(swerveSubsystem, -60));
 
     AutoBuilder.configureHolonomic(
-            () -> swerveSubsystem.getPose(), // Robot pose supplier for auot (correct range -180-180)
+            () -> swerveSubsystem.getPose(), // Robot pose supplier for auto (correct range -180-180)
             swerveSubsystem ::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
             () -> swerveSubsystem.getChassisSpeedsRobotRelative(), // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             swerveSubsystem :: runModulesRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
