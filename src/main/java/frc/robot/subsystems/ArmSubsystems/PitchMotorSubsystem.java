@@ -76,7 +76,6 @@ public class PitchMotorSubsystem extends SubsystemBase {
         encoderDeg.setDouble(getEncoderDeg());
 
         internalEncoderPosition.setDouble(pitchMotor.getEncoder().getPosition());
-
     }
 
     public void constantAim(){

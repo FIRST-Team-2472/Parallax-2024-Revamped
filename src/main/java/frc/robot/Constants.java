@@ -12,7 +12,7 @@ public final class Constants {
     public static final int kLeftJoyPort = 1;
     public static final int kRightJoyPort = 2;
     public static final int kXboxControllerPort = 3;
-    public static final double kSlowedSpeed = 0.3;
+    public static final double kSlowedSpeed = 0.5;
     public static final double autoAimDistance = 3.5;
   }
 

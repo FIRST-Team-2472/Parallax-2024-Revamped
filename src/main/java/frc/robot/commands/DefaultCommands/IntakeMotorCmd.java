@@ -14,7 +14,7 @@ public class IntakeMotorCmd extends Command {
     private boolean sensed;
     private IntakeMotorSubsystem intakeMotorSubsystem;
     private Timer timer = new Timer();
-
+    /*
     public IntakeMotorCmd(IntakeMotorSubsystem intakeMotorSubsystem, 
          Supplier<Boolean> intakeMotorsRunning, Supplier<Boolean> reversed){
         sensed = false;
@@ -23,7 +23,15 @@ public class IntakeMotorCmd extends Command {
         this.reversed = reversed;
         addRequirements(intakeMotorSubsystem);
     }
-
+    */
+    public IntakeMotorCmd(IntakeMotorSubsystem intakeMotorSubsystem, 
+         Supplier<Boolean> intakeMotorsRunning){
+        sensed = false;
+        this.intakeMotorsRunning = intakeMotorsRunning;
+        this.intakeMotorSubsystem = intakeMotorSubsystem;
+        reversed = null;
+        addRequirements(intakeMotorSubsystem);
+    }
     @Override
     public void initialize() {
         super.initialize();

@@ -39,6 +39,8 @@ public class PitchMotorCmd extends Command {
 
     @Override
     public void execute() {
+
+
         // constantly update the pitch motor input
         if(armPitchSubsystem.getConstantAim() && AutoAiming.getSmartDistance(robotPose.get()) < OperatorConstants.autoAimDistance){
 
@@ -51,8 +53,11 @@ public class PitchMotorCmd extends Command {
             if (pitchMotorSpeed < OIConstants.kArmDeadband && pitchMotorSpeed > -OIConstants.kArmDeadband)
                 pitchMotorSpeed = 0.0;
             
-            pitchMotorSpeed *= 0.45;// slows down the arm
-
+            pitchMotorSpeed *= 0.25;// slows down the arm
+            
+            if(armPitchSubsystem.getEncoderDeg() < 0)
+                pitchMotorSpeed = -.1;
+            
             if (!intakeButton.get())
                 armPitchSubsystem.runPitchMotor(pitchMotorSpeed);
             else

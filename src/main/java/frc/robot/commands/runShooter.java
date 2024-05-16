@@ -19,6 +19,7 @@ public class runShooter extends Command {
         this.shooterSubsystem = shooterSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.speed = speed;
+        this.speed = this.speed;
         addRequirements(shooterSubsystem);
         addRequirements(intakeSubsystem);
         rpm = 3500;
