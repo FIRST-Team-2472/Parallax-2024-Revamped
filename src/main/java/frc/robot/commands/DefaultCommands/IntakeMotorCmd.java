@@ -25,11 +25,11 @@ public class IntakeMotorCmd extends Command {
     }
     */
     public IntakeMotorCmd(IntakeMotorSubsystem intakeMotorSubsystem, 
-         Supplier<Boolean> intakeMotorsRunning){
+         Supplier<Boolean> intakeMotorsRunning, Supplier<Boolean> reversed){
         sensed = false;
         this.intakeMotorsRunning = intakeMotorsRunning;
         this.intakeMotorSubsystem = intakeMotorSubsystem;
-        reversed = null;
+        this.reversed = reversed;
         addRequirements(intakeMotorSubsystem);
     }
     @Override

@@ -4,12 +4,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmMotorsConstants.*;
+import frc.robot.Constants.OperatorConstants.*;
 
 public class ShootingMotorSubsystem extends SubsystemBase {
     private static CANSparkMax shooterTopMotor = new CANSparkMax(ShooterMotors.kTopShooterMotorId, MotorType.kBrushless);
+    private Joystick leftJoystick = new Joystick(1);
     private CANSparkMax shooterBottomMotor = new CANSparkMax(ShooterMotors.kBottomShooterMotorId, MotorType.kBrushless);
     private PIDController shooterPID = new PIDController(0.5, 0.2, 0);
     public boolean constantAim;
@@ -28,6 +31,8 @@ public class ShootingMotorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Shooter speed", getShooterSpeed());
+        SmartDashboard.putNumber("leftslider", leftJoystick.getThrottle());
+
     }
 
     /**
