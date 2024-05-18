@@ -61,14 +61,14 @@ public class RobotContainer {
   
   public RobotContainer() {
     pitchMotorSubsystem.setDefaultCommand(new PitchMotorCmd(pitchMotorSubsystem, () -> xbox.getLeftY(), () -> rightJoystick.getRawButton(1), () -> swerveSubsystem.getPose())); // Intake Motors
-    intakeMotorSubsystem.setDefaultCommand(new IntakeMotorCmd(intakeMotorSubsystem, () -> rightJoystick.getRawButton(1), ()-> false));
+    intakeMotorSubsystem.setDefaultCommand(new IntakeMotorCmd(intakeMotorSubsystem, () -> rightJoystick.getRawButton(1), () -> xbox.getYButton()));
     //() -> xbox.getYButton()));
-    //shootingMotorSubsystem.setDefaultCommand(new ShooterMotorsCmd(shootingMotorSubsystem, () -> xbox.getYButton(), () -> swerveSubsystem.getPose()));
+    shootingMotorSubsystem.setDefaultCommand(new ShooterMotorsCmd(shootingMotorSubsystem, () -> xbox.getYButton(), () -> swerveSubsystem.getPose()));
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(swerveSubsystem, 
       ()-> rightJoystick.getY(),
       ()-> rightJoystick.getX(),
-      ()-> rightJoystick.getZ(),
+      ()-> rightJoystick.getZ()*-1,
       ()-> true
     ));
 
